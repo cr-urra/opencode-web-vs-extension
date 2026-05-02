@@ -1,1 +1,0 @@
-# opencode-web-vs-extension
