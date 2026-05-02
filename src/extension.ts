@@ -161,6 +161,27 @@ export function activate(context: vscode.ExtensionContext) {
         return
       }
 
+      if (request.url === "/__opencode_extension_append_prompt" && request.method === "POST") {
+        const chunks: Buffer[] = []
+        request.on("data", (chunk: Buffer) => chunks.push(chunk))
+        request.on("end", () => {
+          const text = Buffer.concat(chunks).toString("utf8")
+          appendPrompt(targetPort, text).then(
+            () => {
+              log(`Drop append proxied: ${text.length} chars`)
+              response.writeHead(204)
+              response.end()
+            },
+            (error) => {
+              log(`Drop append failed: ${formatError(error)}`)
+              response.writeHead(500)
+              response.end("Append prompt failed")
+            },
+          )
+        })
+        return
+      }
+
       if (request.url === "/__opencode_extension_bootstrap.js") {
         log("Serving injected workspace bootstrap script")
         response.writeHead(200, {
@@ -259,7 +280,22 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   function getWorkspaceBootstrapScript(directory?: string) {
-    return `(function(){function report(message){try{fetch("/__opencode_extension_log?message="+encodeURIComponent(message)).catch(function(){})}catch(error){}}function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}var dir=${JSON.stringify(directory)};var key="opencode.global.dat:server";installClipboardBridge();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}})();`
+    return String.raw`(function(){
+  var dir=${JSON.stringify(directory)};
+  var key="opencode.global.dat:server";
+  function report(message){try{fetch("/__opencode_extension_log?message="+encodeURIComponent(message)).catch(function(){})}catch(error){}}
+  function normalizePath(value){return String(value||"").replace(/\\/g,"/").replace(/\/+$/g,"")}
+  function isInsideWorkspace(filepath){var normalizedDir=normalizePath(dir);var normalizedFilepath=normalizePath(filepath);return normalizedDir&&normalizedFilepath&&(normalizedFilepath===normalizedDir||normalizedFilepath.indexOf(normalizedDir+"/")===0)}
+  function relativeWorkspacePath(filepath){var normalizedDir=normalizePath(dir);var normalizedFilepath=normalizePath(filepath);return normalizedFilepath.slice(normalizedDir.length).replace(/^\/+/,"")}
+  function fileUriToPath(uri){try{var url=new URL(uri);if(url.protocol!=="file:")return;var pathname=decodeURIComponent(url.pathname);if(/^\/[A-Za-z]:\//.test(pathname))pathname=pathname.slice(1);return pathname}catch(error){return}}
+  function firstWorkspaceFile(dataTransfer){var text="";try{text=dataTransfer&&dataTransfer.getData("text/uri-list")}catch(error){}if(!text){try{text=dataTransfer&&dataTransfer.getData("text/plain")}catch(error){}}
+    var lines=String(text||"").split(/\r?\n/).map(function(line){return line.trim()}).filter(function(line){return line&&line.charAt(0)!=="#"});
+    for(var index=0;index<lines.length;index++){var line=lines[index];var filepath=line.indexOf("file:")===0?fileUriToPath(line):line;if(filepath&&isInsideWorkspace(filepath))return relativeWorkspacePath(filepath)}
+  }
+  function installVsCodeDropNormalizer(){var redispatching=false;document.addEventListener("drop",function(event){if(redispatching)return;var path=firstWorkspaceFile(event.dataTransfer);if(!path)return;var plain="";try{plain=event.dataTransfer&&event.dataTransfer.getData("text/plain")}catch(error){}if(plain==="file:"+path)return;var dataTransfer;try{dataTransfer=new DataTransfer();dataTransfer.setData("text/plain","file:"+path);dataTransfer.setData("text/uri-list","file:"+path)}catch(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}event.preventDefault();event.stopImmediatePropagation();redispatching=true;try{var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});(event.target||document).dispatchEvent(dropEvent);report("normalized VS Code drop: "+path)}finally{redispatching=false}},true);report("drop normalizer installed")}
+  function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}
+  installClipboardBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
+})();`
   }
 
   async function appendPrompt(port: number, text: string) {
