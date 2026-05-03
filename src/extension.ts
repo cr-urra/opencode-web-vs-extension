@@ -28,6 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
       view.webview.options = {
         enableScripts: true,
       }
+      context.subscriptions.push(view.webview.onDidReceiveMessage((message) => handleWebviewMessage(view.webview, message)))
       log("Resolving sidebar webview")
       view.onDidChangeVisibility(() => {
         if (view.visible) {
@@ -42,17 +43,35 @@ export function activate(context: vscode.ExtensionContext) {
     void reloadSidebarIfWorkspaceRootChanged()
   })
 
-  let addFilepathDisposable = vscode.commands.registerCommand("opencode.addFilepathToTerminal", async () => {
+  const addFilepathDisposable = vscode.commands.registerCommand("opencode.addFilepathToTerminal", async () => {
     const fileRef = getActiveFile()
     if (!fileRef) {
       return
     }
 
-    if (!sidebarPort || !(await waitForServer(sidebarPort))) {
+    const readyPort = await ensureSidebarServer()
+    if (!readyPort) {
       return
     }
 
-    await appendPrompt(sidebarPort, fileRef)
+    await appendPrompt(readyPort, fileRef)
+  })
+
+  const addToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
+    const refs = await getWorkspaceUriRefs(resource, selectedResources)
+    if (!refs.length) {
+      log("Add to OpenCode skipped: no workspace resources")
+      return
+    }
+
+    const readyPort = await ensureSidebarServer()
+    if (!readyPort) {
+      return
+    }
+
+    const text = refs.join(" ")
+    log(`Adding Explorer selection to OpenCode: ${text}`)
+    await appendPrompt(readyPort, text)
   })
 
   context.subscriptions.push(
@@ -60,6 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
     sidebarDisposable,
     workspaceFoldersDisposable,
     addFilepathDisposable,
+    addToOpenCodeDisposable,
     new vscode.Disposable(() => stopSidebarProcess()),
   )
 
@@ -74,6 +94,29 @@ export function activate(context: vscode.ExtensionContext) {
     } catch (error) {
       log(`Failed to open sidebar container: ${formatError(error)}`)
     }
+  }
+
+  async function ensureSidebarServer() {
+    if (sidebarPort && (await waitForServer(sidebarPort))) {
+      return sidebarPort
+    }
+
+    try {
+      await vscode.commands.executeCommand(SIDEBAR_CONTAINER_COMMAND)
+    } catch (error) {
+      log(`Failed to open sidebar for command: ${formatError(error)}`)
+    }
+
+    if (sidebarWebview) {
+      await loadSidebar(sidebarWebview)
+    }
+
+    if (sidebarPort && (await waitForServer(sidebarPort))) {
+      return sidebarPort
+    }
+
+    log("OpenCode server is not ready for command")
+    return undefined
   }
 
   async function loadSidebar(webview: vscode.Webview) {
@@ -126,6 +169,53 @@ export function activate(context: vscode.ExtensionContext) {
     proxyServer = undefined
     sidebarProcess?.kill()
     sidebarProcess = undefined
+  }
+
+  async function handleWebviewMessage(webview: vscode.Webview, message: unknown) {
+    if (!message || typeof message !== "object") {
+      return
+    }
+
+    const payload = message as { source?: string; id?: string; uris?: unknown }
+    if (payload.source !== "opencode-drop-fallback" || typeof payload.id !== "string" || !Array.isArray(payload.uris)) {
+      return
+    }
+
+    const paths = await resolveWorkspaceUris(payload.uris.filter((uri): uri is string => typeof uri === "string"))
+    log(`Resolved drop fallback ${payload.id}: ${paths.join(",") || "<none>"}`)
+    await webview.postMessage({ source: "opencode-drop-fallback-result", id: payload.id, paths })
+  }
+
+  async function resolveWorkspaceUris(rawUris: string[]) {
+    const seen = new Set<string>()
+    const paths: string[] = []
+
+    for (const rawUri of rawUris) {
+      try {
+        const uri = vscode.Uri.parse(rawUri, true)
+        const workspaceFolder = vscode.workspace.getWorkspaceFolder(uri)
+        if (!workspaceFolder) {
+          log(`Drop fallback ignored outside workspace: ${rawUri}`)
+          continue
+        }
+
+        const stat = await vscode.workspace.fs.stat(uri)
+        if (stat.type & vscode.FileType.File) {
+          await vscode.workspace.fs.readFile(uri)
+        }
+
+        const relativePath = vscode.workspace.asRelativePath(uri, false).replace(/\\/g, "/")
+        log(`Drop fallback resolved URI ${rawUri} -> ${relativePath}`)
+        if (relativePath && !seen.has(relativePath)) {
+          seen.add(relativePath)
+          paths.push(relativePath)
+        }
+      } catch (error) {
+        log(`Drop fallback failed for ${rawUri}: ${formatError(error)}`)
+      }
+    }
+
+    return paths
   }
 
   async function startProxyServer(targetPort: number, directory?: string) {
@@ -288,11 +378,24 @@ export function activate(context: vscode.ExtensionContext) {
   function isInsideWorkspace(filepath){var normalizedDir=normalizePath(dir);var normalizedFilepath=normalizePath(filepath);return normalizedDir&&normalizedFilepath&&(normalizedFilepath===normalizedDir||normalizedFilepath.indexOf(normalizedDir+"/")===0)}
   function relativeWorkspacePath(filepath){var normalizedDir=normalizePath(dir);var normalizedFilepath=normalizePath(filepath);return normalizedFilepath.slice(normalizedDir.length).replace(/^\/+/,"")}
   function fileUriToPath(uri){try{var url=new URL(uri);if(url.protocol!=="file:")return;var pathname=decodeURIComponent(url.pathname);if(/^\/[A-Za-z]:\//.test(pathname))pathname=pathname.slice(1);return pathname}catch(error){return}}
-  function firstWorkspaceFile(dataTransfer){var text="";try{text=dataTransfer&&dataTransfer.getData("text/uri-list")}catch(error){}if(!text){try{text=dataTransfer&&dataTransfer.getData("text/plain")}catch(error){}}
-    var lines=String(text||"").split(/\r?\n/).map(function(line){return line.trim()}).filter(function(line){return line&&line.charAt(0)!=="#"});
-    for(var index=0;index<lines.length;index++){var line=lines[index];var filepath=line.indexOf("file:")===0?fileUriToPath(line):line;if(filepath&&isInsideWorkspace(filepath))return relativeWorkspacePath(filepath)}
+  function parseDropPayload(text){var values=[];var raw=String(text||"").trim();if(!raw)return values;try{var json=JSON.parse(raw);var visit=function(value){if(!value)return;if(typeof value==="string"){values.push(value);return}if(Array.isArray(value)){value.forEach(visit);return}if(typeof value==="object"){["uri","resourceUri","file","path","fsPath","external","href"].forEach(function(key){visit(value[key])})}};visit(json)}catch(error){}
+    raw.split(/\r?\n/).forEach(function(line){line=line.trim();if(line&&line.charAt(0)!=="#")values.push(line)});return values
   }
-  function installVsCodeDropNormalizer(){var redispatching=false;document.addEventListener("drop",function(event){if(redispatching)return;var path=firstWorkspaceFile(event.dataTransfer);if(!path)return;var plain="";try{plain=event.dataTransfer&&event.dataTransfer.getData("text/plain")}catch(error){}if(plain==="file:"+path)return;var dataTransfer;try{dataTransfer=new DataTransfer();dataTransfer.setData("text/plain","file:"+path);dataTransfer.setData("text/uri-list","file:"+path)}catch(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}event.preventDefault();event.stopImmediatePropagation();redispatching=true;try{var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});(event.target||document).dispatchEvent(dropEvent);report("normalized VS Code drop: "+path)}finally{redispatching=false}},true);report("drop normalizer installed")}
+  function getData(dataTransfer,type){try{return dataTransfer&&dataTransfer.getData(type)}catch(error){return ""}}
+  function dataTransferTypes(dataTransfer){try{return Array.prototype.slice.call(dataTransfer&&dataTransfer.types||[])}catch(error){return []}}
+  function dropPayloadValues(dataTransfer){var values=[];var mimeTypes=["text/uri-list","text/plain","application/vnd.code.uri-list","resourceurls","codefiles"];mimeTypes.forEach(function(type){parseDropPayload(getData(dataTransfer,type)).forEach(function(value){report("drop payload "+type+": "+value);values.push(value)})});return values}
+  function workspaceDropPaths(values){var seen={};var paths=[];
+    values.forEach(function(value){var filepath=value.indexOf("file:")===0?fileUriToPath(value):value;if(filepath&&isInsideWorkspace(filepath)){var relative=relativeWorkspacePath(filepath);report("drop resolved path "+value+" -> "+relative);if(relative&&!seen[relative]){seen[relative]=true;paths.push(relative)}}});
+    return paths
+  }
+  function unresolvedDropUris(values){var seen={};var uris=[];
+    values.forEach(function(value){try{var url=new URL(value);if(url.protocol&&url.protocol!=="file:"&&!seen[value]){report("drop unresolved URI: "+value);seen[value]=true;uris.push(value)}}catch(error){}});
+    return uris
+  }
+  function requestDropFallback(uris){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-drop-fallback",id:id,uris:uris},"*");report("requested drop fallback: "+uris.join(","))}catch(error){report("drop fallback request failed: "+(error&&error.message?error.message:String(error)))}return id}
+  function dispatchOpenCodeDrop(target, path){var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain","file:"+path);dataTransfer.setData("text/uri-list","file:"+path);report("redispatching synthetic drop: file:"+path);var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});target.dispatchEvent(dropEvent)}
+  function dispatchOpenCodeDrops(target, paths, done){var index=0;var next=function(){if(index>=paths.length){done();return}try{dispatchOpenCodeDrop(target,paths[index]);index++;setTimeout(next,0)}catch(error){done(error)}};next()}
+  function installVsCodeDropNormalizer(){var redispatching=false;var fallbackTargets={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-fallback-result")return;var target=fallbackTargets[data.id]||document;delete fallbackTargets[data.id];var paths=Array.isArray(data.paths)?data.paths:[];if(!paths.length){report("drop fallback returned no paths");return}redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop fallback dispatch failed: "+(error&&error.message?error.message:String(error)));return}report("normalized fallback drop: "+paths.join(","))})});document.addEventListener("drop",function(event){if(redispatching)return;report("drop types: "+dataTransferTypes(event.dataTransfer).join(","));var values=dropPayloadValues(event.dataTransfer);var paths=workspaceDropPaths(values);var uris=unresolvedDropUris(values);if(!paths.length&&!uris.length)return;var plain=getData(event.dataTransfer,"text/plain");if(paths.length===1&&!uris.length&&plain==="file:"+paths[0])return;event.preventDefault();event.stopImmediatePropagation();var target=event.target||document;if(uris.length){fallbackTargets[requestDropFallback(uris)]=target}if(!paths.length)return;redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}report("normalized VS Code drop: "+paths.join(","))})},true);report("drop normalizer installed")}
   function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}
   installClipboardBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
 })();`
@@ -460,19 +563,49 @@ export function activate(context: vscode.ExtensionContext) {
 
   async function getWebviewHtml(webview: vscode.Webview, port: number) {
     log(`Loading webview iframe: http://localhost:${port}/`)
+    const nonce = getNonce()
     return `<!doctype html>
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src http://localhost:${port} http://127.0.0.1:${port}; style-src ${webview.cspSource} 'unsafe-inline';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src http://localhost:${port} http://127.0.0.1:${port}; script-src 'nonce-${nonce}'; style-src ${webview.cspSource} 'unsafe-inline';">
     <style>
       html, body { height: 100%; margin: 0; overflow: hidden; padding: 0; width: 100%; }
       iframe { border: 0; display: block; height: 100%; width: 100%; }
     </style>
   </head>
   <body>
-    <iframe src="http://localhost:${port}/" allow="clipboard-read; clipboard-write"></iframe>
+    <iframe id="opencode-frame" src="http://localhost:${port}/" allow="clipboard-read; clipboard-write"></iframe>
+    <script nonce="${nonce}">
+      const vscode = acquireVsCodeApi();
+      const frame = document.getElementById("opencode-frame");
+      window.addEventListener("message", (event) => {
+        const message = event.data;
+        if (!message || typeof message !== "object") {
+          return;
+        }
+
+        if (message.source === "opencode-drop-fallback") {
+          vscode.postMessage(message);
+          return;
+        }
+
+        if (message.source === "opencode-drop-fallback-result") {
+          frame?.contentWindow?.postMessage(message, "*");
+        }
+      });
+    </script>
   </body>
 </html>`
+  }
+
+  function getNonce() {
+    let text = ""
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    for (let index = 0; index < 32; index++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+
+    return text
   }
 
   function getActiveFile() {
@@ -508,6 +641,37 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     return filepathWithAt
+  }
+
+  async function getWorkspaceUriRefs(resource?: vscode.Uri, selectedResources?: vscode.Uri[]) {
+    const candidates = selectedResources?.length ? selectedResources : resource ? [resource] : []
+    const seen = new Set<string>()
+    const refs: string[] = []
+
+    for (const uri of candidates) {
+      const workspaceFolder = vscode.workspace.getWorkspaceFolder(uri)
+      if (!workspaceFolder) {
+        log(`Add to OpenCode ignored outside workspace: ${uri.toString()}`)
+        continue
+      }
+
+      try {
+        await vscode.workspace.fs.stat(uri)
+      } catch (error) {
+        log(`Add to OpenCode could not stat ${uri.toString()}: ${formatError(error)}`)
+        continue
+      }
+
+      const relativePath = vscode.workspace.asRelativePath(uri, false).replace(/\\/g, "/")
+      if (!relativePath || seen.has(relativePath)) {
+        continue
+      }
+
+      seen.add(relativePath)
+      refs.push(`@${relativePath}`)
+    }
+
+    return refs
   }
 
   function log(message: string) {

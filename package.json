@@ -23,7 +23,8 @@
   "activationEvents": [
     "onStartupFinished",
     "onView:opencode.sidebar",
-    "onCommand:opencode.addFilepathToTerminal"
+    "onCommand:opencode.addFilepathToTerminal",
+    "onCommand:opencode.addToOpenCode"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -31,8 +32,20 @@
       {
         "command": "opencode.addFilepathToTerminal",
         "title": "Add Filepath to Terminal"
+      },
+      {
+        "command": "opencode.addToOpenCode",
+        "title": "Add to OpenCode"
       }
     ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "opencode.addToOpenCode",
+          "group": "navigation@90"
+        }
+      ]
+    },
     "viewsContainers": {
       "activitybar": [
         {
