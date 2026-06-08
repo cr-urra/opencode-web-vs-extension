@@ -24,7 +24,13 @@
     "onStartupFinished",
     "onView:opencode.sidebar",
     "onCommand:opencode.addFilepathToTerminal",
-    "onCommand:opencode.addToOpenCode"
+    "onCommand:opencode.addToOpenCode",
+    "onCommand:opencode.pasteIntoOpenCode",
+    "onCommand:opencode.copyInOpenCode",
+    "onCommand:opencode.cutInOpenCode",
+    "onCommand:opencode.selectAllInOpenCode",
+    "onCommand:opencode.undoInOpenCode",
+    "onCommand:opencode.redoInOpenCode"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -36,6 +42,30 @@
       {
         "command": "opencode.addToOpenCode",
         "title": "Add to OpenCode"
+      },
+      {
+        "command": "opencode.pasteIntoOpenCode",
+        "title": "Paste into OpenCode"
+      },
+      {
+        "command": "opencode.copyInOpenCode",
+        "title": "Copy in OpenCode"
+      },
+      {
+        "command": "opencode.cutInOpenCode",
+        "title": "Cut in OpenCode"
+      },
+      {
+        "command": "opencode.selectAllInOpenCode",
+        "title": "Select All in OpenCode"
+      },
+      {
+        "command": "opencode.undoInOpenCode",
+        "title": "Undo in OpenCode"
+      },
+      {
+        "command": "opencode.redoInOpenCode",
+        "title": "Redo in OpenCode"
       }
     ],
     "menus": {
@@ -72,6 +102,48 @@
         "mac": "cmd+alt+k",
         "win": "ctrl+alt+K",
         "linux": "ctrl+alt+K"
+      },
+      {
+        "command": "opencode.pasteIntoOpenCode",
+        "title": "opencode: Paste into OpenCode",
+        "key": "cmd+v",
+        "mac": "cmd+v",
+        "when": "isMac && webviewId == 'opencode.sidebar'"
+      },
+      {
+        "command": "opencode.copyInOpenCode",
+        "title": "opencode: Copy in OpenCode",
+        "key": "cmd+c",
+        "mac": "cmd+c",
+        "when": "isMac && webviewId == 'opencode.sidebar'"
+      },
+      {
+        "command": "opencode.cutInOpenCode",
+        "title": "opencode: Cut in OpenCode",
+        "key": "cmd+x",
+        "mac": "cmd+x",
+        "when": "isMac && webviewId == 'opencode.sidebar'"
+      },
+      {
+        "command": "opencode.selectAllInOpenCode",
+        "title": "opencode: Select All in OpenCode",
+        "key": "cmd+a",
+        "mac": "cmd+a",
+        "when": "isMac && webviewId == 'opencode.sidebar'"
+      },
+      {
+        "command": "opencode.undoInOpenCode",
+        "title": "opencode: Undo in OpenCode",
+        "key": "cmd+z",
+        "mac": "cmd+z",
+        "when": "isMac && webviewId == 'opencode.sidebar'"
+      },
+      {
+        "command": "opencode.redoInOpenCode",
+        "title": "opencode: Redo in OpenCode",
+        "key": "shift+cmd+z",
+        "mac": "shift+cmd+z",
+        "when": "isMac && webviewId == 'opencode.sidebar'"
       }
     ]
   },
