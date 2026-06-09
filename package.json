@@ -104,6 +104,22 @@
         "linux": "ctrl+alt+K"
       },
       {
+        "command": "opencode.attachToOpenCode",
+        "title": "opencode: Attach to OpenCode",
+        "key": "ctrl+alt+a",
+        "mac": "cmd+alt+a",
+        "win": "ctrl+alt+a",
+        "linux": "ctrl+alt+a"
+      },
+      {
+        "command": "opencode.addToOpenCode",
+        "title": "opencode: Send to OpenCode",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "win": "ctrl+alt+s",
+        "linux": "ctrl+alt+s"
+      },
+      {
         "command": "opencode.pasteIntoOpenCode",
         "title": "opencode: Paste into OpenCode",
         "key": "cmd+v",
