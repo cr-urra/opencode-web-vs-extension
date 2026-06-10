@@ -1,9 +1,10 @@
 {
   "name": "opencode-web-for-ide",
-  "displayName": "opencode",
-  "description": "opencode for VS Code/VS Codium",
-  "version": "1.14.40",
-  "publisher": "sst-dev",
+  "displayName": "OpenCode Web IDE (Unofficial)",
+  "description": "OpenCode Web IDE complements and is based on the OpenCode agent project developed by sst-dev, bringing the OpenCode web experience into VS Code and VSCodium.",
+  "version": "1.14.41",
+  "publisher": "UWEsmith",
+  "author": "sst-dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/anomalyco/opencode"
@@ -20,11 +21,22 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "opencode",
+    "ai",
+    "agent",
+    "webview",
+    "vscode",
+    "vscodium"
+  ],
   "activationEvents": [
     "onStartupFinished",
     "onView:opencode.sidebar",
     "onCommand:opencode.addFilepathToTerminal",
     "onCommand:opencode.addToOpenCode",
+    "onCommand:opencode.addFilesToOpenCode",
+    "onCommand:opencode.attachToOpenCode",
+    "onCommand:opencode.attachFilesToOpenCode",
     "onCommand:opencode.pasteIntoOpenCode",
     "onCommand:opencode.copyInOpenCode",
     "onCommand:opencode.cutInOpenCode",
@@ -42,6 +54,18 @@
       {
         "command": "opencode.addToOpenCode",
         "title": "Add to OpenCode"
+      },
+      {
+        "command": "opencode.addFilesToOpenCode",
+        "title": "Add Files to OpenCode..."
+      },
+      {
+        "command": "opencode.attachToOpenCode",
+        "title": "Attach to OpenCode"
+      },
+      {
+        "command": "opencode.attachFilesToOpenCode",
+        "title": "Attach Files to OpenCode..."
       },
       {
         "command": "opencode.pasteIntoOpenCode",
@@ -70,6 +94,10 @@
     ],
     "menus": {
       "explorer/context": [
+        {
+          "command": "opencode.attachToOpenCode",
+          "group": "navigation@89"
+        },
         {
           "command": "opencode.addToOpenCode",
           "group": "navigation@90"
@@ -112,12 +140,28 @@
         "linux": "ctrl+alt+a"
       },
       {
+        "command": "opencode.attachFilesToOpenCode",
+        "title": "opencode: Attach Files to OpenCode",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "win": "ctrl+shift+a",
+        "linux": "ctrl+shift+a"
+      },
+      {
         "command": "opencode.addToOpenCode",
         "title": "opencode: Send to OpenCode",
         "key": "ctrl+alt+s",
         "mac": "cmd+alt+s",
         "win": "ctrl+alt+s",
         "linux": "ctrl+alt+s"
+      },
+      {
+        "command": "opencode.addFilesToOpenCode",
+        "title": "opencode: Send Files to OpenCode",
+        "key": "ctrl+alt+shift+s",
+        "mac": "cmd+alt+shift+s",
+        "win": "ctrl+alt+shift+s",
+        "linux": "ctrl+alt+shift+s"
       },
       {
         "command": "opencode.pasteIntoOpenCode",

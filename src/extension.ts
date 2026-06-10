@@ -9,7 +9,7 @@ import { spawn, type ChildProcess } from "child_process"
 
 const SIDEBAR_VIEW_ID = "opencode.sidebar"
 const SIDEBAR_CONTAINER_COMMAND = "workbench.view.extension.opencode"
-const EXPERIMENTAL_OPENCODE_SERVER = "http://192.168.0.249:4096"
+const EXPERIMENTAL_OPENCODE_SERVER = ""
 
 export function activate(context: vscode.ExtensionContext) {
   let sidebarPort: number | undefined
@@ -61,6 +61,16 @@ export function activate(context: vscode.ExtensionContext) {
 
   const addToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
     const refs = await getWorkspaceUriRefs(resource, selectedResources)
+    await addRefsToOpenCode(refs)
+  })
+
+  const addFilesToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addFilesToOpenCode", async () => {
+    const uris = (await vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, canSelectMany: true })) ?? []
+    const refs = await getWorkspaceUriRefs(undefined, uris)
+    await addRefsToOpenCode(refs)
+  })
+
+  async function addRefsToOpenCode(refs: string[]) {
     if (!refs.length) {
       log("Add to OpenCode skipped: no workspace resources")
       return
@@ -71,13 +81,29 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
+    const paths = refs.map((ref) => ref.replace(/^@/, ""))
     const text = refs.join(" ")
-    log(`Adding Explorer selection to OpenCode: ${text}`)
+    if (sidebarWebview) {
+      log(`Dropping refs into OpenCode webview: ${text}`)
+      await sidebarWebview.postMessage({ source: "opencode-drop-paths", paths })
+      return
+    }
+
+    log(`Adding refs to OpenCode via append endpoint: ${text}`)
     await appendPrompt(readyServerUrl, text)
-  })
+  }
 
   const attachToOpenCodeDisposable = vscode.commands.registerCommand("opencode.attachToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
     const uris = await getAttachUris(resource, selectedResources)
+    await attachUrisToOpenCode(uris)
+  })
+
+  const attachFilesToOpenCodeDisposable = vscode.commands.registerCommand("opencode.attachFilesToOpenCode", async () => {
+    const uris = (await vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, canSelectMany: true })) ?? []
+    await attachUrisToOpenCode(uris)
+  })
+
+  async function attachUrisToOpenCode(uris: vscode.Uri[]) {
     if (!uris.length) {
       log("Attach to OpenCode skipped: no resources")
       return
@@ -97,10 +123,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     log(`Attaching files to OpenCode: ${files.map((file) => file.name).join(", ")}`)
     await sidebarWebview.postMessage({ source: "opencode-attach-files", files })
-  })
+  }
 
   const pasteIntoOpenCodeDisposable = vscode.commands.registerCommand("opencode.pasteIntoOpenCode", async () => {
-    await pasteClipboardIntoOpenCode("command")
+    await sendEditCommandToOpenCode("paste")
   })
 
   const copyInOpenCodeDisposable = vscode.commands.registerCommand("opencode.copyInOpenCode", async () => {
@@ -129,7 +155,9 @@ export function activate(context: vscode.ExtensionContext) {
     workspaceFoldersDisposable,
     addFilepathDisposable,
     addToOpenCodeDisposable,
+    addFilesToOpenCodeDisposable,
     attachToOpenCodeDisposable,
+    attachFilesToOpenCodeDisposable,
     pasteIntoOpenCodeDisposable,
     copyInOpenCodeDisposable,
     cutInOpenCodeDisposable,
@@ -562,18 +590,21 @@ export function activate(context: vscode.ExtensionContext) {
   function editableSelection(target){try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:0;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;return target.value.slice(start,end)}}catch(error){}try{return String(window.getSelection?window.getSelection().toString():"")}catch(error){return ""}}
   function deleteEditableSelection(target){try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:0;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;if(end>start){target.value=target.value.slice(0,start)+target.value.slice(end);target.selectionStart=target.selectionEnd=start;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"deleteByCut"}));return true}}}catch(error){report("delete editable selection failed: "+(error&&error.message?error.message:String(error)))}try{return !!(document.execCommand&&document.execCommand("delete",false))}catch(error){report("delete selection command failed: "+(error&&error.message?error.message:String(error)));return false}}
   function selectAllEditable(target){try{if(target&&typeof target.value==="string"&&typeof target.setSelectionRange==="function"){target.setSelectionRange(0,target.value.length);target.dispatchEvent(new Event("select",{bubbles:true}));return true}}catch(error){report("select all editable failed: "+(error&&error.message?error.message:String(error)))}try{return !!(document.execCommand&&document.execCommand("selectAll",false))}catch(error){report("select all command failed: "+(error&&error.message?error.message:String(error)));return false}}
-  function runEditCommand(command){var target=document.activeElement||document.body;if(command==="copy"||command==="cut"){var text=editableSelection(target);if(text){writeClipboardText(text);if(command==="cut")deleteEditableSelection(target);report("edit "+command+" handled: "+text.length+" chars");return}try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled by execCommand");return}}catch(error){report("edit "+command+" command failed: "+(error&&error.message?error.message:String(error)))}report("edit "+command+" had no selection");return}if(command==="selectAll"){selectAllEditable(target);report("edit selectAll handled");return}if(command==="undo"||command==="redo"){try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled");return}}catch(error){report("edit "+command+" failed: "+(error&&error.message?error.message:String(error)))}return}report("unknown edit command: "+command)}
+  function runEditCommand(command){var target=document.activeElement||document.body;if(command==="paste"){requestClipboardText();report("edit paste requested clipboard text");return}if(command==="copy"||command==="cut"){var text=editableSelection(target);if(text){writeClipboardText(text);if(command==="cut")deleteEditableSelection(target);report("edit "+command+" handled: "+text.length+" chars");return}try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled by execCommand");return}}catch(error){report("edit "+command+" command failed: "+(error&&error.message?error.message:String(error)))}report("edit "+command+" had no selection");return}if(command==="selectAll"){selectAllEditable(target);report("edit selectAll handled");return}if(command==="undo"||command==="redo"){try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled");return}}catch(error){report("edit "+command+" failed: "+(error&&error.message?error.message:String(error)))}return}report("unknown edit command: "+command)}
   function installEditCommandBridge(){if(!macPasteFallback){report("edit command bridge skipped on non-macOS");return}window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-edit-command")return;runEditCommand(String(data.command||""))});window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-clipboard-write-result")return;if(data.ok){report("clipboard write result ok: "+data.id)}else{report("clipboard write result failed: "+(data.error||data.id))}});document.addEventListener("keydown",function(event){if(!event.metaKey||event.ctrlKey||event.altKey)return;var key=String(event.key||"").toLowerCase();var command="";if(key==="c"&&!event.shiftKey)command="copy";if(key==="x"&&!event.shiftKey)command="cut";if(key==="a"&&!event.shiftKey)command="selectAll";if(key==="z"&&!event.shiftKey)command="undo";if(key==="z"&&event.shiftKey)command="redo";if(!command)return;event.preventDefault();event.stopImmediatePropagation();runEditCommand(command)},true);report("edit command bridge installed")}
-  function insertClipboardText(text){var target=document.activeElement||document.body;try{var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain",text);var pasteEvent=new ClipboardEvent("paste",{bubbles:true,cancelable:true,clipboardData:dataTransfer});if(!target.dispatchEvent(pasteEvent)){report("clipboard paste event handled: "+String(text).length+" chars");return}}catch(error){report("clipboard paste event failed: "+(error&&error.message?error.message:String(error)))}try{if(document.execCommand&&document.execCommand("insertText",false,text)){report("clipboard inserted with execCommand: "+String(text).length+" chars");return}}catch(error){report("clipboard execCommand failed: "+(error&&error.message?error.message:String(error)))}try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:target.value.length;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;target.value=target.value.slice(0,start)+text+target.value.slice(end);target.selectionStart=target.selectionEnd=start+text.length;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));report("clipboard inserted into input: "+String(text).length+" chars");return}}catch(error){report("clipboard input insert failed: "+(error&&error.message?error.message:String(error)))}report("clipboard text could not be inserted")}
+  function textTarget(){var active=document.activeElement;if(active&&active!==document.body)return active;return document.querySelector("textarea,input,[contenteditable=true],[contenteditable='true']")||document.body}
+  function insertClipboardText(text){var target=textTarget();try{if(target&&typeof target.focus==="function")target.focus()}catch(error){}try{var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain",text);var pasteEvent=new ClipboardEvent("paste",{bubbles:true,cancelable:true,clipboardData:dataTransfer});if(!target.dispatchEvent(pasteEvent)){report("clipboard paste event handled: "+String(text).length+" chars");return}}catch(error){report("clipboard paste event failed: "+(error&&error.message?error.message:String(error)))}try{if(document.execCommand&&document.execCommand("insertText",false,text)){report("clipboard inserted with execCommand: "+String(text).length+" chars");return}}catch(error){report("clipboard execCommand failed: "+(error&&error.message?error.message:String(error)))}try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:target.value.length;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;target.value=target.value.slice(0,start)+text+target.value.slice(end);target.selectionStart=target.selectionEnd=start+text.length;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));report("clipboard inserted into input: "+String(text).length+" chars");return}}catch(error){report("clipboard input insert failed: "+(error&&error.message?error.message:String(error)))}report("clipboard text could not be inserted")}
+  function installTextInsertBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-insert-text")return;var texts=Array.isArray(data.texts)?data.texts:[data.text];var index=0;var next=function(){if(index>=texts.length)return;var text=String(texts[index]||"");index++;insertClipboardText(text);report("insert text bridge handled: "+text.length+" chars");setTimeout(next,50)};next()});report("insert text bridge installed")}
   function installPasteBridge(){if(!macPasteFallback){report("paste bridge skipped on non-macOS");return}var pending={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-clipboard-read-result")return;delete pending[data.id];if(data.error){report("clipboard read result failed: "+data.error);return}insertClipboardText(String(data.text||""))});document.addEventListener("keydown",function(event){var key=String(event.key||"").toLowerCase();if(key!=="v"||(!event.metaKey&&!event.ctrlKey)||event.altKey){return}event.preventDefault();event.stopImmediatePropagation();pending[requestClipboardText()]=true},true);report("paste bridge installed")}
   function bytesFromBase64(data){var binary=atob(String(data||""));var bytes=new Uint8Array(binary.length);for(var index=0;index<binary.length;index++)bytes[index]=binary.charCodeAt(index);return bytes}
   function dispatchAttachmentDrop(target,files){try{var dataTransfer=new DataTransfer();files.forEach(function(file){dataTransfer.items.add(file)});var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});target.dispatchEvent(dropEvent);report("redispatched synthetic attachment drop: "+files.map(function(file){return file.name}).join(","))}catch(error){report("attachment drop failed: "+(error&&error.message?error.message:String(error)))}}
   function installAttachmentBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-attach-files"||!Array.isArray(data.files))return;var files=[];data.files.forEach(function(file){try{files.push(new File([bytesFromBase64(file.data)],String(file.name||"attachment"),{type:String(file.type||"application/octet-stream")}));report("prepared synthetic attachment: "+String(file.name||"attachment"))}catch(error){report("prepare attachment failed: "+(error&&error.message?error.message:String(error)))}});if(files.length)dispatchAttachmentDrop(document.activeElement||document.body,files)});report("attachment bridge installed")}
   function dispatchOpenCodeDrop(target, path){var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain","file:"+path);dataTransfer.setData("text/uri-list","file:"+path);report("redispatching synthetic drop: file:"+path);var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});target.dispatchEvent(dropEvent)}
   function dispatchOpenCodeDrops(target, paths, done){var index=0;var next=function(){if(index>=paths.length){done();return}try{dispatchOpenCodeDrop(target,paths[index]);index++;setTimeout(next,0)}catch(error){done(error)}};next()}
+  function installDropPathsBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-paths"||!Array.isArray(data.paths))return;dispatchOpenCodeDrops(document.activeElement||document.body,data.paths,function(error){if(error){report("drop paths bridge failed: "+(error&&error.message?error.message:String(error)));return}report("drop paths bridge handled: "+data.paths.join(","))})});report("drop paths bridge installed")}
   function installVsCodeDropNormalizer(){var redispatching=false;var fallbackTargets={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-fallback-result")return;var target=fallbackTargets[data.id]||document;delete fallbackTargets[data.id];var paths=Array.isArray(data.paths)?data.paths:[];if(!paths.length){report("drop fallback returned no paths");return}redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop fallback dispatch failed: "+(error&&error.message?error.message:String(error)));return}report("normalized fallback drop: "+paths.join(","))})});document.addEventListener("drop",function(event){if(redispatching)return;report("drop types: "+dataTransferTypes(event.dataTransfer).join(","));var values=dropPayloadValues(event.dataTransfer);var paths=workspaceDropPaths(values);var uris=unresolvedDropUris(values);if(!paths.length&&!uris.length)return;var plain=getData(event.dataTransfer,"text/plain");if(paths.length===1&&!uris.length&&plain==="file:"+paths[0])return;event.preventDefault();event.stopImmediatePropagation();var target=event.target||document;if(uris.length){fallbackTargets[requestDropFallback(uris)]=target}if(!paths.length)return;redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}report("normalized VS Code drop: "+paths.join(","))})},true);report("drop normalizer installed")}
   function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{readText:function(){return fetch("/__opencode_extension_clipboard_read",{method:"GET",cache:"no-store"}).then(function(response){if(!response.ok)throw new Error("Clipboard read bridge failed: "+response.status);return response.text()}).then(function(text){report("clipboard read bridged "+String(text).length+" chars");return text})},writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}
-  installClipboardBridge();installPasteBridge();installEditCommandBridge();installAttachmentBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
+  installClipboardBridge();installPasteBridge();installEditCommandBridge();installTextInsertBridge();installAttachmentBridge();installDropPathsBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
 })();`
   }
 
@@ -765,7 +796,7 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        if (message.source === "opencode-drop-fallback-result" || message.source === "opencode-clipboard-read-result" || message.source === "opencode-clipboard-write-result" || message.source === "opencode-edit-command" || message.source === "opencode-attach-files") {
+        if (message.source === "opencode-drop-fallback-result" || message.source === "opencode-clipboard-read-result" || message.source === "opencode-clipboard-write-result" || message.source === "opencode-edit-command" || message.source === "opencode-insert-text" || message.source === "opencode-drop-paths" || message.source === "opencode-attach-files") {
           frame?.contentWindow?.postMessage(message, "*");
         }
       });
@@ -786,23 +817,24 @@ export function activate(context: vscode.ExtensionContext) {
 
   function getActiveFile() {
     const activeEditor = vscode.window.activeTextEditor
-    if (!activeEditor) {
+    const activeUri = activeEditor?.document.uri ?? getActiveTabUri()
+
+    if (!activeUri) {
       return
     }
 
-    const document = activeEditor.document
-    const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri)
+    const workspaceFolder = vscode.workspace.getWorkspaceFolder(activeUri)
     if (!workspaceFolder) {
       return
     }
 
     // Get the relative path from workspace root
-    const relativePath = vscode.workspace.asRelativePath(document.uri)
+    const relativePath = vscode.workspace.asRelativePath(activeUri)
     let filepathWithAt = `@${relativePath}`
 
     // Check if there's a selection and add line numbers
-    const selection = activeEditor.selection
-    if (!selection.isEmpty) {
+    const selection = activeEditor?.selection
+    if (selection && !selection.isEmpty) {
       // Convert to 1-based line numbers
       const startLine = selection.start.line + 1
       const endLine = selection.end.line + 1
@@ -861,12 +893,17 @@ export function activate(context: vscode.ExtensionContext) {
       return candidates
     }
 
-    const activeUri = vscode.window.activeTextEditor?.document.uri
+    const activeUri = vscode.window.activeTextEditor?.document.uri ?? getActiveTabUri()
     if (activeUri?.scheme === "file") {
       return [activeUri]
     }
 
     return (await vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, canSelectMany: true })) ?? []
+  }
+
+  function getActiveTabUri() {
+    const input = vscode.window.tabGroups.activeTabGroup.activeTab?.input as { uri?: vscode.Uri; modified?: vscode.Uri } | undefined
+    return input?.uri ?? input?.modified
   }
 
   async function readAttachmentFiles(uris: vscode.Uri[]) {
