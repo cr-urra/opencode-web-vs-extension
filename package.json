@@ -218,7 +218,8 @@
     "pretest": "bun run compile-tests && bun run compile && bun run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.94.0",

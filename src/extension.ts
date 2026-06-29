@@ -6,6 +6,7 @@ import * as path from "path"
 import * as http from "http"
 import * as net from "net"
 import { spawn, type ChildProcess } from "child_process"
+import { getCommonParentPath } from "./pathUtils"
 
 const SIDEBAR_VIEW_ID = "opencode.sidebar"
 const SIDEBAR_CONTAINER_COMMAND = "workbench.view.extension.opencode"
@@ -249,8 +250,12 @@ export function activate(context: vscode.ExtensionContext) {
       stdio: "ignore",
     })
     log(`Started opencode serve on port ${sidebarPort} with cwd ${workspaceRoot ?? "<default>"}`)
-    sidebarProcess.once("exit", () => {
-      log(`opencode serve exited on port ${sidebarPort}`)
+    sidebarProcess.once("error", (error) => {
+      log(`Failed to start opencode serve on port ${sidebarPort}: ${formatError(error)}`)
+      sidebarProcess = undefined
+    })
+    sidebarProcess.once("exit", (code, signal) => {
+      log(`opencode serve exited on port ${sidebarPort} with code ${code ?? "<none>"} signal ${signal ?? "<none>"}`)
       sidebarProcess = undefined
     })
 
@@ -610,13 +615,16 @@ export function activate(context: vscode.ExtensionContext) {
 
   async function appendPrompt(serverUrl: string, text: string) {
     log(`Appending prompt to opencode at ${serverUrl}: ${text.split("\n")[0]}`)
-    await fetch(`${serverUrl}/tui/append-prompt`, {
+    const response = await fetch(`${serverUrl}/tui/append-prompt`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ text }),
     })
+    if (!response.ok) {
+      throw new Error(`OpenCode append prompt failed with HTTP ${response.status} ${response.statusText}`)
+    }
   }
 
   async function appendWorkspaceContext(serverUrl: string) {
@@ -629,8 +637,12 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
-    workspaceContextServerUrl = serverUrl
-    await appendPrompt(serverUrl, workspaceContext)
+    try {
+      await appendPrompt(serverUrl, workspaceContext)
+      workspaceContextServerUrl = serverUrl
+    } catch (error) {
+      log(`Failed to append workspace context: ${formatError(error)}`)
+    }
   }
 
   async function appendUpdatedWorkspaceContext() {
@@ -643,7 +655,11 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
-    await appendPrompt(sidebarServerUrl, workspaceContext)
+    try {
+      await appendPrompt(sidebarServerUrl, workspaceContext)
+    } catch (error) {
+      log(`Failed to append updated workspace context: ${formatError(error)}`)
+    }
   }
 
   async function reloadSidebarIfWorkspaceRootChanged() {
@@ -708,28 +724,6 @@ export function activate(context: vscode.ExtensionContext) {
     return undefined
   }
 
-  function getCommonParentPath(paths: string[]) {
-    const [firstPath, ...otherPaths] = paths.map((folderPath) => path.resolve(folderPath))
-    if (!firstPath) {
-      return
-    }
-
-    const firstParts = firstPath.split(path.sep).filter(Boolean)
-    let commonParts = [...firstParts]
-
-    for (const folderPath of otherPaths) {
-      const parts = folderPath.split(path.sep).filter(Boolean)
-      let index = 0
-      while (index < commonParts.length && commonParts[index] === parts[index]) {
-        index++
-      }
-      commonParts = commonParts.slice(0, index)
-    }
-
-    const root = path.parse(firstPath).root
-    return path.join(root, ...commonParts)
-  }
-
   async function waitForServer(serverUrl: string) {
     let tries = 25
     do {
@@ -769,7 +763,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   async function getWebviewHtml(webview: vscode.Webview, port: number) {
-    log(`Loading webview iframe: http://localhost:${port}/`)
+    log(`Loading webview iframe: http://127.0.0.1:${port}/`)
     const nonce = getNonce()
     return `<!doctype html>
 <html lang="en">
@@ -781,7 +775,7 @@ export function activate(context: vscode.ExtensionContext) {
     </style>
   </head>
   <body>
-    <iframe id="opencode-frame" src="http://localhost:${port}/" allow="clipboard-read; clipboard-write"></iframe>
+    <iframe id="opencode-frame" src="http://127.0.0.1:${port}/" allow="clipboard-read; clipboard-write"></iframe>
     <script nonce="${nonce}">
       const vscode = acquireVsCodeApi();
       const frame = document.getElementById("opencode-frame");
@@ -829,7 +823,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // Get the relative path from workspace root
-    const relativePath = vscode.workspace.asRelativePath(activeUri)
+    const relativePath = vscode.workspace.asRelativePath(activeUri).replace(/\\/g, "/")
     let filepathWithAt = `@${relativePath}`
 
     // Check if there's a selection and add line numbers
