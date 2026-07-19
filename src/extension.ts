@@ -285,6 +285,16 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const payload = message as { source?: string; id?: string; uris?: unknown; text?: unknown }
+    if (payload.source === "opencode-bridge-ready") {
+      log(`OpenCode iframe bridge ready${typeof payload.text === "string" ? `: ${payload.text}` : ""}`)
+      return
+    }
+
+    if (payload.source === "opencode-log" && typeof payload.text === "string") {
+      log(`Webview: ${payload.text}`)
+      return
+    }
+
     if (payload.source === "opencode-clipboard-write" && typeof payload.id === "string" && typeof payload.text === "string") {
       try {
         await vscode.env.clipboard.writeText(payload.text)
@@ -590,17 +600,97 @@ export function activate(context: vscode.ExtensionContext) {
     return uris
   }
   function requestDropFallback(uris){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-drop-fallback",id:id,uris:uris},"*");report("requested drop fallback: "+uris.join(","))}catch(error){report("drop fallback request failed: "+(error&&error.message?error.message:String(error)))}return id}
-  function requestClipboardText(){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-clipboard-read",id:id},"*");report("requested clipboard text: "+id)}catch(error){report("clipboard text request failed: "+(error&&error.message?error.message:String(error)))}return id}
+  var pendingClipboardReads={};
+  function requestClipboardText(target){var id=String(Date.now())+"-"+String(Math.random()).slice(2);pendingClipboardReads[id]={target:target||null};try{window.parent.postMessage({source:"opencode-clipboard-read",id:id},"*");report("requested clipboard text: "+id)}catch(error){report("clipboard text request failed: "+(error&&error.message?error.message:String(error)))}return id}
   function writeClipboardText(text){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-clipboard-write",id:id,text:String(text||"")},"*");report("requested clipboard write: "+id+" "+String(text||"").length+" chars")}catch(error){report("clipboard write request failed: "+(error&&error.message?error.message:String(error)))}return id}
   function editableSelection(target){try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:0;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;return target.value.slice(start,end)}}catch(error){}try{return String(window.getSelection?window.getSelection().toString():"")}catch(error){return ""}}
   function deleteEditableSelection(target){try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:0;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;if(end>start){target.value=target.value.slice(0,start)+target.value.slice(end);target.selectionStart=target.selectionEnd=start;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"deleteByCut"}));return true}}}catch(error){report("delete editable selection failed: "+(error&&error.message?error.message:String(error)))}try{return !!(document.execCommand&&document.execCommand("delete",false))}catch(error){report("delete selection command failed: "+(error&&error.message?error.message:String(error)));return false}}
   function selectAllEditable(target){try{if(target&&typeof target.value==="string"&&typeof target.setSelectionRange==="function"){target.setSelectionRange(0,target.value.length);target.dispatchEvent(new Event("select",{bubbles:true}));return true}}catch(error){report("select all editable failed: "+(error&&error.message?error.message:String(error)))}try{return !!(document.execCommand&&document.execCommand("selectAll",false))}catch(error){report("select all command failed: "+(error&&error.message?error.message:String(error)));return false}}
-  function runEditCommand(command){var target=document.activeElement||document.body;if(command==="paste"){requestClipboardText();report("edit paste requested clipboard text");return}if(command==="copy"||command==="cut"){var text=editableSelection(target);if(text){writeClipboardText(text);if(command==="cut")deleteEditableSelection(target);report("edit "+command+" handled: "+text.length+" chars");return}try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled by execCommand");return}}catch(error){report("edit "+command+" command failed: "+(error&&error.message?error.message:String(error)))}report("edit "+command+" had no selection");return}if(command==="selectAll"){selectAllEditable(target);report("edit selectAll handled");return}if(command==="undo"||command==="redo"){try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled");return}}catch(error){report("edit "+command+" failed: "+(error&&error.message?error.message:String(error)))}return}report("unknown edit command: "+command)}
+  var lastEditTrigger={command:"",time:0};
+  function shouldRunEditCommand(command){
+    var now=Date.now();
+    if(lastEditTrigger.command===command&&(now-lastEditTrigger.time)<500){
+      report("edit "+command+" ignored duplicate trigger (multiple sources fired)");
+      return false
+    }
+    lastEditTrigger={command:command,time:now};
+    return true
+  }
+  function runEditCommand(command){
+    if(!shouldRunEditCommand(command))return;
+    var target=textTarget();
+    if(command==="paste"){requestClipboardText(target);report("edit paste requested clipboard text");return}
+    if(command==="copy"||command==="cut"){var text=editableSelection(target);if(text){writeClipboardText(text);if(command==="cut")deleteEditableSelection(target);report("edit "+command+" handled: "+text.length+" chars");return}try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled by execCommand");return}}catch(error){report("edit "+command+" command failed: "+(error&&error.message?error.message:String(error)))}report("edit "+command+" had no selection");return}
+    if(command==="selectAll"){selectAllEditable(target);report("edit selectAll handled");return}
+    if(command==="undo"||command==="redo"){try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled");return}}catch(error){report("edit "+command+" failed: "+(error&&error.message?error.message:String(error)))}return}
+    report("unknown edit command: "+command)
+  }
   function installEditCommandBridge(){if(!macPasteFallback){report("edit command bridge skipped on non-macOS");return}window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-edit-command")return;runEditCommand(String(data.command||""))});window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-clipboard-write-result")return;if(data.ok){report("clipboard write result ok: "+data.id)}else{report("clipboard write result failed: "+(data.error||data.id))}});document.addEventListener("keydown",function(event){if(!event.metaKey||event.ctrlKey||event.altKey)return;var key=String(event.key||"").toLowerCase();var command="";if(key==="c"&&!event.shiftKey)command="copy";if(key==="x"&&!event.shiftKey)command="cut";if(key==="a"&&!event.shiftKey)command="selectAll";if(key==="z"&&!event.shiftKey)command="undo";if(key==="z"&&event.shiftKey)command="redo";if(!command)return;event.preventDefault();event.stopImmediatePropagation();runEditCommand(command)},true);report("edit command bridge installed")}
   function textTarget(){var active=document.activeElement;if(active&&active!==document.body)return active;return document.querySelector("textarea,input,[contenteditable=true],[contenteditable='true']")||document.body}
-  function insertClipboardText(text){var target=textTarget();try{if(target&&typeof target.focus==="function")target.focus()}catch(error){}try{var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain",text);var pasteEvent=new ClipboardEvent("paste",{bubbles:true,cancelable:true,clipboardData:dataTransfer});if(!target.dispatchEvent(pasteEvent)){report("clipboard paste event handled: "+String(text).length+" chars");return}}catch(error){report("clipboard paste event failed: "+(error&&error.message?error.message:String(error)))}try{if(document.execCommand&&document.execCommand("insertText",false,text)){report("clipboard inserted with execCommand: "+String(text).length+" chars");return}}catch(error){report("clipboard execCommand failed: "+(error&&error.message?error.message:String(error)))}try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:target.value.length;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;target.value=target.value.slice(0,start)+text+target.value.slice(end);target.selectionStart=target.selectionEnd=start+text.length;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));report("clipboard inserted into input: "+String(text).length+" chars");return}}catch(error){report("clipboard input insert failed: "+(error&&error.message?error.message:String(error)))}report("clipboard text could not be inserted")}
+  function insertClipboardText(text,preferredTarget){
+    var target=preferredTarget||textTarget();
+    try{if(target&&typeof target.focus==="function")target.focus()}catch(error){}
+    try{
+      var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain",text);
+      var pasteEvent=new ClipboardEvent("paste",{bubbles:true,cancelable:true,clipboardData:dataTransfer});
+      if(!target.dispatchEvent(pasteEvent)){report("clipboard paste event handled: "+String(text).length+" chars");return}
+    }catch(error){report("clipboard paste event failed: "+(error&&error.message?error.message:String(error)))}
+    try{if(document.execCommand&&document.execCommand("insertText",false,text)){report("clipboard inserted with execCommand: "+String(text).length+" chars");return}}catch(error){report("clipboard execCommand failed: "+(error&&error.message?error.message:String(error)))}
+    try{
+      if(target&&typeof target.value==="string"){
+        var start=typeof target.selectionStart==="number"?target.selectionStart:target.value.length;
+        var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;
+        target.value=target.value.slice(0,start)+text+target.value.slice(end);
+        target.selectionStart=target.selectionEnd=start+text.length;
+        target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));
+        report("clipboard inserted into input: "+String(text).length+" chars");
+        return
+      }
+    }catch(error){report("clipboard input insert failed: "+(error&&error.message?error.message:String(error)))}
+    try{
+      var isEditable=!!(target&&(target.isContentEditable||(target.getAttribute&&target.getAttribute("contenteditable")==="true")));
+      if(isEditable&&window.getSelection){
+        var selection=window.getSelection();
+        var range=selection&&selection.rangeCount?selection.getRangeAt(0):null;
+        if(!range||!target.contains(range.startContainer)){
+          range=document.createRange();
+          range.selectNodeContents(target);
+          range.collapse(false);
+        }
+        range.deleteContents();
+        var node=document.createTextNode(text);
+        range.insertNode(node);
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));
+        report("clipboard inserted into contenteditable: "+String(text).length+" chars");
+        return
+      }
+    }catch(error){report("clipboard contenteditable insert failed: "+(error&&error.message?error.message:String(error)))}
+    report("clipboard text could not be inserted, falling back to append-prompt");
+    try{window.parent.postMessage({source:"opencode-paste-clipboard"},"*")}catch(error){report("append-prompt fallback request failed: "+(error&&error.message?error.message:String(error)))}
+  }
   function installTextInsertBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-insert-text")return;var texts=Array.isArray(data.texts)?data.texts:[data.text];var index=0;var next=function(){if(index>=texts.length)return;var text=String(texts[index]||"");index++;insertClipboardText(text);report("insert text bridge handled: "+text.length+" chars");setTimeout(next,50)};next()});report("insert text bridge installed")}
-  function installPasteBridge(){if(!macPasteFallback){report("paste bridge skipped on non-macOS");return}var pending={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-clipboard-read-result")return;delete pending[data.id];if(data.error){report("clipboard read result failed: "+data.error);return}insertClipboardText(String(data.text||""))});document.addEventListener("keydown",function(event){var key=String(event.key||"").toLowerCase();if(key!=="v"||(!event.metaKey&&!event.ctrlKey)||event.altKey){return}event.preventDefault();event.stopImmediatePropagation();pending[requestClipboardText()]=true},true);report("paste bridge installed")}
+  function installPasteBridge(){
+    if(!macPasteFallback){report("paste bridge skipped on non-macOS");return}
+    window.addEventListener("message",function(event){
+      var data=event.data;
+      if(!data||data.source!=="opencode-clipboard-read-result")return;
+      var request=pendingClipboardReads[data.id];
+      delete pendingClipboardReads[data.id];
+      if(data.error){report("clipboard read result failed: "+data.error);return}
+      insertClipboardText(String(data.text||""),request&&request.target)
+    });
+    document.addEventListener("keydown",function(event){
+      var key=String(event.key||"").toLowerCase();
+      if(key!=="v"||(!event.metaKey&&!event.ctrlKey)||event.altKey){return}
+      event.preventDefault();event.stopImmediatePropagation();
+      runEditCommand("paste")
+    },true);
+    report("paste bridge installed")
+  }
   function bytesFromBase64(data){var binary=atob(String(data||""));var bytes=new Uint8Array(binary.length);for(var index=0;index<binary.length;index++)bytes[index]=binary.charCodeAt(index);return bytes}
   function dispatchAttachmentDrop(target,files){try{var dataTransfer=new DataTransfer();files.forEach(function(file){dataTransfer.items.add(file)});var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});target.dispatchEvent(dropEvent);report("redispatched synthetic attachment drop: "+files.map(function(file){return file.name}).join(","))}catch(error){report("attachment drop failed: "+(error&&error.message?error.message:String(error)))}}
   function installAttachmentBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-attach-files"||!Array.isArray(data.files))return;var files=[];data.files.forEach(function(file){try{files.push(new File([bytesFromBase64(file.data)],String(file.name||"attachment"),{type:String(file.type||"application/octet-stream")}));report("prepared synthetic attachment: "+String(file.name||"attachment"))}catch(error){report("prepare attachment failed: "+(error&&error.message?error.message:String(error)))}});if(files.length)dispatchAttachmentDrop(document.activeElement||document.body,files)});report("attachment bridge installed")}
@@ -610,6 +700,7 @@ export function activate(context: vscode.ExtensionContext) {
   function installVsCodeDropNormalizer(){var redispatching=false;var fallbackTargets={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-fallback-result")return;var target=fallbackTargets[data.id]||document;delete fallbackTargets[data.id];var paths=Array.isArray(data.paths)?data.paths:[];if(!paths.length){report("drop fallback returned no paths");return}redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop fallback dispatch failed: "+(error&&error.message?error.message:String(error)));return}report("normalized fallback drop: "+paths.join(","))})});document.addEventListener("drop",function(event){if(redispatching)return;report("drop types: "+dataTransferTypes(event.dataTransfer).join(","));var values=dropPayloadValues(event.dataTransfer);var paths=workspaceDropPaths(values);var uris=unresolvedDropUris(values);if(!paths.length&&!uris.length)return;var plain=getData(event.dataTransfer,"text/plain");if(paths.length===1&&!uris.length&&plain==="file:"+paths[0])return;event.preventDefault();event.stopImmediatePropagation();var target=event.target||document;if(uris.length){fallbackTargets[requestDropFallback(uris)]=target}if(!paths.length)return;redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}report("normalized VS Code drop: "+paths.join(","))})},true);report("drop normalizer installed")}
   function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{readText:function(){return fetch("/__opencode_extension_clipboard_read",{method:"GET",cache:"no-store"}).then(function(response){if(!response.ok)throw new Error("Clipboard read bridge failed: "+response.status);return response.text()}).then(function(text){report("clipboard read bridged "+String(text).length+" chars");return text})},writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}
   installClipboardBridge();installPasteBridge();installEditCommandBridge();installTextInsertBridge();installAttachmentBridge();installDropPathsBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
+  try{window.parent.postMessage({source:"opencode-bridge-ready",text:"macPasteFallback="+macPasteFallback},"*")}catch(error){report("bridge ready ping failed: "+(error&&error.message?error.message:String(error)))}
 })();`
   }
 
@@ -779,18 +870,147 @@ export function activate(context: vscode.ExtensionContext) {
     <script nonce="${nonce}">
       const vscode = acquireVsCodeApi();
       const frame = document.getElementById("opencode-frame");
+      const wrapperDropIds = new Set();
+      const macPasteFallback = ${JSON.stringify(process.platform === "darwin")};
+      let lastParentEditCommand = { command: "", time: 0 };
+
+      function wrapperLog(message) {
+        try { vscode.postMessage({ source: "opencode-log", text: String(message) }); } catch (error) {}
+      }
+
+      // VS Code's Cmd+V/C/X/A/Z keybindings for this webview only fire while its
+      // "webviewId" focus context is recognized; that context can go stale a few
+      // seconds after focusing the iframe even though the cursor still looks active
+      // (see microsoft/vscode#129178). Capture the same shortcuts here, at the parent
+      // webview document level, as a redundant path straight into the iframe bridge.
+      // installEditCommandBridge() in the iframe de-dupes so a shortcut that also
+      // reaches VS Code's own keybinding does not run twice.
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          if (!macPasteFallback || !event.metaKey || event.ctrlKey || event.altKey) {
+            return;
+          }
+
+          const key = String(event.key || "").toLowerCase();
+          let command = "";
+          if (key === "v" && !event.shiftKey) command = "paste";
+          else if (key === "c" && !event.shiftKey) command = "copy";
+          else if (key === "x" && !event.shiftKey) command = "cut";
+          else if (key === "a" && !event.shiftKey) command = "selectAll";
+          else if (key === "z" && !event.shiftKey) command = "undo";
+          else if (key === "z" && event.shiftKey) command = "redo";
+          if (!command) {
+            return;
+          }
+
+          const now = Date.now();
+          if (lastParentEditCommand.command === command && now - lastParentEditCommand.time < 500) {
+            return;
+          }
+          lastParentEditCommand = { command, time: now };
+
+          wrapperLog(\`parent keydown captured: \${command}\`);
+          frame?.contentWindow?.postMessage({ source: "opencode-edit-command", command }, "*");
+        },
+        true,
+      );
+
+      function toOpenCodeFile(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = String(reader.result || "");
+            const base64 = result.slice(result.indexOf(",") + 1);
+            resolve({ name: file.name || "attachment", type: file.type || "application/octet-stream", data: base64 });
+          };
+          reader.onerror = () => resolve(undefined);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Native macOS drops can land on this parent document instead of being routed into the
+      // cross-origin OpenCode iframe (see microsoft/vscode#193558). Capture them here so drag & drop
+      // still works even when the iframe never receives the underlying browser drop event.
+      document.addEventListener(
+        "dragover",
+        (event) => {
+          event.preventDefault();
+        },
+        true,
+      );
+
+      document.addEventListener(
+        "drop",
+        async (event) => {
+          const dataTransfer = event.dataTransfer;
+          if (!dataTransfer) {
+            return;
+          }
+
+          event.preventDefault();
+
+          const files = Array.from(dataTransfer.files || []);
+          if (files.length) {
+            const attachments = (await Promise.all(files.map(toOpenCodeFile))).filter(Boolean);
+            if (attachments.length) {
+              wrapperLog(\`parent drop resolved \${attachments.length} file(s)\`);
+              frame?.contentWindow?.postMessage({ source: "opencode-attach-files", files: attachments }, "*");
+            }
+          }
+
+          const uris = [];
+          ["text/uri-list", "application/vnd.code.uri-list", "resourceurls", "codefiles"].forEach((type) => {
+            try {
+              const raw = dataTransfer.getData(type);
+              if (raw) {
+                raw
+                  .split(/\\r?\\n/)
+                  .map((line) => line.trim())
+                  .filter((line) => line && line.charAt(0) !== "#")
+                  .forEach((line) => uris.push(line));
+              }
+            } catch (error) {}
+          });
+
+          if (uris.length) {
+            const id = \`parent-\${Date.now()}-\${Math.random().toString(36).slice(2)}\`;
+            wrapperDropIds.add(id);
+            wrapperLog(\`parent drop requesting fallback for \${uris.length} uri(s)\`);
+            vscode.postMessage({ source: "opencode-drop-fallback", id, uris });
+          }
+        },
+        true,
+      );
+
       window.addEventListener("message", (event) => {
         const message = event.data;
         if (!message || typeof message !== "object") {
           return;
         }
 
-        if (message.source === "opencode-drop-fallback" || message.source === "opencode-clipboard-read" || message.source === "opencode-clipboard-write") {
+        if (message.source === "opencode-drop-fallback" || message.source === "opencode-clipboard-read" || message.source === "opencode-clipboard-write" || message.source === "opencode-bridge-ready" || message.source === "opencode-log") {
           vscode.postMessage(message);
           return;
         }
 
-        if (message.source === "opencode-drop-fallback-result" || message.source === "opencode-clipboard-read-result" || message.source === "opencode-clipboard-write-result" || message.source === "opencode-edit-command" || message.source === "opencode-insert-text" || message.source === "opencode-drop-paths" || message.source === "opencode-attach-files") {
+        if (message.source === "opencode-drop-fallback-result") {
+          if (wrapperDropIds.has(message.id)) {
+            wrapperDropIds.delete(message.id);
+            const paths = Array.isArray(message.paths) ? message.paths : [];
+            if (paths.length) {
+              frame?.contentWindow?.postMessage({ source: "opencode-drop-paths", paths }, "*");
+            } else {
+              wrapperLog("parent drop fallback resolved no paths");
+            }
+            return;
+          }
+
+          frame?.contentWindow?.postMessage(message, "*");
+          return;
+        }
+
+        if (message.source === "opencode-clipboard-read-result" || message.source === "opencode-clipboard-write-result" || message.source === "opencode-edit-command" || message.source === "opencode-insert-text" || message.source === "opencode-drop-paths" || message.source === "opencode-attach-files") {
           frame?.contentWindow?.postMessage(message, "*");
         }
       });
