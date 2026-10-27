@@ -2,7 +2,7 @@
   "name": "opencode-web-for-ide",
   "displayName": "OpenCode Web IDE (Unofficial)",
   "description": "OpenCode Web IDE complements and is based on the OpenCode agent project developed by sst-dev, bringing the OpenCode web experience into VS Code and VSCodium.",
-  "version": "1.14.41",
+  "version": "1.14.43",
   "publisher": "UWEsmith",
   "author": "sst-dev",
   "repository": {
@@ -37,6 +37,7 @@
     "onCommand:opencode.addFilesToOpenCode",
     "onCommand:opencode.attachToOpenCode",
     "onCommand:opencode.attachFilesToOpenCode",
+    "onCommand:opencode.sendTerminalToOpenCode",
     "onCommand:opencode.pasteIntoOpenCode",
     "onCommand:opencode.copyInOpenCode",
     "onCommand:opencode.cutInOpenCode",
@@ -46,6 +47,18 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "OpenCode Web IDE",
+      "type": "object",
+      "properties": {
+        "opencodeWeb.executablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Absolute path to the OpenCode executable. Leave empty to detect OpenCode in PATH and standard installation locations."
+        }
+      }
+    },
     "commands": [
       {
         "command": "opencode.addFilepathToTerminal",
@@ -66,6 +79,10 @@
       {
         "command": "opencode.attachFilesToOpenCode",
         "title": "Attach Files to OpenCode..."
+      },
+      {
+        "command": "opencode.sendTerminalToOpenCode",
+        "title": "Send Terminal Contents to OpenCode"
       },
       {
         "command": "opencode.pasteIntoOpenCode",
@@ -101,6 +118,12 @@
         {
           "command": "opencode.addToOpenCode",
           "group": "navigation@90"
+        }
+      ],
+      "terminal/context": [
+        {
+          "command": "opencode.sendTerminalToOpenCode",
+          "group": "3_edit@10"
         }
       ]
     },
@@ -219,7 +242,7 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test",
-    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js"
+    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.94.0",

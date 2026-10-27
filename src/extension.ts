@@ -5,15 +5,31 @@ import * as vscode from "vscode"
 import * as path from "path"
 import * as http from "http"
 import * as net from "net"
+import { randomBytes } from "crypto"
 import { spawn, type ChildProcess } from "child_process"
 import { getCommonParentPath } from "./pathUtils"
+import { resolveOpenCodeExecutable } from "./opencodeExecutable"
+import {
+  getOpenCodeWorkspaceStateScript,
+  sanitizeOpenCodeWorkspaceState,
+  type OpenCodePersistedWorkspaceState,
+} from "./opencodeBootstrap"
+import {
+  createOpenCodeAuthToken,
+  createOpenCodeBasicAuth,
+  detectOpenCodeMajorVersion,
+  getOpenCodeUiGeneration,
+  parseOpenCodeMajorVersion,
+  type OpenCodeUiGeneration,
+} from "./opencodeCompatibility"
 
 const SIDEBAR_VIEW_ID = "opencode.sidebar"
 const SIDEBAR_CONTAINER_COMMAND = "workbench.view.extension.opencode"
 const EXPERIMENTAL_OPENCODE_SERVER = ""
+const MAX_TERMINAL_CONTEXT_CHARACTERS = 100_000
+const OPENCODE_WORKSPACE_STATE_KEY = "opencodeWeb.v2WorkspaceState"
 
 export function activate(context: vscode.ExtensionContext) {
-  let sidebarPort: number | undefined
   let sidebarServerUrl: string | undefined
   let sidebarProcess: ChildProcess | undefined
   let proxyServer: http.Server | undefined
@@ -21,29 +37,58 @@ export function activate(context: vscode.ExtensionContext) {
   let workspaceContextServerUrl: string | undefined
   let workspaceRoot: string | undefined
   let sidebarWebview: vscode.Webview | undefined
+  let lastNotifiedStartupError: string | undefined
+  let sidebarServerPassword: string | undefined
+  let openCodeMajorVersion: number | undefined
+  let openCodeUiGeneration: OpenCodeUiGeneration = "legacy"
   const output = vscode.window.createOutputChannel("OpenCode")
 
   log("Activating extension")
 
-  const sidebarDisposable = vscode.window.registerWebviewViewProvider(SIDEBAR_VIEW_ID, {
-    resolveWebviewView(view) {
-      sidebarWebview = view.webview
-      view.webview.options = {
-        enableScripts: true,
-      }
-      context.subscriptions.push(view.webview.onDidReceiveMessage((message) => handleWebviewMessage(view.webview, message)))
-      log("Resolving sidebar webview")
-      view.onDidChangeVisibility(() => {
-        if (view.visible) {
-          void loadSidebar(view.webview)
+  const sidebarDisposable = vscode.window.registerWebviewViewProvider(
+    SIDEBAR_VIEW_ID,
+    {
+      resolveWebviewView(view) {
+        sidebarWebview = view.webview
+        view.webview.options = {
+          enableScripts: true,
         }
-      })
-      void loadSidebar(view.webview)
+        context.subscriptions.push(
+          view.webview.onDidReceiveMessage((message) => handleWebviewMessage(view.webview, message)),
+          view.onDidDispose(() => {
+            if (sidebarWebview === view.webview) {
+              sidebarWebview = undefined
+            }
+          }),
+        )
+        log("Resolving sidebar webview")
+        void loadSidebar(view.webview)
+      },
     },
-  })
+    {
+      webviewOptions: {
+        retainContextWhenHidden: true,
+      },
+    },
+  )
 
   const workspaceFoldersDisposable = vscode.workspace.onDidChangeWorkspaceFolders(() => {
     void reloadSidebarIfWorkspaceRootChanged()
+  })
+
+  const configurationDisposable = vscode.workspace.onDidChangeConfiguration((event) => {
+    if (!event.affectsConfiguration("opencodeWeb.executablePath")) {
+      return
+    }
+
+    log("OpenCode executable configuration changed; restarting sidebar server")
+    lastNotifiedStartupError = undefined
+    proxyPort = undefined
+    workspaceContextServerUrl = undefined
+    stopSidebarProcess()
+    if (sidebarWebview) {
+      void loadSidebar(sidebarWebview)
+    }
   })
 
   const addFilepathDisposable = vscode.commands.registerCommand("opencode.addFilepathToTerminal", async () => {
@@ -57,7 +102,7 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
-    await appendPrompt(readyServerUrl, fileRef)
+    await insertTextOrAppendPrompt(readyServerUrl, fileRef)
   })
 
   const addToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
@@ -94,6 +139,16 @@ export function activate(context: vscode.ExtensionContext) {
     await appendPrompt(readyServerUrl, text)
   }
 
+  async function insertTextOrAppendPrompt(serverUrl: string, text: string) {
+    if (openCodeUiGeneration === "v2" && sidebarWebview) {
+      log(`Inserting text into OpenCode webview: ${text.split("\n")[0]}`)
+      await sidebarWebview.postMessage({ source: "opencode-insert-text", text })
+      return
+    }
+
+    await appendPrompt(serverUrl, text)
+  }
+
   const attachToOpenCodeDisposable = vscode.commands.registerCommand("opencode.attachToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
     const uris = await getAttachUris(resource, selectedResources)
     await attachUrisToOpenCode(uris)
@@ -104,15 +159,19 @@ export function activate(context: vscode.ExtensionContext) {
     await attachUrisToOpenCode(uris)
   })
 
+  const sendTerminalToOpenCodeDisposable = vscode.commands.registerCommand("opencode.sendTerminalToOpenCode", async () => {
+    try {
+      await sendTerminalToOpenCode()
+    } catch (error) {
+      const message = `Failed to send terminal contents to OpenCode: ${formatError(error)}`
+      log(message)
+      await vscode.window.showErrorMessage(message)
+    }
+  })
+
   async function attachUrisToOpenCode(uris: vscode.Uri[]) {
     if (!uris.length) {
       log("Attach to OpenCode skipped: no resources")
-      return
-    }
-
-    await ensureSidebarServer()
-    if (!sidebarWebview) {
-      log("Attach to OpenCode failed: no webview")
       return
     }
 
@@ -122,8 +181,19 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
+    await attachFilesToOpenCode(files)
+  }
+
+  async function attachFilesToOpenCode(files: Array<{ name: string; type: string; data: string }>) {
+    await ensureSidebarServer()
+    if (!sidebarWebview) {
+      log("Attach to OpenCode failed: no webview")
+      return false
+    }
+
     log(`Attaching files to OpenCode: ${files.map((file) => file.name).join(", ")}`)
     await sidebarWebview.postMessage({ source: "opencode-attach-files", files })
+    return true
   }
 
   const pasteIntoOpenCodeDisposable = vscode.commands.registerCommand("opencode.pasteIntoOpenCode", async () => {
@@ -154,11 +224,13 @@ export function activate(context: vscode.ExtensionContext) {
     output,
     sidebarDisposable,
     workspaceFoldersDisposable,
+    configurationDisposable,
     addFilepathDisposable,
     addToOpenCodeDisposable,
     addFilesToOpenCodeDisposable,
     attachToOpenCodeDisposable,
     attachFilesToOpenCodeDisposable,
+    sendTerminalToOpenCodeDisposable,
     pasteIntoOpenCodeDisposable,
     copyInOpenCodeDisposable,
     cutInOpenCodeDisposable,
@@ -220,7 +292,6 @@ export function activate(context: vscode.ExtensionContext) {
     log(`Resolved workspace root: ${workspaceRoot ?? "<none>"}`)
 
     if (EXPERIMENTAL_OPENCODE_SERVER) {
-      sidebarPort = undefined
       sidebarServerUrl = EXPERIMENTAL_OPENCODE_SERVER
       log(`Using experimental external opencode server: ${sidebarServerUrl}`)
       if (await waitForServer(sidebarServerUrl)) {
@@ -235,40 +306,112 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
-    sidebarPort = Math.floor(Math.random() * (65535 - 16384 + 1)) + 16384
-    sidebarServerUrl = `http://127.0.0.1:${sidebarPort}`
+    const configuredExecutablePath = vscode.workspace.getConfiguration("opencodeWeb").get<string>("executablePath", "")
+    const executableResolution = await resolveOpenCodeExecutable({ configuredPath: configuredExecutablePath })
+    if (!executableResolution.executablePath) {
+      const startupError = executableResolution.configuredPathInvalid
+        ? `The configured OpenCode executable does not exist or cannot be executed: ${executableResolution.checkedPaths[0]}`
+        : "The OpenCode executable was not found. Configure opencodeWeb.executablePath or install OpenCode in a standard location."
+      log(`${startupError} Checked paths: ${executableResolution.checkedPaths.join(", ") || "<none>"}`)
+      showStartupError(startupError)
+      sidebarServerUrl = undefined
+      webview.html = getErrorHtml(webview, startupError)
+      return
+    }
+
+    const executablePath = executableResolution.executablePath
+    openCodeMajorVersion = await detectOpenCodeMajorVersion(executablePath)
+    openCodeUiGeneration = getOpenCodeUiGeneration(undefined, openCodeMajorVersion)
+    sidebarServerPassword = randomBytes(32).toString("base64url")
+    log(`Detected OpenCode CLI major: ${openCodeMajorVersion ?? "unknown"}`)
+    const serverPort = Math.floor(Math.random() * (65535 - 16384 + 1)) + 16384
+    const serverUrl = `http://127.0.0.1:${serverPort}`
+    sidebarServerUrl = serverUrl
     const processEnv = {
       ...process.env,
-      _EXTENSION_OPENCODE_PORT: sidebarPort.toString(),
+      _EXTENSION_OPENCODE_PORT: serverPort.toString(),
       OPENCODE_CALLER: "vscode",
+      OPENCODE_SERVER_PASSWORD: sidebarServerPassword,
       ...(workspaceRoot ? { PWD: workspaceRoot, INIT_CWD: workspaceRoot } : {}),
     }
-    sidebarProcess = spawn("opencode", ["serve", "--port", sidebarPort.toString()], {
-      cwd: workspaceRoot,
-      env: processEnv,
-      shell: process.platform === "win32",
-      stdio: "ignore",
-    })
-    log(`Started opencode serve on port ${sidebarPort} with cwd ${workspaceRoot ?? "<default>"}`)
-    sidebarProcess.once("error", (error) => {
-      log(`Failed to start opencode serve on port ${sidebarPort}: ${formatError(error)}`)
-      sidebarProcess = undefined
-    })
-    sidebarProcess.once("exit", (code, signal) => {
-      log(`opencode serve exited on port ${sidebarPort} with code ${code ?? "<none>"} signal ${signal ?? "<none>"}`)
-      sidebarProcess = undefined
+    log(`Using OpenCode executable from ${executableResolution.source}: ${executablePath}`)
+
+    let launchedProcess: ChildProcess
+    try {
+      launchedProcess = spawn(executablePath, ["serve", "--port", serverPort.toString()], {
+        cwd: workspaceRoot,
+        env: processEnv,
+        shell: process.platform === "win32",
+        stdio: "ignore",
+      })
+      sidebarProcess = launchedProcess
+    } catch (error) {
+      const startupError = `Failed to start OpenCode: ${formatError(error)}`
+      log(startupError)
+      showStartupError(startupError)
+      sidebarServerUrl = undefined
+      webview.html = getErrorHtml(webview, startupError)
+      return
+    }
+
+    const processFailure = new Promise<Error>((resolve) => {
+      launchedProcess.once("spawn", () => {
+        log(`Started opencode serve on port ${serverPort} with cwd ${workspaceRoot ?? "<default>"}`)
+      })
+      launchedProcess.once("error", (error) => {
+        log(`Failed to start opencode serve on port ${serverPort}: ${formatError(error)}`)
+        if (sidebarProcess === launchedProcess) {
+          sidebarProcess = undefined
+        }
+        resolve(error)
+      })
+      launchedProcess.once("exit", (code, signal) => {
+        log(`opencode serve exited on port ${serverPort} with code ${code ?? "<none>"} signal ${signal ?? "<none>"}`)
+        if (sidebarProcess === launchedProcess) {
+          sidebarProcess = undefined
+        }
+        resolve(new Error(`OpenCode exited before becoming ready (code ${code ?? "none"}, signal ${signal ?? "none"})`))
+      })
     })
 
-    if (await waitForServer(sidebarServerUrl)) {
-      log(`opencode server is ready on port ${sidebarPort}`)
-      proxyPort = await startProxyServer(sidebarServerUrl, workspaceRoot)
-      await appendWorkspaceContext(sidebarServerUrl)
+    const startupResult = await Promise.race([
+      waitForServer(serverUrl).then((ready) => ({ ready, error: undefined })),
+      processFailure.then((error) => ({ ready: false, error })),
+    ])
+
+    if (startupResult.ready) {
+      lastNotifiedStartupError = undefined
+      log(`opencode server is ready on port ${serverPort}`)
+      proxyPort = await startProxyServer(serverUrl, workspaceRoot)
+      await appendWorkspaceContext(serverUrl)
       webview.html = await getWebviewHtml(webview, proxyPort)
       return
     }
 
-    log(`opencode server did not become ready on port ${sidebarPort}`)
-    webview.html = getErrorHtml(webview)
+    const startupError = startupResult.error
+      ? `Failed to start OpenCode: ${formatError(startupResult.error)}`
+      : `OpenCode did not become ready on port ${serverPort}.`
+    log(startupError)
+    showStartupError(startupError)
+    if (sidebarProcess === launchedProcess) {
+      launchedProcess.kill()
+      sidebarProcess = undefined
+    }
+    sidebarServerUrl = undefined
+    webview.html = getErrorHtml(webview, startupError)
+  }
+
+  function showStartupError(message: string) {
+    if (lastNotifiedStartupError === message) {
+      return
+    }
+
+    lastNotifiedStartupError = message
+    void vscode.window.showErrorMessage(message, "Configure OpenCode Path").then((selection) => {
+      if (selection === "Configure OpenCode Path") {
+        void vscode.commands.executeCommand("workbench.action.openSettings", "opencodeWeb.executablePath")
+      }
+    })
   }
 
   function stopSidebarProcess() {
@@ -277,6 +420,9 @@ export function activate(context: vscode.ExtensionContext) {
     sidebarProcess?.kill()
     sidebarProcess = undefined
     sidebarServerUrl = undefined
+    sidebarServerPassword = undefined
+    openCodeMajorVersion = undefined
+    openCodeUiGeneration = "legacy"
   }
 
   async function handleWebviewMessage(webview: vscode.Webview, message: unknown) {
@@ -284,7 +430,19 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
-    const payload = message as { source?: string; id?: string; uris?: unknown; text?: unknown }
+    const payload = message as { source?: string; id?: string; uris?: unknown; text?: unknown; state?: unknown }
+    if (payload.source === "opencode-workspace-state") {
+      const state = sanitizeOpenCodeWorkspaceState(payload.state)
+      if (!state) {
+        log("Ignored invalid OpenCode workspace state")
+        return
+      }
+
+      await context.workspaceState.update(OPENCODE_WORKSPACE_STATE_KEY, state)
+      log("Saved OpenCode workspace state: " + state.tabs.length + " tabs")
+      return
+    }
+
     if (payload.source === "opencode-clipboard-write" && typeof payload.id === "string" && typeof payload.text === "string") {
       try {
         await vscode.env.clipboard.writeText(payload.text)
@@ -340,6 +498,84 @@ export function activate(context: vscode.ExtensionContext) {
 
     log(`Sending edit command to OpenCode: ${command}`)
     await sidebarWebview.postMessage({ source: "opencode-edit-command", command })
+  }
+
+  async function sendTerminalToOpenCode() {
+    const terminal = vscode.window.activeTerminal
+    if (!terminal) {
+      await vscode.window.showInformationMessage("Open a terminal before sending its contents to OpenCode.")
+      return
+    }
+
+    const terminalText = await captureActiveTerminalText()
+    if (!terminalText.trim()) {
+      await vscode.window.showInformationMessage("The active terminal has no content to send to OpenCode.")
+      return
+    }
+
+    const truncated = terminalText.length > MAX_TERMINAL_CONTEXT_CHARACTERS
+    const text = truncated ? terminalText.slice(-MAX_TERMINAL_CONTEXT_CHARACTERS) : terminalText
+    const truncationNotice = truncated
+      ? `[Only the latest ${MAX_TERMINAL_CONTEXT_CHARACTERS.toLocaleString()} characters are included.]\n\n`
+      : ""
+    const attachmentText = `${truncationNotice}${text.trim()}\n`
+    log(`Attaching terminal contents to OpenCode: ${text.length} chars${truncated ? " (truncated)" : ""}`)
+    const attached = await attachFilesToOpenCode([
+      {
+        name: "terminal-output.txt",
+        type: "text/plain",
+        data: Buffer.from(attachmentText, "utf8").toString("base64"),
+      },
+    ])
+
+    if (!attached) {
+      await vscode.window.showErrorMessage("Could not attach the terminal contents because the OpenCode view is not available.")
+      return
+    }
+
+    if (truncated) {
+      await vscode.window.showInformationMessage(
+        `Terminal content was limited to the latest ${MAX_TERMINAL_CONTEXT_CHARACTERS.toLocaleString()} characters.`,
+      )
+    }
+  }
+
+  async function captureActiveTerminalText() {
+    const originalClipboard = await vscode.env.clipboard.readText()
+    const clipboardMarker = `__OPENCODE_TERMINAL_CAPTURE_${randomBytes(16).toString("hex")}__`
+    let clipboardChanged = false
+
+    try {
+      await vscode.env.clipboard.writeText(clipboardMarker)
+      clipboardChanged = true
+      await vscode.commands.executeCommand("workbench.action.terminal.selectAll")
+      await vscode.commands.executeCommand("workbench.action.terminal.copySelection")
+
+      for (let attempt = 0; attempt < 10; attempt++) {
+        const text = await vscode.env.clipboard.readText()
+        if (text !== clipboardMarker) {
+          return text
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+      }
+
+      throw new Error("VS Code did not copy the active terminal selection.")
+    } finally {
+      try {
+        await vscode.commands.executeCommand("workbench.action.terminal.clearSelection")
+      } catch (error) {
+        log(`Failed to clear terminal selection: ${formatError(error)}`)
+      }
+
+      if (clipboardChanged) {
+        try {
+          await vscode.env.clipboard.writeText(originalClipboard)
+        } catch (error) {
+          log(`Failed to restore clipboard after terminal capture: ${formatError(error)}`)
+          await vscode.window.showWarningMessage("The terminal was captured, but the previous clipboard text could not be restored.")
+        }
+      }
+    }
   }
 
   async function pasteClipboardIntoOpenCode(source: string) {
@@ -400,6 +636,7 @@ export function activate(context: vscode.ExtensionContext) {
     const target = new URL(targetServerUrl)
     const targetHost = target.hostname
     const targetPort = Number(target.port || (target.protocol === "https:" ? 443 : 80))
+    const authHeader = sidebarServerPassword ? createOpenCodeBasicAuth(sidebarServerPassword) : undefined
 
     const server = http.createServer((request, response) => {
       if (request.url?.startsWith("/__opencode_extension_log")) {
@@ -474,12 +711,15 @@ export function activate(context: vscode.ExtensionContext) {
           "Content-Type": "application/javascript; charset=utf-8",
           "Cache-Control": "no-store",
         })
-        response.end(getWorkspaceBootstrapScript(directory))
+        response.end(getWorkspaceBootstrapScript(directory, openCodeUiGeneration))
         return
       }
 
       const headers = { ...request.headers }
       delete headers["accept-encoding"]
+      if (authHeader) {
+        headers.authorization = authHeader
+      }
 
       const proxyRequest = http.request(
         {
@@ -525,7 +765,7 @@ export function activate(context: vscode.ExtensionContext) {
     server.on("upgrade", (request, socket, head) => {
       log(`Proxy websocket upgrade: ${request.url ?? "<unknown>"}`)
       const targetSocket = net.connect(targetPort, targetHost, () => {
-        const headers = Object.entries(request.headers)
+        const headers = Object.entries({ ...request.headers, ...(authHeader ? { authorization: authHeader } : {}) })
           .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value ?? ""}`)
           .join("\r\n")
         targetSocket.write(`${request.method} ${request.url} HTTP/${request.httpVersion}\r\n${headers}\r\n\r\n`)
@@ -565,11 +805,10 @@ export function activate(context: vscode.ExtensionContext) {
     return html.replace(/<head([^>]*)>/i, `<head$1>${script}`)
   }
 
-  function getWorkspaceBootstrapScript(directory?: string) {
+  function getWorkspaceBootstrapScript(directory: string | undefined, generation: OpenCodeUiGeneration) {
     return String.raw`(function(){
   var dir=${JSON.stringify(directory)};
   var macPasteFallback=${JSON.stringify(process.platform === "darwin")};
-  var key="opencode.global.dat:server";
   function report(message){try{fetch("/__opencode_extension_log?message="+encodeURIComponent(message)).catch(function(){})}catch(error){}}
   function normalizePath(value){return String(value||"").replace(/\\/g,"/").replace(/\/+$/g,"")}
   function isInsideWorkspace(filepath){var normalizedDir=normalizePath(dir);var normalizedFilepath=normalizePath(filepath);return normalizedDir&&normalizedFilepath&&(normalizedFilepath===normalizedDir||normalizedFilepath.indexOf(normalizedDir+"/")===0)}
@@ -609,7 +848,7 @@ export function activate(context: vscode.ExtensionContext) {
   function installDropPathsBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-paths"||!Array.isArray(data.paths))return;dispatchOpenCodeDrops(document.activeElement||document.body,data.paths,function(error){if(error){report("drop paths bridge failed: "+(error&&error.message?error.message:String(error)));return}report("drop paths bridge handled: "+data.paths.join(","))})});report("drop paths bridge installed")}
   function installVsCodeDropNormalizer(){var redispatching=false;var fallbackTargets={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-fallback-result")return;var target=fallbackTargets[data.id]||document;delete fallbackTargets[data.id];var paths=Array.isArray(data.paths)?data.paths:[];if(!paths.length){report("drop fallback returned no paths");return}redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop fallback dispatch failed: "+(error&&error.message?error.message:String(error)));return}report("normalized fallback drop: "+paths.join(","))})});document.addEventListener("drop",function(event){if(redispatching)return;report("drop types: "+dataTransferTypes(event.dataTransfer).join(","));var values=dropPayloadValues(event.dataTransfer);var paths=workspaceDropPaths(values);var uris=unresolvedDropUris(values);if(!paths.length&&!uris.length)return;var plain=getData(event.dataTransfer,"text/plain");if(paths.length===1&&!uris.length&&plain==="file:"+paths[0])return;event.preventDefault();event.stopImmediatePropagation();var target=event.target||document;if(uris.length){fallbackTargets[requestDropFallback(uris)]=target}if(!paths.length)return;redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}report("normalized VS Code drop: "+paths.join(","))})},true);report("drop normalizer installed")}
   function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{readText:function(){return fetch("/__opencode_extension_clipboard_read",{method:"GET",cache:"no-store"}).then(function(response){if(!response.ok)throw new Error("Clipboard read bridge failed: "+response.status);return response.text()}).then(function(text){report("clipboard read bridged "+String(text).length+" chars");return text})},writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}
-  installClipboardBridge();installPasteBridge();installEditCommandBridge();installTextInsertBridge();installAttachmentBridge();installDropPathsBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
+  installClipboardBridge();installPasteBridge();installEditCommandBridge();installTextInsertBridge();installAttachmentBridge();installDropPathsBridge();installVsCodeDropNormalizer();${getOpenCodeWorkspaceStateScript(directory, generation, sanitizeOpenCodeWorkspaceState(context.workspaceState.get<OpenCodePersistedWorkspaceState>(OPENCODE_WORKSPACE_STATE_KEY)))}
 })();`
   }
 
@@ -619,6 +858,7 @@ export function activate(context: vscode.ExtensionContext) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(sidebarServerPassword ? { Authorization: createOpenCodeBasicAuth(sidebarServerPassword) } : {}),
       },
       body: JSON.stringify({ text }),
     })
@@ -628,6 +868,10 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   async function appendWorkspaceContext(serverUrl: string) {
+    if (openCodeUiGeneration === "v2") {
+      return
+    }
+
     if (workspaceContextServerUrl === serverUrl) {
       return
     }
@@ -646,6 +890,10 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   async function appendUpdatedWorkspaceContext() {
+    if (openCodeUiGeneration === "v2") {
+      return
+    }
+
     if (!sidebarServerUrl || !(await waitForServer(sidebarServerUrl))) {
       return
     }
@@ -671,7 +919,6 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     log(`Workspace root changed from ${workspaceRoot ?? "<none>"} to ${nextWorkspaceRoot ?? "<none>"}`)
-    sidebarPort = undefined
     proxyPort = undefined
     workspaceContextServerUrl = undefined
     workspaceRoot = undefined
@@ -728,9 +975,23 @@ export function activate(context: vscode.ExtensionContext) {
     let tries = 25
     do {
       await new Promise((resolve) => setTimeout(resolve, 200))
+      const headers: Record<string, string> = sidebarServerPassword ? { Authorization: createOpenCodeBasicAuth(sidebarServerPassword) } : {}
       try {
-        const response = await fetch(`${serverUrl}/app`)
+        const response = await fetch(`${serverUrl}/global/health`, { headers, signal: AbortSignal.timeout(2000) })
         if (response.ok) {
+          const info = await response.json() as { version?: unknown }
+          if (typeof info.version === "string") {
+            openCodeMajorVersion = parseOpenCodeMajorVersion(info.version) ?? openCodeMajorVersion
+          }
+        }
+      } catch {}
+
+      try {
+        const response = await fetch(`${serverUrl}/app`, { headers, signal: AbortSignal.timeout(2000) })
+        if (response.ok) {
+          const appHtml = await response.text()
+          openCodeUiGeneration = getOpenCodeUiGeneration(appHtml, openCodeMajorVersion)
+          log(`Detected OpenCode UI generation: ${openCodeUiGeneration} (CLI major ${openCodeMajorVersion ?? "unknown"})`)
           return true
         }
       } catch {}
@@ -745,8 +1006,8 @@ export function activate(context: vscode.ExtensionContext) {
     return getStatusHtml(webview, "Starting opencode...")
   }
 
-  function getErrorHtml(webview: vscode.Webview) {
-    return getStatusHtml(webview, "Could not load opencode. Check the opencode terminal output.")
+  function getErrorHtml(webview: vscode.Webview, message = "Could not load opencode. Check the opencode terminal output.") {
+    return getStatusHtml(webview, message)
   }
 
   function getStatusHtml(webview: vscode.Webview, message: string) {
@@ -758,13 +1019,27 @@ export function activate(context: vscode.ExtensionContext) {
       body { align-items: center; display: flex; font-family: var(--vscode-font-family); height: 100vh; justify-content: center; margin: 0; }
     </style>
   </head>
-  <body>${message}</body>
+  <body>${escapeHtml(message)}</body>
 </html>`
+  }
+
+  function escapeHtml(value: string) {
+    return value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll("\"", "&quot;")
+      .replaceAll("'", "&#039;")
   }
 
   async function getWebviewHtml(webview: vscode.Webview, port: number) {
     log(`Loading webview iframe: http://127.0.0.1:${port}/`)
     const nonce = getNonce()
+    const iframeUrl = new URL(`http://127.0.0.1:${port}/`)
+    if (sidebarServerPassword) {
+      iframeUrl.searchParams.set("auth_token", createOpenCodeAuthToken(sidebarServerPassword))
+    }
+    log(`Loading authenticated OpenCode iframe: ${iframeUrl.origin}/`)
     return `<!doctype html>
 <html lang="en">
   <head>
@@ -775,7 +1050,7 @@ export function activate(context: vscode.ExtensionContext) {
     </style>
   </head>
   <body>
-    <iframe id="opencode-frame" src="http://127.0.0.1:${port}/" allow="clipboard-read; clipboard-write"></iframe>
+    <iframe id="opencode-frame" src="${iframeUrl.toString()}" allow="clipboard-read; clipboard-write"></iframe>
     <script nonce="${nonce}">
       const vscode = acquireVsCodeApi();
       const frame = document.getElementById("opencode-frame");
@@ -785,7 +1060,7 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        if (message.source === "opencode-drop-fallback" || message.source === "opencode-clipboard-read" || message.source === "opencode-clipboard-write") {
+        if (message.source === "opencode-drop-fallback" || message.source === "opencode-clipboard-read" || message.source === "opencode-clipboard-write" || message.source === "opencode-workspace-state") {
           vscode.postMessage(message);
           return;
         }

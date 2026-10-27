@@ -12,6 +12,8 @@ The extension embeds the OpenCode web interface inside a VS Code/VSCodium sideba
 - Supports VS Code and VSCodium.
 - Adds selected or active files to OpenCode as file references.
 - Attaches files visually to OpenCode as browser `File` drops, useful for images, PDFs, and binary files.
+- Attaches the active terminal's scrollback to OpenCode as a text file from the terminal context menu.
+- Restores the OpenCode v2 tabs and active session for each workspace after restarting VS Code.
 - Supports multi-file attach and multi-file reference flows through native file pickers.
 - Normalizes file drag/drop payloads inside the embedded webview when the platform provides usable drop data.
 - Bridges clipboard read/write behavior between VS Code and the embedded OpenCode web UI.
@@ -50,6 +52,12 @@ The extension embeds the OpenCode web interface inside a VS Code/VSCodium sideba
   - macOS: `Cmd+Alt+K`
   - Inserts the active file path, including selected line ranges when available.
 
+### Terminal Context
+
+- Right-click inside the active terminal and select `Send Terminal Contents to OpenCode`.
+- The extension selects and copies the terminal buffer, restores the previous clipboard text, and attaches the captured content as `terminal-output.txt`.
+- Very large terminal buffers are limited to the latest 100,000 characters.
+
 ## macOS Webview Support
 
 VS Code and VSCodium webviews can be inconsistent on macOS when common editing shortcuts are used inside iframe content. OpenCode Web IDE adds a macOS-only bridge for:
@@ -74,7 +82,13 @@ Natural drag/drop from VS Code into iframe-based webviews is inconsistent across
 ## Requirements
 
 - VS Code or VSCodium `1.94.0` or newer.
-- The `opencode` CLI must be available in your PATH.
+- The `opencode` CLI must be installed. The extension detects it in `PATH` and standard installation locations.
+
+## OpenCode Executable
+
+The extension automatically checks `PATH`, `OPENCODE_INSTALL_DIR`, `XDG_BIN_DIR`, `~/bin`, `~/.local/bin`, `~/.opencode/bin`, and common package-manager locations.
+
+If OpenCode is installed elsewhere, set `opencodeWeb.executablePath` to its absolute path in VS Code or VSCodium settings. This is a machine-specific setting, so local, SSH, WSL, and development-container environments can each use their own executable.
 
 ## Author And Publisher
 
