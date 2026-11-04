@@ -34,6 +34,7 @@
     "onView:opencode.sidebar",
     "onCommand:opencode.addFilepathToTerminal",
     "onCommand:opencode.addToOpenCode",
+    "onCommand:opencode.addExplorerSelectionToOpenCode",
     "onCommand:opencode.addFilesToOpenCode",
     "onCommand:opencode.attachToOpenCode",
     "onCommand:opencode.attachFilesToOpenCode",
@@ -66,6 +67,10 @@
       },
       {
         "command": "opencode.addToOpenCode",
+        "title": "Add to OpenCode"
+      },
+      {
+        "command": "opencode.addExplorerSelectionToOpenCode",
         "title": "Add to OpenCode"
       },
       {
@@ -117,7 +122,19 @@
         },
         {
           "command": "opencode.addToOpenCode",
-          "group": "navigation@90"
+          "group": "navigation@90",
+          "when": "!listMultiSelection"
+        },
+        {
+          "command": "opencode.addExplorerSelectionToOpenCode",
+          "group": "navigation@90",
+          "when": "listMultiSelection"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "opencode.addExplorerSelectionToOpenCode",
+          "when": "false"
         }
       ],
       "terminal/context": [
@@ -163,6 +180,15 @@
         "linux": "ctrl+k shift+a"
       },
       {
+        "command": "opencode.attachToOpenCode",
+        "key": "ctrl+k shift+a",
+        "mac": "cmd+alt+a",
+        "win": "ctrl+k shift+a",
+        "linux": "ctrl+k shift+a",
+        "when": "filesExplorerFocus && !inputFocus",
+        "args": { "fromExplorer": true }
+      },
+      {
         "command": "opencode.attachFilesToOpenCode",
         "title": "opencode: Attach Files to OpenCode",
         "key": "ctrl+k shift+f",
@@ -177,6 +203,23 @@
         "mac": "cmd+alt+s",
         "win": "ctrl+k shift+s",
         "linux": "ctrl+k shift+s"
+      },
+      {
+        "command": "opencode.addToOpenCode",
+        "key": "ctrl+k shift+s",
+        "mac": "cmd+alt+s",
+        "win": "ctrl+k shift+s",
+        "linux": "ctrl+k shift+s",
+        "when": "filesExplorerFocus && !inputFocus",
+        "args": { "fromExplorer": true }
+      },
+      {
+        "command": "opencode.addExplorerSelectionToOpenCode",
+        "key": "ctrl+k shift+s",
+        "mac": "cmd+alt+s",
+        "win": "ctrl+k shift+s",
+        "linux": "ctrl+k shift+s",
+        "when": "filesExplorerFocus && !inputFocus && listMultiSelection"
       },
       {
         "command": "opencode.addFilesToOpenCode",
@@ -242,7 +285,7 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test",
-    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js"
+    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js out/opencodeExplorerSelection.test.js out/opencodeFileCommands.test.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.94.0",

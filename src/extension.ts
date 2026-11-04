@@ -10,6 +10,7 @@ import { spawn, type ChildProcess } from "child_process"
 import { getCommonParentPath } from "./pathUtils"
 import { getOpenCodeClipboardScript } from "./opencodeClipboard";
 import { getOpenCodePromptQueueScript } from "./opencodePromptQueue";
+import { copiedPathsToWorkspaceUris, createExplorerSelectionReader } from "./opencodeExplorerSelection";
 import { resolveOpenCodeExecutable } from "./opencodeExecutable"
 import {
   getOpenCodeWorkspaceStateScript,
@@ -45,6 +46,11 @@ export function activate(context: vscode.ExtensionContext) {
   let openCodeMajorVersion: number | undefined
   let openCodeUiGeneration: OpenCodeUiGeneration = "legacy"
   const output = vscode.window.createOutputChannel("OpenCode")
+  const readExplorerSelection = createExplorerSelectionReader({
+    readText: () => vscode.env.clipboard.readText(),
+    writeText: text => vscode.env.clipboard.writeText(text),
+    copyPaths: () => vscode.commands.executeCommand("copyFilePath"),
+  });
 
   log("Activating extension")
 
@@ -108,10 +114,52 @@ export function activate(context: vscode.ExtensionContext) {
     await insertTextOrAppendPrompt(readyServerUrl, fileRef)
   })
 
-  const addToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
-    const refs = await getWorkspaceUriRefs(resource, selectedResources)
+  const addToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addToOpenCode", async (resource?: vscode.Uri | { fromExplorer: true }, selectedResources?: vscode.Uri[]) => {
+    let refs: string[];
+    if (resource && "fromExplorer" in resource) {
+      log(`Add to OpenCode invoked from Explorer shortcut (${process.platform})`);
+      try {
+        const uris = await getExplorerSelectionUris();
+        refs = await getWorkspaceUriRefs(undefined, uris);
+      } catch (error) {
+        log(`Add to OpenCode could not read Explorer selection: ${formatError(error)}`);
+        return;
+      }
+    } else {
+      log(`Add to OpenCode invoked (${process.platform}): resource=${resource?.toString() ?? "<active editor>"}, selectedResources=${selectedResources?.length ?? 0}`);
+      refs = await getWorkspaceUriRefs(resource, selectedResources);
+    }
     await addRefsToOpenCode(refs)
   })
+
+  // The menu and shortcut use this command for Explorer multi-selection.
+  // Recover from incomplete command arguments without changing single-file menus.
+  const addExplorerSelectionDisposable = vscode.commands.registerCommand("opencode.addExplorerSelectionToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
+    let uris = selectedResources?.length ? selectedResources : resource ? [resource] : [];
+    log(`Add to OpenCode invoked from Explorer multi-selection (${process.platform}): selectedResources=${uris.length}`);
+    if (uris.length < 2) {
+      try {
+        const snapshot = await getExplorerSelectionUris();
+        const anchor = resource ?? uris[0];
+        const key = (uri: vscode.Uri) => process.platform === "win32" ? uri.toString().toLowerCase() : uri.toString();
+        if (snapshot.length > uris.length && (!anchor || snapshot.some(uri => key(uri) === key(anchor)))) {
+          uris = snapshot;
+          log(`Add to OpenCode recovered ${uris.length} Explorer resources from incomplete menu arguments`);
+        }
+      } catch (error) {
+        log(`Add to OpenCode could not recover Explorer menu selection: ${formatError(error)}`);
+      }
+    }
+    await addRefsToOpenCode(await getWorkspaceUriRefs(undefined, uris));
+  });
+
+  async function getExplorerSelectionUris() {
+    const paths = await readExplorerSelection();
+    const separator = vscode.workspace.getConfiguration("explorer").get<string>("copyPathSeparator", "auto");
+    const uris = copiedPathsToWorkspaceUris(paths, (vscode.workspace.workspaceFolders ?? []).map(folder => folder.uri), process.platform, separator);
+    log(`OpenCode Explorer selection: ${paths.length} paths, ${uris.length} workspace resources`);
+    return uris;
+  }
 
   const addFilesToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addFilesToOpenCode", async () => {
     const uris = (await vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, canSelectMany: true })) ?? []
@@ -125,6 +173,7 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
+    log(`Add to OpenCode resolved ${refs.length} references: ${refs.join(" ")}`);
     const readyServerUrl = await ensureSidebarServer()
     if (!readyServerUrl) {
       return
@@ -152,8 +201,19 @@ export function activate(context: vscode.ExtensionContext) {
     await appendPrompt(serverUrl, text)
   }
 
-  const attachToOpenCodeDisposable = vscode.commands.registerCommand("opencode.attachToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
-    const uris = await getAttachUris(resource, selectedResources)
+  const attachToOpenCodeDisposable = vscode.commands.registerCommand("opencode.attachToOpenCode", async (resource?: vscode.Uri | { fromExplorer: true }, selectedResources?: vscode.Uri[]) => {
+    let uris: vscode.Uri[];
+    if (resource && "fromExplorer" in resource) {
+      log(`Attach to OpenCode invoked from Explorer shortcut (${process.platform})`);
+      try {
+        uris = await getExplorerSelectionUris();
+      } catch (error) {
+        log(`Attach to OpenCode could not read Explorer selection: ${formatError(error)}`);
+        return;
+      }
+    } else {
+      uris = await getAttachUris(resource, selectedResources);
+    }
     await attachUrisToOpenCode(uris)
   })
 
@@ -230,6 +290,7 @@ export function activate(context: vscode.ExtensionContext) {
     configurationDisposable,
     addFilepathDisposable,
     addToOpenCodeDisposable,
+    addExplorerSelectionDisposable,
     addFilesToOpenCodeDisposable,
     attachToOpenCodeDisposable,
     attachFilesToOpenCodeDisposable,
@@ -1106,6 +1167,11 @@ export function activate(context: vscode.ExtensionContext) {
     return text
   }
 
+  function getWorkspaceRelativePath(uri: vscode.Uri, includeWorkspaceFolder?: boolean) {
+    const relativePath = vscode.workspace.asRelativePath(uri, includeWorkspaceFolder);
+    return process.platform === "win32" ? relativePath.replace(/\\/g, "/") : relativePath;
+  }
+
   function getActiveFile() {
     const activeEditor = vscode.window.activeTextEditor
     const activeUri = activeEditor?.document.uri ?? getActiveTabUri()
@@ -1120,7 +1186,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // Get the relative path from workspace root
-    const relativePath = vscode.workspace.asRelativePath(activeUri).replace(/\\/g, "/")
+    const relativePath = getWorkspaceRelativePath(activeUri)
     let filepathWithAt = `@${relativePath}`
 
     // Check if there's a selection and add line numbers
@@ -1145,6 +1211,9 @@ export function activate(context: vscode.ExtensionContext) {
   async function getWorkspaceUriRefs(resource?: vscode.Uri, selectedResources?: vscode.Uri[]) {
     const candidates = selectedResources?.length ? selectedResources : resource ? [resource] : []
     if (!candidates.length) {
+      if (selectedResources !== undefined) {
+        return [];
+      }
       const activeFile = getActiveFile()
       return activeFile ? [activeFile] : []
     }
@@ -1166,7 +1235,7 @@ export function activate(context: vscode.ExtensionContext) {
         continue
       }
 
-      const relativePath = vscode.workspace.asRelativePath(uri, false).replace(/\\/g, "/")
+      const relativePath = getWorkspaceRelativePath(uri, false)
       if (!relativePath || seen.has(relativePath)) {
         continue
       }

@@ -29,6 +29,8 @@ Windows and Linux file shortcuts use two-step chords to avoid `Ctrl+Alt` / AltGr
   - Linux/Windows: `Ctrl+K`, then `Shift+S`
   - macOS: `Cmd+Alt+S`
   - Sends the active file or Explorer selection to OpenCode as file references.
+  - With focus in the Explorer, sends all selected files, just like the `Add to OpenCode` context-menu action. With focus in the editor, sends the active file and selected line range.
+  - The Explorer context menu displays the same shortcut for both single and multiple selections.
 
 - `OpenCode: Send Files to OpenCode`
   - Linux/Windows: `Ctrl+K`, then `Shift+M`
@@ -41,6 +43,7 @@ Windows and Linux file shortcuts use two-step chords to avoid `Ctrl+Alt` / AltGr
   - Linux/Windows: `Ctrl+K`, then `Shift+A`
   - macOS: `Cmd+Alt+A`
   - Attaches the active file or Explorer selection to OpenCode.
+  - With focus in the Explorer, attaches all selected files, just like the context-menu action. With focus in the editor, attaches the active file.
 
 - `OpenCode: Attach Files to OpenCode`
   - Windows: `Ctrl+Shift+A`
@@ -86,7 +89,14 @@ Natural drag/drop from VS Code into iframe-based webviews is inconsistent across
 
 - Source files can be sent as OpenCode file references.
 - Images, PDFs, and binary files can be attached as visual file drops.
-- Multi-file workflows use native file pickers when keyboard shortcuts cannot access Explorer multi-selection reliably.
+- File references and attachments support Explorer multi-selection through both the context menu and keyboard shortcut. Native file pickers also support multi-file reference and attachment workflows.
+- If the multi-selection context menu receives an incomplete resource list, it recovers the Explorer selection and verifies that it includes the clicked resource before sending the references.
+
+Explorer selection handling supports Windows drive and UNC paths, LF/CRLF line endings, and the `explorer.copyPathSeparator` setting. With the default separator on Linux and macOS, literal backslashes in filenames are preserved. Windows selection matching ignores path casing; Linux selection matching is case-sensitive.
+
+The Explorer reference and attachment shortcuts, and reference menu-selection recovery, temporarily use the IDE's Copy Path command and restore the previous clipboard text. The VS Code clipboard API cannot restore images or other non-text clipboard formats. Context menus with complete resource arguments do not use the clipboard.
+
+For reference-selection issues, open **View → Output → OpenCode**. The log records the command source, platform, selected-resource count, resolved references, and paths sent to the webview. This distinguishes selection issues from frontend delivery issues.
 
 ## Requirements
 
@@ -98,6 +108,12 @@ Natural drag/drop from VS Code into iframe-based webviews is inconsistent across
 The extension automatically checks `PATH`, `OPENCODE_INSTALL_DIR`, `XDG_BIN_DIR`, `~/bin`, `~/.local/bin`, `~/.opencode/bin`, and common package-manager locations.
 
 If OpenCode is installed elsewhere, set `opencodeWeb.executablePath` to its absolute path in VS Code or VSCodium settings. This is a machine-specific setting, so local, SSH, WSL, and development-container environments can each use their own executable.
+
+## Compatibility Checks
+
+Run `npm run test:unit` for the automated tests and `npm run package` for type checking, linting, and the production build. The file-command tests simulate Windows, Linux, and macOS, including Explorer multi-selection, clipboard restoration, path casing, Unicode names, and custom Copy Path separators.
+
+The [cross-platform workflow](.github/workflows/cross-platform.yml) is configured to run both commands on Windows, Linux, and macOS runners for pushes and pull requests. These automated checks do not exercise the native Explorer UI or clipboard; end-to-end verification still requires VS Code or VSCodium on each operating system.
 
 ## Author And Publisher
 
