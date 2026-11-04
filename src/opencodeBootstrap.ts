@@ -81,10 +81,11 @@ export function getOpenCodeWorkspaceStateScript(directory: string | undefined, g
     writeState(layoutStorageKey,layout);
 
     function encodeRouteValue(value){var bytes=new TextEncoder().encode(String(value));var binary=Array.from(bytes,function(byte){return String.fromCharCode(byte)}).join("");return btoa(binary).replace(/\+/g,"-").replace(/\//g,"_").replace(/=/g,"")}
-    function tabKey(tab){if(tab.type==="draft")return "draft:"+tab.draftID;if(tab.type==="session")return tab.server+"\n"+tab.sessionId}
+    function sessionTabPath(origin,sessionId){return "/server/"+encodeRouteValue(origin)+"/session/"+sessionId}
+    function tabKey(tab){if(tab.type==="draft")return "draft:"+tab.draftID;if(tab.type==="session")return tab.server+"\n"+sessionTabPath(tab.server,tab.sessionId)}
     function belongsToWorkspace(tab){return !!tab&&tab.server===server&&((tab.type==="draft"&&typeof tab.draftID==="string"&&samePath(tab.directory,dir))||(tab.type==="session"&&typeof tab.sessionId==="string"))}
     function restoreTab(tab){if(!tab||typeof tab!=="object")return;if(tab.type==="draft"&&typeof tab.draftID==="string")return Object.assign({},tab,{server:server,directory:dir});if(tab.type==="session"&&typeof tab.sessionId==="string")return Object.assign({},tab,{server:server})}
-    function restoreRecentKey(key,tabs){if(typeof key!=="string")return;if(key.indexOf("draft:")===0&&tabs.some(function(tab){return tabKey(tab)===key}))return key;var separator=key.lastIndexOf("\n");var sessionId=separator>=0?key.slice(separator+1):"";var restoredKey=server+"\n"+sessionId;return sessionId&&tabs.some(function(tab){return tabKey(tab)===restoredKey})?restoredKey:undefined}
+    function restoreRecentKey(key,tabs){if(typeof key!=="string")return;if(key.indexOf("draft:")===0&&tabs.some(function(tab){return tabKey(tab)===key}))return key;var separator=key.indexOf("\n");if(separator<0)return;var previousServer=key.slice(0,separator);var suffix=key.slice(separator+1);var selected=tabs.find(function(tab){return tab.type==="session"&&(suffix===tab.sessionId||suffix===sessionTabPath(previousServer,tab.sessionId))});return selected?tabKey(selected):undefined}
     var tabsStorageKey="opencode.window.browser.dat:tabs";
     var recentStorageKey="opencode.window.browser.dat:tabs.recent";
     var storedTabs=readState(tabsStorageKey,[]);
@@ -104,7 +105,8 @@ export function getOpenCodeWorkspaceStateScript(directory: string | undefined, g
       if(!Array.isArray(tabs))tabs=[];
       var recent=readState(recentStorageKey,{});
       if(!recent||typeof recent!=="object"||Array.isArray(recent))recent={};
-      var selected=typeof recent.key==="string"?tabs.find(function(tab){return belongsToWorkspace(tab)&&tabKey(tab)===recent.key}):undefined;
+      var recentKey=restoreRecentKey(recent.key,tabs);
+      var selected=recentKey?tabs.find(function(tab){return belongsToWorkspace(tab)&&tabKey(tab)===recentKey}):undefined;
       if(!selected){for(var index=tabs.length-1;index>=0;index--){if(belongsToWorkspace(tabs[index])){selected=tabs[index];break}}}
       if(!selected){selected={type:"draft",draftID:newDraftID(),server:server,directory:dir};tabs.push(selected);writeState(tabsStorageKey,tabs)}
       var selectedKey=tabKey(selected);
@@ -113,7 +115,7 @@ export function getOpenCodeWorkspaceStateScript(directory: string | undefined, g
       var next=new URL(location.href);
       next.searchParams.delete("draftId");
       if(selected.type==="draft"){next.pathname="/new-session";next.searchParams.set("draftId",selected.draftID)}
-      else{next.pathname="/"+encodeRouteValue(dir)+"/session/"+encodeURIComponent(selected.sessionId)}
+      else{next.pathname="/server/"+encodeRouteValue(server)+"/session/"+encodeURIComponent(selected.sessionId)}
       next.hash="";
       history.replaceState(history.state,"",next.pathname+next.search);
       stateReport("selected workspace "+dir+" and tab "+selectedKey);
@@ -124,7 +126,7 @@ export function getOpenCodeWorkspaceStateScript(directory: string | undefined, g
       try{
         var savedTabs=readState(tabsStorageKey,[]);if(!Array.isArray(savedTabs))savedTabs=[];savedTabs=savedTabs.filter(belongsToWorkspace);
         var savedRecent=readState(recentStorageKey,{});if(!savedRecent||typeof savedRecent!=="object"||Array.isArray(savedRecent))savedRecent={};
-        var savedKey=typeof savedRecent.key==="string"&&savedTabs.some(function(tab){return tabKey(tab)===savedRecent.key})?savedRecent.key:undefined;
+        var savedKey=restoreRecentKey(savedRecent.key,savedTabs);
         var state={tabs:savedTabs,recent:savedKey?{key:savedKey}:{}};var serialized=JSON.stringify(state);if(serialized===lastSavedState)return;lastSavedState=serialized;
         if(typeof window!=="undefined"&&window.parent)window.parent.postMessage({source:"opencode-workspace-state",state:state},"*");
       }catch(error){stateReport("workspace state save failed: "+(error&&error.message?error.message:String(error)))}

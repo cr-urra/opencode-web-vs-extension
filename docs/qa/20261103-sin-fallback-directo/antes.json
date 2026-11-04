@@ -1,0 +1,34 @@
+[
+  {
+    "file": "src/opencodeClipboard.ts",
+    "sha256": "869f96ed4a94d4a78160d650ba0161084232827c4652d441d830cca194fd4cea"
+  },
+  {
+    "file": "src/opencodeClipboard.test.ts",
+    "sha256": "4a93dde97b31875c8b76684a6e5109261e968bfe8d60c97fa0e0dd7484abb816"
+  },
+  {
+    "file": "src/extension.ts",
+    "sha256": "261d3d3840e94f85fc0de28b6577f3a5263b4fc76d9b68577abec944b3bf6908"
+  },
+  {
+    "file": "src/opencodeBootstrap.ts",
+    "sha256": "df39b5b4903a41d73ab25274d3f3c8398c485e9da4175dfcca66d8f3ec5673a9"
+  },
+  {
+    "file": "src/opencodePromptQueue.ts",
+    "sha256": "1634e18dfc2787a0333f5612eeb58c89c9daf4c1597032293927c6788d6ddacf"
+  },
+  {
+    "file": "package.json",
+    "sha256": "368483fc44b89f90d94f7b2e084894e4a094968790358772f7a28dd156c5bd1d"
+  },
+  {
+    "file": "README.md",
+    "sha256": "6e7b29fa44e8a877cdba4143f62acd964c6e748496b35d84aa64be453ad508ca"
+  },
+  {
+    "file": "dist/extension.js",
+    "sha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+  }
+]

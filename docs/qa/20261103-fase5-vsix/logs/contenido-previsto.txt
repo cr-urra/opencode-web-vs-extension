@@ -1,0 +1,6 @@
+LICENSE
+README.md
+package.json
+images/icon.png
+images/icon.svg
+dist/extension.js

@@ -1,0 +1,22 @@
+[
+  {
+    "port": 22156,
+    "listening": false,
+    "exitCode": 1
+  },
+  {
+    "port": 50476,
+    "listening": true,
+    "exitCode": 0
+  },
+  {
+    "port": 52845,
+    "listening": false,
+    "exitCode": 1
+  },
+  {
+    "port": 52846,
+    "listening": false,
+    "exitCode": 1
+  }
+]

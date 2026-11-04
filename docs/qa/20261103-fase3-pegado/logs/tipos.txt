@@ -1,0 +1,4 @@
+
+> opencode-web-for-ide@1.14.43 check-types
+> tsc --noEmit
+

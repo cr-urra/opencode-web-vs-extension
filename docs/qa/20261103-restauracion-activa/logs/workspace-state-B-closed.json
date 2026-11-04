@@ -1,0 +1,25 @@
+{
+  "state": {
+    "tabs": [
+      {
+        "type": "draft",
+        "draftID": "aa96be33-1e5e-4f4a-a862-722b9423908a",
+        "server": "http://127.0.0.1:51536",
+        "directory": "/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures"
+      },
+      {
+        "type": "session",
+        "server": "http://127.0.0.1:51536",
+        "sessionId": "ses_e5cfdcb91ffeXqDcfudAsPrzjN"
+      },
+      {
+        "type": "session",
+        "server": "http://127.0.0.1:51536",
+        "sessionId": "ses_e5cfdcb9dffeEox4hc1EH4vOmO"
+      }
+    ],
+    "recent": {
+      "key": "http://127.0.0.1:51536\n/server/aHR0cDovLzEyNy4wLjAuMTo1MTUzNg/session/ses_e5cfdcb91ffeXqDcfudAsPrzjN"
+    }
+  }
+}

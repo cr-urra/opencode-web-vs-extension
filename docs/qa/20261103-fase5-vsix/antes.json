@@ -1,0 +1,22 @@
+[
+  {
+    "file": "package.json",
+    "sha256": "368483fc44b89f90d94f7b2e084894e4a094968790358772f7a28dd156c5bd1d"
+  },
+  {
+    "file": ".vscodeignore",
+    "sha256": "1ea291de358aefd45cb6327479afa4d7d928bcde0ff63bef63bb9dec9f0587e1"
+  },
+  {
+    "file": "README.md",
+    "sha256": "5626d8adc1985acd29ead352c31015d079fd8276b95a89b6077b68efc99b8e84"
+  },
+  {
+    "file": "LICENSE",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  {
+    "file": "dist/extension.js",
+    "sha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+  }
+]

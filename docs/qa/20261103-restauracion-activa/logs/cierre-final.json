@@ -1,0 +1,198 @@
+[
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window10/exthost/output_logging_20261103T202023/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 49083,
+        "listening": false
+      },
+      {
+        "port": 51391,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window11/exthost/output_logging_20261103T202500/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 39438,
+        "listening": false
+      },
+      {
+        "port": 51507,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window11/exthost/output_logging_20261103T202507/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 23023,
+        "listening": false
+      },
+      {
+        "port": 51536,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T170158/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 35051,
+        "listening": false
+      },
+      {
+        "port": 50239,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T164454/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 43914,
+        "listening": false
+      },
+      {
+        "port": 49666,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T170146/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 17967,
+        "listening": false
+      },
+      {
+        "port": 50214,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T170125/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 29283,
+        "listening": false
+      },
+      {
+        "port": 50186,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window5/exthost/output_logging_20261103T183441/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 26281,
+        "listening": false
+      },
+      {
+        "port": 50424,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window12/exthost/output_logging_20261103T202727/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 39547,
+        "listening": false
+      },
+      {
+        "port": 51674,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window9/exthost/output_logging_20261103T195032/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 45485,
+        "listening": false
+      },
+      {
+        "port": 50768,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window9/exthost/output_logging_20261103T195047/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 39259,
+        "listening": false
+      },
+      {
+        "port": 50798,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window7/exthost/output_logging_20261103T194512/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 27944,
+        "listening": false
+      },
+      {
+        "port": 50598,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window6/exthost/output_logging_20261103T183525/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 20095,
+        "listening": false
+      },
+      {
+        "port": 50461,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window8/exthost/output_logging_20261103T194958/1-OpenCode.log",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 50081,
+        "listening": false
+      },
+      {
+        "port": 50731,
+        "listening": false
+      }
+    ]
+  }
+]

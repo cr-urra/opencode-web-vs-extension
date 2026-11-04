@@ -1,0 +1,313 @@
+Window: "[Host de desarrollo de la extensión] copiar-fase4.txt — workspace (área de trabajo) — QA-raiz-manual", App: VSCodium.
+0 ventana estándar [Host de desarrollo de la extensión] copiar-fase4.txt — workspace (área de trabajo) — QA-raiz-manual, URL: file:///private/tmp/opencode-manual-qa-Rfgyvg/workspace/copiar-fase4.txt, Secondary Actions: Raise
+	1 container [Host de desarrollo de la extensión] copiar-fase4.txt — workspace (área de trabajo) — QA-raiz-manual
+		2 container
+			3 Contenido HTML [Host de desarrollo de la extensión] copiar-fase4.txt — workspace (área de trabajo) — QA-raiz-manual, URL: vscode-file://vscode-app/Applications/VSCodium.app/Contents/Resources/app/out/vs/code/electron-browser/workbench/workbench.html
+				4 container
+					5 container
+						6 container
+							7 barra de herramientas
+								8 botón (disabled) Volver (⌃-)
+									9 texto 
+								10 botón (disabled) Hacia delante (⌃⇧-)
+									11 texto 
+								12 botón [Host de desarrollo de la extensión] copiar-fase4.txt — workspace (área de trabajo) — QA-raiz-manual
+							13 barra de herramientas Acciones de título
+								14 botón de activación Description: Alternar barra lateral principal (⌘B), Value: 1
+									15 texto 
+								16 botón Personalizar diseño...
+									17 texto 
+								18 botón de activación Description: Alternar panel (⌘J), Value: 0
+									19 texto 
+								20 botón de activación Description: Alternar barra lateral secundaria (⌥⌘B), Value: 1
+									21 texto 
+						22 container
+							23 container
+								24 grupo de pestañas Modificador de vista activa
+									25 tab (selected) Explorador (⇧⌘E), Value: 1
+										26 container Explorador (⇧⌘E)
+											27 texto 
+									28 tab (settable, integer) Buscar (⇧⌘F), Value: 0
+										29 container Buscar (⇧⌘F)
+											30 texto 
+									31 tab (settable, integer) Control de código fuente (⌃⇧G), Value: 0
+										32 container Control de código fuente (⌃⇧G)
+											33 texto 
+									34 tab (settable, integer) Ejecución y depuración (⇧⌘D), Value: 0
+										35 container Ejecución y depuración (⇧⌘D)
+											36 texto 
+									37 tab (settable, integer) Extensiones (⇧⌘X), Value: 0
+										38 container Extensiones (⇧⌘X)
+											39 texto 
+								40 barra de herramientas Administrar
+									41 botón emergente Cuentas
+										42 container Cuentas
+											43 texto 
+									44 botón emergente Administrar QA-raiz-manual (perfil)
+										45 container Administrar QA-raiz-manual (perfil)
+											46 texto 
+										47 texto QA
+							48 container
+								49 cabecera EXPLORADOR, Value: 2
+									50 texto EXPLORADOR
+								51 barra de herramientas acciones de Explorador
+									52 botón emergente Vistas y más acciones...
+								53 container
+									54 container
+										55 botón Sección del explorador: workspace (área de trabajo)
+											56 texto 
+											57 cabecera Description: Sección del explorador: workspace (área de trabajo), Value: 3
+												58 texto WORKSPACE (ÁREA DE TRABAJO)
+										59 contorno Explorador de archivos
+											60 container
+												61 row workspace
+													62 container
+														63 texto 
+														64 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+															65 texto workspace
+												66 row .vscode
+													67 container
+														68 texto 
+														69 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/.vscode
+															70 texto .vscode
+												71 row archivo con espacios ñ.txt
+													72 container
+														73 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/archivo con espacios ñ.txt
+															74 texto 
+															75 texto archivo con espacios ñ.txt
+												76 row contexto.txt
+													77 container
+														78 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/contexto.txt
+															79 texto 
+															80 texto contexto.txt
+												81 row (selected) copiar-fase4.txt
+													82 container
+														83 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/copiar-fase4.txt
+															84 texto 
+															85 texto copiar-fase4.txt
+												86 row imagen.png
+													87 container
+														88 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/imagen.png
+															89 texto 
+															90 texto imagen.png
+												91 row posicion-fase4.txt
+													92 container
+														93 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/posicion-fase4.txt
+															94 texto 
+															95 texto posicion-fase4.txt
+												96 row workspace.code-workspace
+													97 container
+														98 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/workspace.code-workspace
+															99 texto 
+															100 texto workspace.code-workspace
+									101 botón Sección Esquema
+										102 texto 
+										103 cabecera ESQUEMA, Value: 3
+											104 texto ESQUEMA
+									105 botón Sección línea de tiempo
+										106 texto 
+										107 cabecera LÍNEA DE TIEMPO, Value: 3
+											108 texto LÍNEA DE TIEMPO
+							109 container
+								110 container
+								111 container
+									112 container
+										113 container
+											114 grupo de pestañas
+												115 tab (selected) Description: copiar-fase4.txt, Value: 1
+													116 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/copiar-fase4.txt
+														117 texto 
+														118 texto copiar-fase4.txt
+													119 barra de herramientas Acciones de pestaña
+														120 botón Cerrar (⌘W)
+															121 texto 
+												122 tab (settable, integer) Description: posicion-fase4.txt, Value: 0
+													123 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/posicion-fase4.txt
+														124 texto 
+														125 texto posicion-fase4.txt
+													126 barra de herramientas Acciones de pestaña
+														127 botón Cerrar (⌘W)
+															128 texto 
+												129 tab (settable, integer) Description: contexto.txt, vista previa, Value: 0
+													130 container contexto.txt
+														131 texto 
+														132 texto contexto.txt
+													133 barra de herramientas Acciones de pestaña
+														134 botón Cerrar (⌘W)
+															135 texto 
+											136 barra de herramientas Acciones de editor
+												137 botón Dividir Editor Derecho (⌃⌥⌘') [⌥] Dividir Editor Abajo
+													138 texto 
+												139 botón emergente Más Acciones...
+													140 texto 
+										141 lista de contenidos
+											142 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/copiar-fase4.txt
+												143 texto 
+												144 texto copiar-fase4.txt
+										145 container copiar-fase4.txt
+											146 container
+												147 editor (settable) Description: copiar-fase4.txt, Value: QA_FASE4
+línea_ñ
+													148 texto QA_FASE4
+línea_ñ
+							149 container
+								150 grupo de pestañas Modificador de vista activa
+									151 tab (selected) Description: OpenCode, Value: 1
+										152 container OpenCode
+											153 texto OPENCODE
+								154 barra de herramientas acciones de OpenCode
+								155 barra de herramientas
+									156 botón de activación Description: Maximizar barra lateral secundaria, Value: 0
+										157 texto 
+									158 botón Ocultar barra lateral secundaria (⌥⌘B)
+										159 texto 
+								160 container
+						161 container
+							162 container remote
+								163 botón remote
+							164 container No hay problemas
+								165 botón No hay problemas
+									166 texto 
+									167 texto  0 
+									168 texto 
+									169 texto  0
+							170 container Notificaciones
+								171 botón Notificaciones
+							172 container Texto sin formato
+								173 botón Texto sin formato
+							174 container LF
+								175 botón LF
+							176 container UTF-8
+								177 botón UTF-8
+							178 container Espacios: 4
+								179 botón Espacios: 4
+							180 container Lín. 2, Col. 8 (16 seleccionada)
+								181 botón Lín. 2, Col. 8 (16 seleccionada)
+							182 container Lector de pantalla optimizado
+								183 botón Lector de pantalla optimizado
+					184 Contenido HTML vscode-webview://0195hvsvcbbim5lk6mals2nqbgef06eb860iug39dos32sl6llah/index.html?id=6024cd0f-00f5-4b55-8fb3-953172a8cd62&parentId=11&origin=21688097-792b-4ac9-ae12-b228fc67d3cd&swVersion=6&extensionId=UWEsmith.opencode-web-for-ide&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=6b4391c6-b64c-47d9-94c0-cc1046280ef0&purpose=webviewView
+						185 container OpenCode
+							186 Contenido HTML vscode-webview://0195hvsvcbbim5lk6mals2nqbgef06eb860iug39dos32sl6llah/index.html?id=6024cd0f-00f5-4b55-8fb3-953172a8cd62&parentId=11&origin=21688097-792b-4ac9-ae12-b228fc67d3cd&swVersion=6&extensionId=UWEsmith.opencode-web-for-ide&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=6b4391c6-b64c-47d9-94c0-cc1046280ef0&purpose=webviewView
+								187 Contenido HTML OpenCode, URL: 127.0.0.1:53049/new-session?draftId=44ffae4b-83f1-4977-848b-d06ecb1536e6
+									188 container Pestañas
+										189 cabecera Pestañas, Value: 2
+											190 texto Pestañas
+										191 container
+											192 container
+												193 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=3cfbd269-a354-4c70-b4c5-964004d4c78b
+												194 botón Cerrar pestaña
+											195 container
+												196 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=7279a347-abfb-4986-bb2a-b35acc44d437
+												197 botón Cerrar pestaña
+											198 container
+												199 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=af709ff9-38a9-448d-b486-922666e2cb23
+												200 botón Cerrar pestaña
+											201 container
+												202 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=fe890298-bca0-477a-be35-adb64cf4030d
+												203 botón Cerrar pestaña
+											204 container
+												205 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=a809d8ca-6e73-4f36-ab5d-28a18af7ee44
+												206 botón Cerrar pestaña
+											207 container
+												208 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=13214202-16b8-4b02-a11a-cb0bd4bee66e
+												209 botón Cerrar pestaña
+											210 container
+												211 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=f73db4d2-0622-418c-8497-2285ed3b2fb6
+												212 botón Cerrar pestaña
+											213 container
+												214 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=d03c9ab8-dae0-4bee-9694-e0f422128cb1
+												215 botón Cerrar pestaña
+											216 container
+												217 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=6dd36414-d840-4e3b-95b3-e125456dadde
+												218 botón Cerrar pestaña
+											219 container
+												220 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=a2e4ed86-06c6-4618-87a8-3f283d350225
+												221 botón Cerrar pestaña
+											222 container
+												223 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=126173b5-17aa-4697-b1a8-d0d002ce1b20
+												224 botón Cerrar pestaña
+											225 container
+												226 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=dd214045-0b41-4a43-a3e6-66ac2009c29f
+												227 botón Cerrar pestaña
+											228 container
+												229 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=539d55ab-b809-4784-a6eb-bb6717781f0e
+												230 botón Cerrar pestaña
+											231 container
+												232 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=9dc1411e-41f6-4b3a-b943-aad1371815df
+												233 botón Cerrar pestaña
+											234 vínculo W QA fase4 persistencia A Cerrar pestaña
+												235 container
+													236 link Description: W QA fase4 persistencia A, Value: 127.0.0.1:53049/server/aHR0cDovLzEyNy4wLjAuMTo1MzA0OQ/session/ses_e605b7ec0ffeRaxeolYNQZdnEA
+													237 botón Cerrar pestaña
+											238 vínculo W QA fase4 persistencia B Cerrar pestaña
+												239 container
+													240 link Description: W QA fase4 persistencia B, Value: 127.0.0.1:53049/server/aHR0cDovLzEyNy4wLjAuMTo1MzA0OQ/session/ses_e605b7eb1ffeSKGbltOHRbiy9X
+													241 botón Cerrar pestaña
+											242 container
+												243 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=f3ad1a84-899a-4382-858f-034a688fa118
+												244 botón Cerrar pestaña
+											245 container
+												246 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=12cb0333-bf97-45fd-8166-94e640043368
+												247 botón Cerrar pestaña
+											248 container
+												249 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=f859b6a2-95e1-45d2-90c2-c677dd553372
+												250 botón Cerrar pestaña
+											251 container
+												252 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=b7e96003-891d-4042-a5a1-bcc08951f781
+												253 botón Cerrar pestaña
+											254 container
+												255 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=d23064ac-1d92-4b89-bf7e-e861a8df1737
+												256 botón Cerrar pestaña
+											257 container
+												258 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=86d252bc-7f55-4af8-8d02-af075ac3a8c3
+												259 botón Cerrar pestaña
+											260 container
+												261 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=734ba117-b149-41c2-b27b-70e098f765b7
+												262 botón Cerrar pestaña
+											263 container
+												264 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=f4231c1b-c043-40a8-8760-e9265a13cb9d
+												265 botón Cerrar pestaña
+											266 container
+												267 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=5898ffd9-d228-4a9a-91a3-350e3329084a
+												268 botón Cerrar pestaña
+											269 container
+												270 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=8382e47f-b952-4220-8e38-85cbcd226b72
+												271 botón Cerrar pestaña
+											272 container
+												273 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=db78b90c-0175-43d2-bace-d4a8e7f55917
+												274 botón Cerrar pestaña
+											275 container
+												276 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=fcaba5c8-f53a-4de4-b756-5754bc3c6c67
+												277 botón Cerrar pestaña
+											278 container
+												279 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=9c69c5c0-4b04-4638-a385-736db2f81ea4
+												280 botón Cerrar pestaña
+											281 container
+												282 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=b6a8f436-27fd-483e-aa8a-50ff7e230023
+												283 botón Cerrar pestaña
+											284 container
+												285 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=0fb2b87b-ea02-427a-adfd-918be77bac3e
+												286 botón Cerrar pestaña
+											287 container
+												288 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=44ffae4b-83f1-4977-848b-d06ecb1536e6
+												289 botón Cerrar pestaña
+										290 botón Nueva sesión
+										291 botón Inicio
+										292 botón Ajustes
+										293 botón Ayuda
+	294 botón de cierre
+	295 botón para pantalla completa Help: este botón también tiene una acción para acercar/alejar la ventana, Secondary Actions: acercar/alejar ventana
+	296 botón de minimización
+297 menu bar
+	298 VSCodium
+	299 Archivo
+	300 Editar
+	301 Selección
+	302 Ver
+	303 Ir
+	304 Ejecutar
+	305 Terminal
+	306 Ventana
+	307 Ayuda
+
+The focused UI element is 193 link Description: Sesión, Value: 127.0.0.1:53049/new-session?draftId=3cfbd269-a354-4c70-b4c5-964004d4c78b

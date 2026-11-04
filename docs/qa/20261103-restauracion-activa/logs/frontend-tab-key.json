@@ -1,0 +1,14 @@
+[
+  {
+    "token": "function Ln(e,t){",
+    "source": "OpenCode 2.2.5 servido por el proxy local de QA /_assets/current-CS21lgrW.js",
+    "sourceSha256": "a1027a0658e7b8307bef9a6fc2e023da1fd3f732a77770bbf65059ec7414576d",
+    "snippet": "function Ln(e,t){return`/server/${ye(e)}/session/${t}`}function Rn(e){let t=nt(e);if(!t||ye(t)!==e)throw Error(`Invalid server route`);return at.Key.make(t)}async function zn(e,t){let n=new Set([e.id]),r=e;for(;r.parentID;){if(n.has(r.parentID))throw Error(`Session parent cycle: ${r.parentID}`);n.add(r.parentID),r=await t(r.parentID)}return r}function Bn(e){"
+  },
+  {
+    "token": "qa=e=>",
+    "source": "OpenCode 2.2.5 servido por el proxy local de QA /_assets/current-CS21lgrW.js",
+    "sourceSha256": "a1027a0658e7b8307bef9a6fc2e023da1fd3f732a77770bbf65059ec7414576d",
+    "snippet": "qa=e=>e.type===`draft`?Ka(e.draftID):Ln(e.server,e.routeSessionId??e.sessionId),Z=e=>e.type===`draft`?`draft:${e.draftID}`:`${e.server}\\n${Ln(e.server,e.sessionId)}`;function Ja(e,t,n){return Xa(e,t,n.id)}function Ya(e,t,n){return e.find(e=>e.type===`session`&&e.server===t&&(e.sessionId===n||e.routeSessionId===n))}function Xa(e,t,n){return!!Ya(e,t,n)}var{use"
+  }
+]

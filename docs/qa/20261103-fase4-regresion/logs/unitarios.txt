@@ -1,0 +1,62 @@
+
+> opencode-web-for-ide@1.14.43 test:unit
+> tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js
+
+✔ keeps the legacy project registry behavior (1.273209ms)
+✔ selects and opens the workspace draft in OpenCode v2 (2.838709ms)
+✔ restores the recent v2 session without creating a new draft (1.121708ms)
+✔ is idempotent for an existing v2 workspace draft (0.767875ms)
+✔ restores every persisted v2 tab and remaps the previous server origin (1.065041ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (0.54775ms)
+✔ validates persisted workspace tab state (0.107125ms)
+✔ pastes into the original input and selection after focus and caret change (3.263875ms)
+✔ inserts plain text into contenteditable with Selection/Range when paste and execCommand do not handle it (0.411333ms)
+✔ does not apply an already consumed clipboard response twice (0.28525ms)
+✔ ignores unsolicited clipboard responses (0.240834ms)
+✔ keeps two rapid independent pastes without a time based suppression window (0.32875ms)
+✔ handles two rapid native paste shortcuts as independent requests (0.299917ms)
+✔ correlates out of order clipboard replies to their respective inputs (1.199375ms)
+✔ does not fall back after the frontend handles the paste event (0.91475ms)
+✔ does not manually insert twice when execCommand handles insertion (0.56775ms)
+✔ does not redirect a paste when the captured target has been detached (0.319458ms)
+✔ does not manually modify a read only input (0.269917ms)
+✔ does not modify an input that became disabled while awaiting the clipboard (0.215292ms)
+✔ does not insert into a contenteditable target after editing has been disabled (0.218166ms)
+✔ keeps selected input text when the clipboard is empty (0.207792ms)
+✔ keeps selected contenteditable text when the clipboard is empty (0.207292ms)
+✔ appends inside the original editable when there was no selection to capture (0.208917ms)
+✔ releases clipboard requests when the parent bridge cannot receive messages (0.201625ms)
+✔ releases expired clipboard requests and ignores late responses (0.231834ms)
+✔ cleans up failed clipboard requests without mutating the prompt (0.189167ms)
+✔ keeps native keyboard handling on non macOS platforms (0.18875ms)
+✔ does not use the legacy append endpoint as a paste fallback (0.196041ms)
+✔ parses current and legacy OpenCode versions (0.62075ms)
+✔ detects the v2 UI independently from the CLI major version (0.067417ms)
+✔ creates the credentials expected by OpenCode (0.076833ms)
+✔ uses the configured executable before PATH (0.7725ms)
+✔ reports an invalid configured executable without silently falling back (0.08425ms)
+✔ finds OpenCode on PATH (0.723875ms)
+✔ finds the default OpenCode installation outside PATH (0.130833ms)
+✔ honors OPENCODE_INSTALL_DIR and XDG_BIN_DIR (0.071666ms)
+✔ uses PATHEXT when resolving OpenCode on Windows (0.111542ms)
+✔ waits for a mounted prompt and delivers queued commands in order (6.571291ms)
+✔ defers even when the prompt already exists, allowing mount listeners to finish (2.276ms)
+✔ expires commands instead of delivering them to a later unrelated editor (1.191125ms)
+✔ ignores detached and noneditable elements until a connected editor appears (0.393916ms)
+✔ a failed command does not block the next queued action (0.334166ms)
+✔ returns a Windows workspace path without duplicating the drive (0.390458ms)
+✔ returns a Windows common parent on the same drive (0.075833ms)
+✔ returns the Windows drive root when it is the only common parent (0.051708ms)
+✔ returns undefined for Windows paths on different drives (0.335083ms)
+✔ handles Windows UNC workspace paths (0.094125ms)
+✔ compares Windows paths case-insensitively (0.057334ms)
+✔ returns a POSIX common parent (0.059708ms)
+✔ keeps POSIX path comparison case-sensitive (0.049625ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 183.823041

@@ -1,0 +1,18 @@
+{
+  "commandHandlers": 4,
+  "handlersIdentical": true,
+  "coreManifestIdentical": true,
+  "clipboardBindingsIdentical": true,
+  "identicalBridgeFunctionCount": 27,
+  "changedBridgeFunctionCount": 4,
+  "macOnlyBridgeFunctionCount": 1,
+  "sourceHashesUnchanged": [
+    "mac",
+    "raiz"
+  ],
+  "localLinksChecked": 18,
+  "missingLinks": [],
+  "syntax": "Ambos bootstrap y ambos wrappers válidos en node:vm; no equivale a prueba de navegador",
+  "newGuiTests": false,
+  "productionSourcesChanged": false
+}

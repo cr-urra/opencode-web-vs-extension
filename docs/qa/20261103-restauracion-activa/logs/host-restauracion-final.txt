@@ -1,0 +1,42 @@
+[2026-11-03T23:27:27.104Z] Activating extension
+[2026-11-03T23:27:27.108Z] Resolving sidebar webview
+[2026-11-03T23:27:27.108Z] Resolved workspace root: /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+[2026-11-03T23:27:27.472Z] Detected OpenCode CLI major: 2
+[2026-11-03T23:27:27.472Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T23:27:27.473Z] Started opencode serve on port 39547 with cwd /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+[2026-11-03T23:27:27.607Z] Opening sidebar container
+[2026-11-03T23:27:27.803Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T23:27:27.803Z] opencode server is ready on port 39547
+[2026-11-03T23:27:27.805Z] Started opencode proxy on port 51674
+[2026-11-03T23:27:27.805Z] Loading webview iframe: http://127.0.0.1:51674/
+[2026-11-03T23:27:27.805Z] Loading authenticated OpenCode iframe: http://127.0.0.1:51674/
+[2026-11-03T23:27:27.817Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T23:27:27.860Z] Serving injected workspace bootstrap script
+[2026-11-03T23:27:27.885Z] Saved OpenCode workspace state: 3 tabs
+[2026-11-03T23:27:28.025Z] Injected script: clipboard bridge installed
+[2026-11-03T23:27:28.029Z] Injected script: paste bridge installed
+[2026-11-03T23:27:28.031Z] Injected script: edit command bridge installed
+[2026-11-03T23:27:28.031Z] Injected script: insert text bridge installed
+[2026-11-03T23:27:28.031Z] Injected script: attachment bridge installed
+[2026-11-03T23:27:28.034Z] Injected script: drop paths bridge installed
+[2026-11-03T23:27:28.034Z] Injected script: drop normalizer installed
+[2026-11-03T23:27:28.034Z] Injected script: seeded opencode.global.dat:server local=/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+[2026-11-03T23:27:28.036Z] Injected script: restored 3 workspace tabs
+[2026-11-03T23:27:28.036Z] Injected script: selected workspace /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures and tab http://127.0.0.1:51674
+/server/aHR0cDovLzEyNy4wLjAuMTo1MTY3NA/session/ses_e5cfdcb91ffeXqDcfudAsPrzjN
+[2026-11-03T23:27:28.480Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T23:28:34.639Z] Saved OpenCode workspace state: 4 tabs
+[2026-11-03T23:28:42.325Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T23:28:42.325Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T23:28:42.331Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T23:28:42.333Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T23:28:42.333Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T23:28:42.334Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T23:28:42.349Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T23:28:51.901Z] Saved OpenCode workspace state: 5 tabs
+[2026-11-03T23:28:54.168Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T23:28:54.169Z] Attaching files to OpenCode: imagen.png
+[2026-11-03T23:28:54.172Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-03T23:28:54.175Z] Injected script: drop types: Files
+[2026-11-03T23:28:54.175Z] Injected script: redispatched synthetic attachment drop: imagen.png
+[2026-11-03T23:29:02.904Z] Saved OpenCode workspace state: 5 tabs

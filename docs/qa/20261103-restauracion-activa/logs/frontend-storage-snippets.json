@@ -1,0 +1,7 @@
+[
+  {
+    "file": "current-CS21lgrW.js",
+    "needle": "tabs.recent",
+    "snippet": "t&&(e.sessionId===n||e.routeSessionId===n))}function Xa(e,t,n){return!!Ya(e,t,n)}var{use:Za,provider:Qa}=A({name:`Tabs`,gate:!1,init:()=>{let e=ct(),t=Lr(),n=ce(),[r,a,s,c]=F(z.window(`tabs`),la,[]),[l,u,,d]=F(z.window(`tabs.recent`),ua,{key:void 0}),[f,p,,m]=F(z.window(`tabs.info`),fa,{}),[h,g,,_]=F(z.window(`tabs.panes`),pa,{}),[v,y,,x]=F(z.window(`tabs.closed`),ha,[]),[S,C]=P({}),T=bn(),E=xn(),D=Ur(i()),O=La(),ee=new Set,k=0,te,A=()=>k?te:l.key,j=e=>{let t=++k;if(te=e,d()){u(`key`,e);return}d.promise?.then(()=>{t===k&&u(`key`,e)})},ne=e=>{let t=()=>y(t=>e(t));if(x()){t();return}x.promise?.then(t)},re=e=>{for(let t of ge()){let r=z.draft(e,t);me(t===`prompt`?z.prompt(r):r,n)}},ie=e=>{f[e]&&p(N(t=>{delete t[e]}))},ae=e=>{h[e]&&g(N(t=>{delete t[e]}))};o(D.dispose);let oe=()=>new Set([...e.list.map(at.key),...t.entries().map(e=>e.key)]);b(()=>{if(!c()||!d())r"
+  }
+]

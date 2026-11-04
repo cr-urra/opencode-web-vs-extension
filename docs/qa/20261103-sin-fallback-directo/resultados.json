@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-03",
+  "status": "Retiro y regresión funcional aprobados; restauración corregida y retest PASS; fase 4 cerrada",
+  "extensionVersion": "1.14.43",
+  "validationTarget": {
+    "openCode": "2.2.5",
+    "os": "macOS",
+    "ide": "VSCodium",
+    "runtimeVersionBlockingAdded": false
+  },
+  "removed": [
+    "Inserción directa con Range.deleteContents/insertNode",
+    "Asignación directa de target.value para pegar",
+    "InputEvent sintético de esas inserciones directas"
+  ],
+  "retained": [
+    "Captura/restauración del elemento, offsets y Range de selección",
+    "ClipboardEvent paste consumido por el frontend",
+    "execCommand insertText",
+    "IDs, caducidad y limpieza del protocolo de portapapeles"
+  ],
+  "checks": {
+    "redBefore": {
+      "tests": 56,
+      "pass": 52,
+      "fail": 4,
+      "log": "logs/antes.txt"
+    },
+    "unitTests": {
+      "tests": 56,
+      "pass": 56,
+      "fail": 0,
+      "log": "logs/unitarios.txt"
+    },
+    "types": {
+      "result": "PASS",
+      "log": "logs/tipos.txt"
+    },
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 754,
+      "log": "logs/lint.txt"
+    },
+    "build": {
+      "result": "PASS",
+      "log": "logs/build.txt"
+    },
+    "generatedBootstrapCases": 6,
+    "startupGateCases": 3,
+    "gui": {
+      "result": "PASS en el alcance con evidencia mixta: usuario y retest nativo",
+      "reason": "El control nativo de VSCodium usado en fase 4 ya no está disponible; no se repitieron pruebas gráficas del build nuevo.",
+      "manualRecord": "ejecucion-manual.json",
+      "finalEvidence": "../20261103-restauracion-activa/gui.json"
+    },
+    "manualClosure": {
+      "result": "PASS",
+      "evidence": "logs/cierre-manual.json",
+      "portsChecked": 8
+    }
+  },
+  "rangeUndo": {
+    "implementationStatus": "Eliminado el camino que originaba el problema",
+    "runtimeVerification": "Usuario confirmó pegar/deshacer/rehacer tras retirar la inserción directa. La restauración posterior se corrigió y pasó el retest nativo."
+  },
+  "artifacts": [
+    {
+      "file": "src/opencodeClipboard.ts",
+      "sha256": "67945cceaf59f8db1bd2ba60ad83d7cc2be66a07851979031283bb319e46356b",
+      "changed": true
+    },
+    {
+      "file": "src/opencodeClipboard.test.ts",
+      "sha256": "68d520b1f3260e7ffffb8f0e5f4c856c66ab82e51be1095237e522b47a3be757",
+      "changed": true
+    },
+    {
+      "file": "src/extension.ts",
+      "sha256": "261d3d3840e94f85fc0de28b6577f3a5263b4fc76d9b68577abec944b3bf6908",
+      "changed": false
+    },
+    {
+      "file": "src/opencodeBootstrap.ts",
+      "sha256": "df39b5b4903a41d73ab25274d3f3c8398c485e9da4175dfcca66d8f3ec5673a9",
+      "changed": false
+    },
+    {
+      "file": "src/opencodePromptQueue.ts",
+      "sha256": "1634e18dfc2787a0333f5612eeb58c89c9daf4c1597032293927c6788d6ddacf",
+      "changed": false
+    },
+    {
+      "file": "package.json",
+      "sha256": "368483fc44b89f90d94f7b2e084894e4a094968790358772f7a28dd156c5bd1d",
+      "changed": false
+    },
+    {
+      "file": "README.md",
+      "sha256": "72a94ea8ee0777a237fe7bad6d649d6122501584268e604f2a16aa4dd2d9097c",
+      "changed": true
+    },
+    {
+      "file": "dist/extension.js",
+      "sha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa",
+      "changed": true
+    }
+  ],
+  "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa",
+  "evidencePolicy": "logs de esta revisión son pruebas automáticas; capturas de fase 4 corresponden a builds anteriores.",
+  "activeSessionFollowup": {
+    "report": "../20261103-restauracion-activa/reporte.md",
+    "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+    "status": "Automático y GUI PASS"
+  }
+}

@@ -1,0 +1,11 @@
+--- README.md fuente
++++ extension/readme.md VSIX
+@@ -73,7 +73,7 @@
+ 
+ The paste bridge preserves the original editable field and selection while reading the clipboard. It ignores repeated or expired responses and stops if the field is removed or becomes read-only. It first dispatches a plain-text paste event to the frontend, then tries `execCommand("insertText")` if the event is not handled. If both methods fail, it logs the failure without directly rewriting the field value or inserting DOM nodes. Selection/Range is still used to capture and restore the caret or selection.
+ 
+-The clipboard validation target for this change is OpenCode 2.2.5 on macOS with VSCodium. Other OpenCode versions, the legacy UI, and Windows/Linux have not been graphically validated for this change. The [removal report](docs/qa/20261103-sin-fallback-directo/reporte.md) records automated checks and completed manual regression. The [active-session follow-up](docs/qa/20261103-restauracion-activa/reporte.md) records the subsequent fix and native GUI verification.
++The clipboard validation target for this change is OpenCode 2.2.5 on macOS with VSCodium. Other OpenCode versions, the legacy UI, and Windows/Linux have not been graphically validated for this change. The [removal report](https://github.com/anomalyco/opencode/blob/HEAD/docs/qa/20261103-sin-fallback-directo/reporte.md) records automated checks and completed manual regression. The [active-session follow-up](https://github.com/anomalyco/opencode/blob/HEAD/docs/qa/20261103-restauracion-activa/reporte.md) records the subsequent fix and native GUI verification.
+ 
+ ## File Transfer Strategy
+ 

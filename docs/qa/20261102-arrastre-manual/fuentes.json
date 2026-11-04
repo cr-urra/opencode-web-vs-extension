@@ -1,0 +1,10 @@
+{
+  "raiz": {
+    "sourceSha256": "92efe63f36d6740f8d26c7992c5aefa3f33295536e4b2c29f8fe9783c19c8c47",
+    "matchesBaseline": true
+  },
+  "macos": {
+    "sourceSha256": "c2b1ca7da5671bf6a991580b8b432b7ffd734cc9ac535ce62d423a2a8b832804",
+    "matchesBaseline": true
+  }
+}

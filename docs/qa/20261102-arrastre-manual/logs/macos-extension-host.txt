@@ -1,0 +1,112 @@
+[2026-11-03T02:47:05.310Z] Activating extension
+[2026-11-03T02:47:05.323Z] Resolving sidebar webview
+[2026-11-03T02:47:05.323Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:47:05.328Z] Started opencode serve on port 42494 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:47:05.787Z] opencode server is ready on port 42494
+[2026-11-03T02:47:05.788Z] Started opencode proxy on port 49611
+[2026-11-03T02:47:05.788Z] Appending prompt to opencode at http://127.0.0.1:42494: Workspace context:
+[2026-11-03T02:47:05.795Z] Failed to append workspace context: OpenCode append prompt failed with HTTP 405 Method Not Allowed
+[2026-11-03T02:47:05.795Z] Loading webview iframe: http://127.0.0.1:49611/
+[2026-11-03T02:47:05.809Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:47:05.812Z] Opening sidebar container
+[2026-11-03T02:47:05.814Z] Serving injected workspace bootstrap script
+[2026-11-03T02:47:05.838Z] OpenCode iframe bridge ready: macPasteFallback=true
+[2026-11-03T02:47:06.066Z] Injected script: clipboard bridge installed
+[2026-11-03T02:47:06.066Z] Injected script: paste bridge installed
+[2026-11-03T02:47:06.068Z] Injected script: insert text bridge installed
+[2026-11-03T02:47:06.068Z] Injected script: attachment bridge installed
+[2026-11-03T02:47:06.069Z] Injected script: edit command bridge installed
+[2026-11-03T02:47:06.072Z] Injected script: drop paths bridge installed
+[2026-11-03T02:47:06.072Z] Injected script: drop normalizer installed
+[2026-11-03T02:47:06.072Z] Injected script: bootstrap executing for /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:47:06.076Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:47:06.415Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:51:04.312Z] Reusing opencode server at http://127.0.0.1:42494
+[2026-11-03T02:51:04.312Z] Loading webview iframe: http://127.0.0.1:49611/
+[2026-11-03T02:51:04.313Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:51:04.328Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:51:04.371Z] Serving injected workspace bootstrap script
+[2026-11-03T02:51:04.400Z] OpenCode iframe bridge ready: macPasteFallback=true
+[2026-11-03T02:51:04.404Z] Injected script: clipboard bridge installed
+[2026-11-03T02:51:04.405Z] Injected script: paste bridge installed
+[2026-11-03T02:51:04.406Z] Injected script: edit command bridge installed
+[2026-11-03T02:51:04.406Z] Injected script: insert text bridge installed
+[2026-11-03T02:51:04.406Z] Injected script: attachment bridge installed
+[2026-11-03T02:51:04.406Z] Injected script: drop paths bridge installed
+[2026-11-03T02:51:04.412Z] Injected script: drop normalizer installed
+[2026-11-03T02:51:04.412Z] Injected script: bootstrap executing for /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:51:04.412Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:51:04.620Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:51:06.345Z] Resolving sidebar webview
+[2026-11-03T02:51:06.555Z] Reusing opencode server at http://127.0.0.1:42494
+[2026-11-03T02:51:06.555Z] Loading webview iframe: http://127.0.0.1:49611/
+[2026-11-03T02:51:06.574Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:51:06.580Z] Serving injected workspace bootstrap script
+[2026-11-03T02:51:06.583Z] Injected script: clipboard bridge installed
+[2026-11-03T02:51:06.584Z] OpenCode iframe bridge ready: macPasteFallback=true
+[2026-11-03T02:51:06.585Z] Injected script: paste bridge installed
+[2026-11-03T02:51:06.585Z] Injected script: edit command bridge installed
+[2026-11-03T02:51:06.586Z] Injected script: insert text bridge installed
+[2026-11-03T02:51:06.586Z] Injected script: attachment bridge installed
+[2026-11-03T02:51:06.586Z] Injected script: drop paths bridge installed
+[2026-11-03T02:51:06.586Z] Injected script: drop normalizer installed
+[2026-11-03T02:51:06.587Z] Injected script: bootstrap executing for /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:51:06.588Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T02:51:06.644Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T02:51:37.842Z] Dropping refs into OpenCode webview: @imagen.png
+[2026-11-03T02:51:37.849Z] Injected script: redispatching synthetic drop: file:imagen.png
+[2026-11-03T02:51:37.850Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T02:51:37.851Z] Injected script: drop payload text/uri-list: file:imagen.png
+[2026-11-03T02:51:37.852Z] Injected script: drop payload text/plain: file:imagen.png
+[2026-11-03T02:51:37.856Z] Injected script: drop paths bridge handled: imagen.png
+[2026-11-03T02:51:45.088Z] Attaching files to OpenCode: imagen.png
+[2026-11-03T02:51:45.093Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-03T02:51:45.093Z] Injected script: drop types: Files
+[2026-11-03T02:51:45.093Z] Injected script: redispatched synthetic attachment drop: imagen.png
+[2026-11-03T03:01:13.731Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T03:01:13.738Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T03:01:13.740Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T03:01:13.741Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T03:01:13.741Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T03:01:13.745Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T03:01:39.912Z] Attaching files to OpenCode: contexto.txt
+[2026-11-03T03:01:39.919Z] Injected script: prepared synthetic attachment: contexto.txt
+[2026-11-03T03:01:39.919Z] Injected script: drop types: Files
+[2026-11-03T03:01:39.920Z] Injected script: redispatched synthetic attachment drop: contexto.txt
+[2026-11-03T03:01:49.647Z] Dropping refs into OpenCode webview: @imagen.png
+[2026-11-03T03:01:49.652Z] Injected script: redispatching synthetic drop: file:imagen.png
+[2026-11-03T03:01:49.653Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T03:01:49.654Z] Injected script: drop payload text/uri-list: file:imagen.png
+[2026-11-03T03:01:49.654Z] Injected script: drop payload text/plain: file:imagen.png
+[2026-11-03T03:01:49.659Z] Injected script: drop paths bridge handled: imagen.png
+[2026-11-03T03:01:57.799Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T03:01:57.805Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T03:01:57.806Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T03:01:57.807Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T03:01:57.807Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T03:01:57.811Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T03:04:20.932Z] Attaching files to OpenCode: imagen.png
+[2026-11-03T03:04:20.935Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-03T03:04:20.936Z] Injected script: drop types: Files
+[2026-11-03T03:04:20.936Z] Injected script: redispatched synthetic attachment drop: imagen.png
+[2026-11-03T03:09:25.928Z] Dropping refs into OpenCode webview: @archivo con espacios ñ.txt @contexto.txt
+[2026-11-03T03:09:25.938Z] Injected script: redispatching synthetic drop: file:archivo con espacios ñ.txt
+[2026-11-03T03:09:25.939Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T03:09:25.940Z] Injected script: drop payload text/uri-list: file:archivo con espacios ñ.txt
+[2026-11-03T03:09:25.940Z] Injected script: drop payload text/plain: file:archivo con espacios ñ.txt
+[2026-11-03T03:09:25.949Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T03:09:25.950Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T03:09:25.950Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T03:09:25.950Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T03:09:25.951Z] Injected script: drop paths bridge handled: archivo con espacios ñ.txt,contexto.txt
+[2026-11-03T03:12:16.848Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T03:12:16.855Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T03:12:16.856Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T03:12:16.857Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T03:12:16.857Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T03:12:16.863Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T03:15:37.741Z] Attaching files to OpenCode: archivo con espacios ñ.txt, imagen.png
+[2026-11-03T03:15:37.747Z] Injected script: prepared synthetic attachment: archivo con espacios ñ.txt
+[2026-11-03T03:15:37.748Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-03T03:15:37.749Z] Injected script: drop types: Files
+[2026-11-03T03:15:37.750Z] Injected script: redispatched synthetic attachment drop: archivo con espacios ñ.txt,imagen.png

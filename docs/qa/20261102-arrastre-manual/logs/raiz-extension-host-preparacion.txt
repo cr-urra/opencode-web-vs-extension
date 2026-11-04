@@ -1,0 +1,44 @@
+[2026-11-03T03:19:16.354Z] Activating extension
+[2026-11-03T03:19:16.856Z] Opening sidebar container
+[2026-11-03T03:19:16.880Z] Resolving sidebar webview
+[2026-11-03T03:19:16.881Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T03:19:16.972Z] Detected OpenCode CLI major: 2
+[2026-11-03T03:19:16.973Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T03:19:16.975Z] Started opencode serve on port 18175 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T03:19:17.211Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T03:19:17.211Z] opencode server is ready on port 18175
+[2026-11-03T03:19:17.213Z] Started opencode proxy on port 50947
+[2026-11-03T03:19:17.213Z] Loading webview iframe: http://127.0.0.1:50947/
+[2026-11-03T03:19:17.213Z] Loading authenticated OpenCode iframe: http://127.0.0.1:50947/
+[2026-11-03T03:19:17.232Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T03:19:17.304Z] Serving injected workspace bootstrap script
+[2026-11-03T03:19:17.334Z] Saved OpenCode workspace state: 1 tabs
+[2026-11-03T03:19:17.553Z] Injected script: clipboard bridge installed
+[2026-11-03T03:19:17.553Z] Injected script: paste bridge installed
+[2026-11-03T03:19:17.553Z] Injected script: edit command bridge installed
+[2026-11-03T03:19:17.553Z] Injected script: insert text bridge installed
+[2026-11-03T03:19:17.553Z] Injected script: attachment bridge installed
+[2026-11-03T03:19:17.554Z] Injected script: drop paths bridge installed
+[2026-11-03T03:19:17.557Z] Injected script: drop normalizer installed
+[2026-11-03T03:19:17.557Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T03:19:17.557Z] Injected script: restored 1 workspace tabs
+[2026-11-03T03:19:17.557Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab draft:3cfbd269-a354-4c70-b4c5-964004d4c78b
+[2026-11-03T03:19:17.847Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T03:20:10.835Z] Resolving sidebar webview
+[2026-11-03T03:20:11.049Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T03:20:11.050Z] Reusing opencode server at http://127.0.0.1:18175
+[2026-11-03T03:20:11.050Z] Loading webview iframe: http://127.0.0.1:50947/
+[2026-11-03T03:20:11.050Z] Loading authenticated OpenCode iframe: http://127.0.0.1:50947/
+[2026-11-03T03:20:11.098Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T03:20:11.107Z] Serving injected workspace bootstrap script
+[2026-11-03T03:20:11.113Z] Injected script: clipboard bridge installed
+[2026-11-03T03:20:11.113Z] Injected script: paste bridge installed
+[2026-11-03T03:20:11.114Z] Injected script: edit command bridge installed
+[2026-11-03T03:20:11.114Z] Saved OpenCode workspace state: 1 tabs
+[2026-11-03T03:20:11.115Z] Injected script: insert text bridge installed
+[2026-11-03T03:20:11.115Z] Injected script: attachment bridge installed
+[2026-11-03T03:20:11.115Z] Injected script: drop paths bridge installed
+[2026-11-03T03:20:11.116Z] Injected script: drop normalizer installed
+[2026-11-03T03:20:11.116Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T03:20:11.116Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab draft:3cfbd269-a354-4c70-b4c5-964004d4c78b
+[2026-11-03T03:20:11.303Z] Proxy injected workspace bootstrap into HTML

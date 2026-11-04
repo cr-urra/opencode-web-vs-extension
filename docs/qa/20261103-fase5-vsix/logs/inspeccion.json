@@ -1,0 +1,58 @@
+{
+  "integrity": "PASS",
+  "fileList": "PASS",
+  "manifest": "PASS",
+  "allProductFilesMatchSource": true,
+  "bundle": "PASS",
+  "license": "Observación preexistente MIT/GPLv3",
+  "entries": [
+    {
+      "path": "extension.vsixmanifest",
+      "bytes": 2967,
+      "compressedBytes": 899,
+      "sha256": "9cedad6745349d1f4c54e2f574d04d2a1fe0954d6db9ca35235fa22933276999"
+    },
+    {
+      "path": "[Content_Types].xml",
+      "bytes": 517,
+      "compressedBytes": 220,
+      "sha256": "d5db7b640ed10be3c4e1b415ee39b6e6db263afcd7b8554d9627249890bc6703"
+    },
+    {
+      "path": "extension/LICENSE.txt",
+      "bytes": 35149,
+      "compressedBytes": 12112,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "extension/readme.md",
+      "bytes": 5607,
+      "compressedBytes": 2210,
+      "sha256": "b04e504bc646662df9ef03f1249973da591abe2b1c91d5861c8f6b9881186a71"
+    },
+    {
+      "path": "extension/package.json",
+      "bytes": 7597,
+      "compressedBytes": 1696,
+      "sha256": "1e7899a77cb8dd5b08b5d99c186c67c432d1a6d927b0fe9722dc43f9169a78a2"
+    },
+    {
+      "path": "extension/dist/extension.js",
+      "bytes": 51577,
+      "compressedBytes": 14991,
+      "sha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+    },
+    {
+      "path": "extension/images/icon.png",
+      "bytes": 2989,
+      "compressedBytes": 386,
+      "sha256": "fbe53e211b8e42b071e0c680f84544c1e4e4d47edbf99cdacbdeb95372f67a99"
+    },
+    {
+      "path": "extension/images/icon.svg",
+      "bytes": 519,
+      "compressedBytes": 295,
+      "sha256": "3c675f421d32b4ea07e9173d1073ede18d6a8910e8807fa9aa037610e0c984ef"
+    }
+  ]
+}

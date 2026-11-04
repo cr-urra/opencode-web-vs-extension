@@ -1,0 +1,734 @@
+{
+  "date": "2026-11-03",
+  "method": "AST TypeScript y tokens sin trivia; literales conservados; scripts generados sin ejecutar su DOM",
+  "versions": {
+    "mac": "1.14.41",
+    "raiz": "1.14.43"
+  },
+  "inventory": {
+    "mac": {
+      "extension.ts": {
+        "bytes": 55434,
+        "sha256": "c2b1ca7da5671bf6a991580b8b432b7ffd734cc9ac535ce62d423a2a8b832804"
+      },
+      "pathUtils.test.ts": {
+        "bytes": 1516,
+        "sha256": "19122d3db853c06e9bf74e1de765bc3d3ee62a72447c0937e31532f90cb6670b"
+      },
+      "pathUtils.ts": {
+        "bytes": 1544,
+        "sha256": "731038cf412bff9949cfebe1b7d01288cdd33450448c6d57814e60b7e0c3cc42"
+      }
+    },
+    "raiz": {
+      "extension.ts": {
+        "bytes": 57890,
+        "sha256": "92efe63f36d6740f8d26c7992c5aefa3f33295536e4b2c29f8fe9783c19c8c47"
+      },
+      "opencodeBootstrap.test.ts": {
+        "bytes": 6636,
+        "sha256": "179170cea5e6a824a6f6b0f1b0edadb0238e1c7aa8e4e72451253e33ece27300"
+      },
+      "opencodeBootstrap.ts": {
+        "bytes": 8784,
+        "sha256": "f7425f14e6b6a37929124f253bdef98195bc7fc2b25c8a71698a562ab5bffb64"
+      },
+      "opencodeCompatibility.test.ts": {
+        "bytes": 1365,
+        "sha256": "b452109a4d584a364163093246dfa294b8e53687b1fc7b8ec8a28411f7eeb490"
+      },
+      "opencodeCompatibility.ts": {
+        "bytes": 2105,
+        "sha256": "9d57d4551130f07d63f0bd205c113b9bd8b4b6ef6f10a3ec40220f1cf6f35884"
+      },
+      "opencodeExecutable.test.ts": {
+        "bytes": 2968,
+        "sha256": "a0669292dc9b5865cf310038afa2c301354ad3bfa46329503ab7d15fed291a27"
+      },
+      "opencodeExecutable.ts": {
+        "bytes": 5207,
+        "sha256": "64e9e82ef37d30dd851d8dfb6da3d7e426e39c5ec4803651d3ff9fee7d078550"
+      },
+      "pathUtils.test.ts": {
+        "bytes": 1516,
+        "sha256": "19122d3db853c06e9bf74e1de765bc3d3ee62a72447c0937e31532f90cb6670b"
+      },
+      "pathUtils.ts": {
+        "bytes": 1544,
+        "sha256": "731038cf412bff9949cfebe1b7d01288cdd33450448c6d57814e60b7e0c3cc42"
+      }
+    }
+  },
+  "extensionFunctions": [
+    {
+      "name": "activate",
+      "status": "diferente",
+      "macLine": 15,
+      "rootLine": 32
+    },
+    {
+      "name": "addRefsToOpenCode",
+      "status": "identico",
+      "macLine": 74,
+      "rootLine": 119
+    },
+    {
+      "name": "appendPrompt",
+      "status": "diferente",
+      "macLine": 707,
+      "rootLine": 855
+    },
+    {
+      "name": "appendUpdatedWorkspaceContext",
+      "status": "diferente",
+      "macLine": 739,
+      "rootLine": 892
+    },
+    {
+      "name": "appendWorkspaceContext",
+      "status": "diferente",
+      "macLine": 721,
+      "rootLine": 870
+    },
+    {
+      "name": "attachFilesToOpenCode",
+      "status": "solo-raiz",
+      "rootLine": 187
+    },
+    {
+      "name": "attachUrisToOpenCode",
+      "status": "diferente",
+      "macLine": 107,
+      "rootLine": 172
+    },
+    {
+      "name": "captureActiveTerminalText",
+      "status": "solo-raiz",
+      "rootLine": 543
+    },
+    {
+      "name": "deactivate",
+      "status": "identico",
+      "macLine": 2,
+      "rootLine": 2
+    },
+    {
+      "name": "ensureSidebarServer",
+      "status": "identico",
+      "macLine": 184,
+      "rootLine": 256
+    },
+    {
+      "name": "escapeHtml",
+      "status": "solo-raiz",
+      "rootLine": 1026
+    },
+    {
+      "name": "formatError",
+      "status": "identico",
+      "macLine": 1173,
+      "rootLine": 1228
+    },
+    {
+      "name": "getActiveFile",
+      "status": "identico",
+      "macLine": 1032,
+      "rootLine": 1087
+    },
+    {
+      "name": "getActiveTabUri",
+      "status": "identico",
+      "macLine": 1118,
+      "rootLine": 1173
+    },
+    {
+      "name": "getAttachUris",
+      "status": "identico",
+      "macLine": 1104,
+      "rootLine": 1159
+    },
+    {
+      "name": "getErrorHtml",
+      "status": "diferente",
+      "macLine": 839,
+      "rootLine": 1009
+    },
+    {
+      "name": "getLoadingHtml",
+      "status": "identico",
+      "macLine": 835,
+      "rootLine": 1005
+    },
+    {
+      "name": "getMimeType",
+      "status": "identico",
+      "macLine": 1154,
+      "rootLine": 1209
+    },
+    {
+      "name": "getNonce",
+      "status": "identico",
+      "macLine": 1022,
+      "rootLine": 1077
+    },
+    {
+      "name": "getStatusHtml",
+      "status": "diferente",
+      "macLine": 843,
+      "rootLine": 1013
+    },
+    {
+      "name": "getWebviewHtml",
+      "status": "diferente",
+      "macLine": 856,
+      "rootLine": 1035
+    },
+    {
+      "name": "getWorkspaceBootstrapScript",
+      "status": "diferente",
+      "macLine": 578,
+      "rootLine": 808
+    },
+    {
+      "name": "getWorkspaceContext",
+      "status": "identico",
+      "macLine": 776,
+      "rootLine": 932
+    },
+    {
+      "name": "getWorkspaceRoot",
+      "status": "identico",
+      "macLine": 786,
+      "rootLine": 942
+    },
+    {
+      "name": "getWorkspaceUriRefs",
+      "status": "identico",
+      "macLine": 1068,
+      "rootLine": 1123
+    },
+    {
+      "name": "handleWebviewMessage",
+      "status": "diferente",
+      "macLine": 282,
+      "rootLine": 428
+    },
+    {
+      "name": "injectOpenProjectDeepLink",
+      "status": "identico",
+      "macLine": 569,
+      "rootLine": 799
+    },
+    {
+      "name": "insertTextOrAppendPrompt",
+      "status": "solo-raiz",
+      "rootLine": 142
+    },
+    {
+      "name": "loadSidebar",
+      "status": "diferente",
+      "macLine": 207,
+      "rootLine": 279
+    },
+    {
+      "name": "log",
+      "status": "identico",
+      "macLine": 1169,
+      "rootLine": 1224
+    },
+    {
+      "name": "openSidebarOnStartup",
+      "status": "identico",
+      "macLine": 173,
+      "rootLine": 245
+    },
+    {
+      "name": "pasteClipboardIntoOpenCode",
+      "status": "identico",
+      "macLine": 355,
+      "rootLine": 581
+    },
+    {
+      "name": "readAttachmentFiles",
+      "status": "identico",
+      "macLine": 1123,
+      "rootLine": 1178
+    },
+    {
+      "name": "reloadSidebarIfWorkspaceRootChanged",
+      "status": "diferente",
+      "macLine": 756,
+      "rootLine": 913
+    },
+    {
+      "name": "resolveWorkspaceUris",
+      "status": "identico",
+      "macLine": 376,
+      "rootLine": 602
+    },
+    {
+      "name": "sendEditCommandToOpenCode",
+      "status": "identico",
+      "macLine": 336,
+      "rootLine": 484
+    },
+    {
+      "name": "sendTerminalToOpenCode",
+      "status": "solo-raiz",
+      "rootLine": 503
+    },
+    {
+      "name": "showStartupError",
+      "status": "solo-raiz",
+      "rootLine": 404
+    },
+    {
+      "name": "startProxyServer",
+      "status": "diferente",
+      "macLine": 408,
+      "rootLine": 634
+    },
+    {
+      "name": "stopSidebarProcess",
+      "status": "diferente",
+      "macLine": 274,
+      "rootLine": 417
+    },
+    {
+      "name": "waitForServer",
+      "status": "diferente",
+      "macLine": 818,
+      "rootLine": 974
+    },
+    {
+      "name": "waitForWorkspaceRoot",
+      "status": "identico",
+      "macLine": 796,
+      "rootLine": 952
+    }
+  ],
+  "commandHandlers": [
+    {
+      "name": "addFilesToOpenCodeDisposable",
+      "status": "identico",
+      "macLine": 68,
+      "rootLine": 113
+    },
+    {
+      "name": "addToOpenCodeDisposable",
+      "status": "identico",
+      "macLine": 63,
+      "rootLine": 108
+    },
+    {
+      "name": "attachFilesToOpenCodeDisposable",
+      "status": "identico",
+      "macLine": 102,
+      "rootLine": 157
+    },
+    {
+      "name": "attachToOpenCodeDisposable",
+      "status": "identico",
+      "macLine": 97,
+      "rootLine": 152
+    }
+  ],
+  "coreManifestIdentical": true,
+  "coreManifests": {
+    "mac": {
+      "commands": [
+        {
+          "command": "opencode.addToOpenCode",
+          "title": "Add to OpenCode"
+        },
+        {
+          "command": "opencode.addFilesToOpenCode",
+          "title": "Add Files to OpenCode..."
+        },
+        {
+          "command": "opencode.attachToOpenCode",
+          "title": "Attach to OpenCode"
+        },
+        {
+          "command": "opencode.attachFilesToOpenCode",
+          "title": "Attach Files to OpenCode..."
+        }
+      ],
+      "activationEvents": [
+        "onCommand:opencode.addToOpenCode",
+        "onCommand:opencode.addFilesToOpenCode",
+        "onCommand:opencode.attachToOpenCode",
+        "onCommand:opencode.attachFilesToOpenCode"
+      ],
+      "menus": [
+        {
+          "command": "opencode.attachToOpenCode",
+          "group": "navigation@89"
+        },
+        {
+          "command": "opencode.addToOpenCode",
+          "group": "navigation@90"
+        }
+      ],
+      "keybindings": [
+        {
+          "command": "opencode.attachToOpenCode",
+          "title": "opencode: Attach to OpenCode",
+          "key": "ctrl+alt+a",
+          "mac": "cmd+alt+a",
+          "win": "ctrl+alt+a",
+          "linux": "ctrl+alt+a"
+        },
+        {
+          "command": "opencode.attachFilesToOpenCode",
+          "title": "opencode: Attach Files to OpenCode",
+          "key": "ctrl+shift+a",
+          "mac": "cmd+shift+a",
+          "win": "ctrl+shift+a",
+          "linux": "ctrl+shift+a"
+        },
+        {
+          "command": "opencode.addToOpenCode",
+          "title": "opencode: Send to OpenCode",
+          "key": "ctrl+alt+s",
+          "mac": "cmd+alt+s",
+          "win": "ctrl+alt+s",
+          "linux": "ctrl+alt+s"
+        },
+        {
+          "command": "opencode.addFilesToOpenCode",
+          "title": "opencode: Send Files to OpenCode",
+          "key": "ctrl+alt+shift+s",
+          "mac": "cmd+alt+shift+s",
+          "win": "ctrl+alt+shift+s",
+          "linux": "ctrl+alt+shift+s"
+        }
+      ]
+    },
+    "raiz": {
+      "commands": [
+        {
+          "command": "opencode.addToOpenCode",
+          "title": "Add to OpenCode"
+        },
+        {
+          "command": "opencode.addFilesToOpenCode",
+          "title": "Add Files to OpenCode..."
+        },
+        {
+          "command": "opencode.attachToOpenCode",
+          "title": "Attach to OpenCode"
+        },
+        {
+          "command": "opencode.attachFilesToOpenCode",
+          "title": "Attach Files to OpenCode..."
+        }
+      ],
+      "activationEvents": [
+        "onCommand:opencode.addToOpenCode",
+        "onCommand:opencode.addFilesToOpenCode",
+        "onCommand:opencode.attachToOpenCode",
+        "onCommand:opencode.attachFilesToOpenCode"
+      ],
+      "menus": [
+        {
+          "command": "opencode.attachToOpenCode",
+          "group": "navigation@89"
+        },
+        {
+          "command": "opencode.addToOpenCode",
+          "group": "navigation@90"
+        }
+      ],
+      "keybindings": [
+        {
+          "command": "opencode.attachToOpenCode",
+          "title": "opencode: Attach to OpenCode",
+          "key": "ctrl+alt+a",
+          "mac": "cmd+alt+a",
+          "win": "ctrl+alt+a",
+          "linux": "ctrl+alt+a"
+        },
+        {
+          "command": "opencode.attachFilesToOpenCode",
+          "title": "opencode: Attach Files to OpenCode",
+          "key": "ctrl+shift+a",
+          "mac": "cmd+shift+a",
+          "win": "ctrl+shift+a",
+          "linux": "ctrl+shift+a"
+        },
+        {
+          "command": "opencode.addToOpenCode",
+          "title": "opencode: Send to OpenCode",
+          "key": "ctrl+alt+s",
+          "mac": "cmd+alt+s",
+          "win": "ctrl+alt+s",
+          "linux": "ctrl+alt+s"
+        },
+        {
+          "command": "opencode.addFilesToOpenCode",
+          "title": "opencode: Send Files to OpenCode",
+          "key": "ctrl+alt+shift+s",
+          "mac": "cmd+alt+shift+s",
+          "win": "ctrl+alt+shift+s",
+          "linux": "ctrl+alt+shift+s"
+        }
+      ]
+    }
+  },
+  "clipboardBindingsIdentical": true,
+  "sharedFiles": {
+    ".vscodeignore": {
+      "identical": true,
+      "macSha256": "1ea291de358aefd45cb6327479afa4d7d928bcde0ff63bef63bb9dec9f0587e1",
+      "rootSha256": "1ea291de358aefd45cb6327479afa4d7d928bcde0ff63bef63bb9dec9f0587e1"
+    },
+    ".gitignore": {
+      "identical": true,
+      "macSha256": "6742654507bfdf3a1bacf8bf6c0b222306a50ff978e1ad264b31a65600e952a2",
+      "rootSha256": "6742654507bfdf3a1bacf8bf6c0b222306a50ff978e1ad264b31a65600e952a2"
+    },
+    "tsconfig.json": {
+      "identical": true,
+      "macSha256": "3667bdfb51c6fb2343ad60b97f62db1169ea74ee4359f6b619e5026324547b67",
+      "rootSha256": "3667bdfb51c6fb2343ad60b97f62db1169ea74ee4359f6b619e5026324547b67"
+    },
+    "esbuild.js": {
+      "identical": true,
+      "macSha256": "dec471d306f15e8bf8da85891209b0610dceee0fb6abcbdc48cdd2cecef30a9a",
+      "rootSha256": "dec471d306f15e8bf8da85891209b0610dceee0fb6abcbdc48cdd2cecef30a9a"
+    },
+    "bun.lock": {
+      "identical": true,
+      "macSha256": "49626ac4d6c422975709a6083bc548ffd3620ca6ee26dba3a3427f00e650df51",
+      "rootSha256": "49626ac4d6c422975709a6083bc548ffd3620ca6ee26dba3a3427f00e650df51"
+    },
+    "LICENSE": {
+      "identical": true,
+      "macSha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "rootSha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    "src/pathUtils.ts": {
+      "identical": true,
+      "macSha256": "731038cf412bff9949cfebe1b7d01288cdd33450448c6d57814e60b7e0c3cc42",
+      "rootSha256": "731038cf412bff9949cfebe1b7d01288cdd33450448c6d57814e60b7e0c3cc42"
+    },
+    "src/pathUtils.test.ts": {
+      "identical": true,
+      "macSha256": "19122d3db853c06e9bf74e1de765bc3d3ee62a72447c0937e31532f90cb6670b",
+      "rootSha256": "19122d3db853c06e9bf74e1de765bc3d3ee62a72447c0937e31532f90cb6670b"
+    }
+  },
+  "embeddedBridgeFunctions": [
+    {
+      "name": "bytesFromBase64",
+      "status": "identico",
+      "macLine": 116,
+      "rootLine": 35
+    },
+    {
+      "name": "dataTransferTypes",
+      "status": "identico",
+      "macLine": 14,
+      "rootLine": 13
+    },
+    {
+      "name": "deleteEditableSelection",
+      "status": "identico",
+      "macLine": 29,
+      "rootLine": 27
+    },
+    {
+      "name": "dispatchAttachmentDrop",
+      "status": "identico",
+      "macLine": 117,
+      "rootLine": 36
+    },
+    {
+      "name": "dispatchOpenCodeDrop",
+      "status": "identico",
+      "macLine": 119,
+      "rootLine": 38
+    },
+    {
+      "name": "dispatchOpenCodeDrops",
+      "status": "identico",
+      "macLine": 120,
+      "rootLine": 39
+    },
+    {
+      "name": "dropPayloadValues",
+      "status": "identico",
+      "macLine": 15,
+      "rootLine": 14
+    },
+    {
+      "name": "editableSelection",
+      "status": "identico",
+      "macLine": 28,
+      "rootLine": 26
+    },
+    {
+      "name": "fileUriToPath",
+      "status": "identico",
+      "macLine": 9,
+      "rootLine": 8
+    },
+    {
+      "name": "getData",
+      "status": "identico",
+      "macLine": 13,
+      "rootLine": 12
+    },
+    {
+      "name": "insertClipboardText",
+      "status": "diferente",
+      "macLine": 52,
+      "rootLine": 32
+    },
+    {
+      "name": "installAttachmentBridge",
+      "status": "identico",
+      "macLine": 118,
+      "rootLine": 37
+    },
+    {
+      "name": "installClipboardBridge",
+      "status": "identico",
+      "macLine": 123,
+      "rootLine": 42
+    },
+    {
+      "name": "installDropPathsBridge",
+      "status": "identico",
+      "macLine": 121,
+      "rootLine": 40
+    },
+    {
+      "name": "installEditCommandBridge",
+      "status": "identico",
+      "macLine": 50,
+      "rootLine": 30
+    },
+    {
+      "name": "installPasteBridge",
+      "status": "diferente",
+      "macLine": 98,
+      "rootLine": 34
+    },
+    {
+      "name": "installTextInsertBridge",
+      "status": "identico",
+      "macLine": 97,
+      "rootLine": 33
+    },
+    {
+      "name": "installVsCodeDropNormalizer",
+      "status": "identico",
+      "macLine": 122,
+      "rootLine": 41
+    },
+    {
+      "name": "isInsideWorkspace",
+      "status": "identico",
+      "macLine": 7,
+      "rootLine": 6
+    },
+    {
+      "name": "normalizePath",
+      "status": "identico",
+      "macLine": 6,
+      "rootLine": 5
+    },
+    {
+      "name": "parseDropPayload",
+      "status": "identico",
+      "macLine": 10,
+      "rootLine": 9
+    },
+    {
+      "name": "relativeWorkspacePath",
+      "status": "identico",
+      "macLine": 8,
+      "rootLine": 7
+    },
+    {
+      "name": "report",
+      "status": "identico",
+      "macLine": 5,
+      "rootLine": 4
+    },
+    {
+      "name": "requestClipboardText",
+      "status": "diferente",
+      "macLine": 26,
+      "rootLine": 24
+    },
+    {
+      "name": "requestDropFallback",
+      "status": "identico",
+      "macLine": 24,
+      "rootLine": 23
+    },
+    {
+      "name": "runEditCommand",
+      "status": "diferente",
+      "macLine": 41,
+      "rootLine": 29
+    },
+    {
+      "name": "selectAllEditable",
+      "status": "identico",
+      "macLine": 30,
+      "rootLine": 28
+    },
+    {
+      "name": "shouldRunEditCommand",
+      "status": "solo-mac",
+      "macLine": 32
+    },
+    {
+      "name": "textTarget",
+      "status": "identico",
+      "macLine": 51,
+      "rootLine": 31
+    },
+    {
+      "name": "unresolvedDropUris",
+      "status": "identico",
+      "macLine": 20,
+      "rootLine": 19
+    },
+    {
+      "name": "workspaceDropPaths",
+      "status": "identico",
+      "macLine": 16,
+      "rootLine": 15
+    },
+    {
+      "name": "writeClipboardText",
+      "status": "identico",
+      "macLine": 27,
+      "rootLine": 25
+    }
+  ],
+  "wrappers": {
+    "mac": {
+      "parentKeyCapture": true,
+      "parentNativeDropCapture": true,
+      "bridgeReadyRelay": true,
+      "workspaceStateRelay": false,
+      "validatesEventSource": false,
+      "validatesEventOrigin": false
+    },
+    "raiz": {
+      "parentKeyCapture": false,
+      "parentNativeDropCapture": false,
+      "bridgeReadyRelay": false,
+      "workspaceStateRelay": true,
+      "validatesEventSource": false,
+      "validatesEventOrigin": false
+    }
+  },
+  "syntax": "Ambos bootstrap y ambos wrappers válidos en node:vm; no equivale a prueba de navegador"
+}

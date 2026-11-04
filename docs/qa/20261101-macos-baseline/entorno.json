@@ -1,0 +1,107 @@
+{
+  "capturedAtUtc": "2026-11-01T03:44:23.846Z",
+  "userTimezone": "America/Santiago",
+  "rootRevision": "060062d743b40300568bcbd65b8b7b501a668f69",
+  "system": "ProductName:\t\tmacOS\nProductVersion:\t\t26.4\nBuildVersion:\t\t25E246",
+  "architecture": "arm64",
+  "node": "v26.13.0",
+  "npm": "11.20.0",
+  "bunInstalled": false,
+  "editor": {
+    "executable": "/Applications/VSCodium.app/Contents/Resources/app/bin/codium",
+    "command": [
+      "/Applications/VSCodium.app/Contents/Resources/app/bin/codium",
+      "--version"
+    ],
+    "exitCode": 0,
+    "output": "1.143.17232\nc072cf642cbbadabefa22f39c58cc902a8b7427f\narm64\n[1101/004424.056853:ERROR:electron/shell/common/mac/codesign_util.cc:79] task_name_for_pid: (os/kern) failure (5)\n"
+  },
+  "openCodeExecutable": "/opt/homebrew/bin/opencode",
+  "openCodeVersion": "opencode v2.2.5",
+  "openCodeVersionEvidence": "Consulta directa ejecutada con permiso fuera del sandbox antes de preparar los perfiles.",
+  "originalProfileExtensions": [
+    {
+      "id": "krish-r.vscode-toggle-terminal",
+      "version": "0.0.10"
+    },
+    {
+      "id": "ms-ceintl.vscode-language-pack-es",
+      "version": "1.131.0"
+    },
+    {
+      "id": "openai.codex-audio",
+      "version": "26.1021.22027"
+    },
+    {
+      "id": "openai.chatgpt",
+      "version": "26.1021.22027"
+    }
+  ],
+  "toolchain": {
+    "typescript": "5.9.3",
+    "esbuild": "0.25.12",
+    "eslint": "9.39.5"
+  },
+  "dependencyInstallation": "npm install --ignore-scripts --package-lock=false; ambas variantes usan la misma instalación. No se utilizó bun.lock como instalación congelada.",
+  "variants": {
+    "raiz": {
+      "directory": "/Users/cristobal/Documents/opencode-web-vs-extension",
+      "version": "1.14.43",
+      "extensionSourceSha256": "92efe63f36d6740f8d26c7992c5aefa3f33295536e4b2c29f8fe9783c19c8c47",
+      "lockSha256": "49626ac4d6c422975709a6083bc548ffd3620ca6ee26dba3a3427f00e650df51",
+      "profileName": "QA-raiz-20261101"
+    },
+    "macos": {
+      "directory": "/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac",
+      "version": "1.14.41",
+      "extensionSourceSha256": "c2b1ca7da5671bf6a991580b8b432b7ffd734cc9ac535ce62d423a2a8b832804",
+      "lockSha256": "49626ac4d6c422975709a6083bc548ffd3620ca6ee26dba3a3427f00e650df51",
+      "profileName": "QA-macos-20261101"
+    }
+  },
+  "runtime": "/var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg",
+  "workspace": "/var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace",
+  "gui": {
+    "status": "executed",
+    "initialPermissionBlockResolved": true,
+    "clipboardScenarios": "pass in browser, root and Mac reference",
+    "automatedDrops": "no insertion observed; manual control pending",
+    "delayMs": {
+      "webapp": 15671,
+      "raiz": 14999,
+      "macos": 19462
+    },
+    "scenarioCounts": {
+      "pass": 26,
+      "observed": 5
+    },
+    "testedPasteRoutes": [
+      "Cmd+V inmediato y demorado",
+      "posición intermedia",
+      "menú nativo",
+      "paleta de VSCodium"
+    ],
+    "attachmentPickerControl": "pass in root and Mac reference",
+    "manualDropControl": "pending; empty prompt and Finder fixtures prepared",
+    "lastUpdatedAtUtc": "2026-11-01T04:32:38.765Z",
+    "activeTestProfile": "QA-macos-20261101",
+    "activeMacProxy": "http://127.0.0.1:51641"
+  },
+  "actualEditorProfiles": [
+    {
+      "storageKey": "userDataProfiles",
+      "location": "6b3b13c4",
+      "name": "QA-raiz-20261101"
+    },
+    {
+      "storageKey": "userDataProfiles",
+      "location": "1ac6f8be",
+      "name": "QA-macos-20261101"
+    }
+  ],
+  "electronFramework": "43.7.7",
+  "browser": {
+    "name": "Brave",
+    "version": "156.1.98.62"
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "log": "extension-definitivo-1.txt",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 52923,
+        "listening": false
+      },
+      {
+        "port": 63636,
+        "listening": false
+      }
+    ]
+  },
+  {
+    "log": "extension-definitivo-2.txt",
+    "serversStarted": 1,
+    "ports": [
+      {
+        "port": 46111,
+        "listening": false
+      },
+      {
+        "port": 52957,
+        "listening": false
+      }
+    ]
+  }
+]

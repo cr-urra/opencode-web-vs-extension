@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-03",
+  "status": "Corrección aplicada; automático y retest gráfico PASS; fase 4 cerrada para el alcance probado",
+  "failure": {
+    "expectedActive": "B",
+    "actualActive": "A",
+    "bothSessionTabsPresent": true,
+    "evidence": "Confirmación del usuario y logs de restauración-A.txt"
+  },
+  "cause": "La extensión comparaba server + newline + sessionId, pero OpenCode 2.2.5 usa server + newline + /server/<origen codificado>/session/<id>. Se descartaba recent y se elegía la última pestaña.",
+  "checks": {
+    "before": {
+      "tests": 59,
+      "pass": 54,
+      "fail": 5,
+      "log": "logs/antes.txt"
+    },
+    "after": {
+      "tests": 59,
+      "pass": 59,
+      "fail": 0,
+      "log": "logs/unitarios.txt"
+    },
+    "types": "PASS",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 754
+    },
+    "productionBuild": "PASS",
+    "generatedBootstrapCases": 6,
+    "startupGateCases": 3,
+    "guiRetest": {
+      "result": "PASS",
+      "evidence": "gui.json"
+    }
+  },
+  "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+  "artifacts": [
+    {
+      "file": "src/opencodeBootstrap.ts",
+      "sha256": "0701e6f953c313597d79f17f80b8ad32e2e8374185055c4f2c1488b2e9f296e7",
+      "changed": true
+    },
+    {
+      "file": "src/opencodeBootstrap.test.ts",
+      "sha256": "41a72c4067c28e162eb3ba510f38993e9461cd39b14375063e9d733648cbf612",
+      "changed": true
+    },
+    {
+      "file": "src/extension.ts",
+      "sha256": "261d3d3840e94f85fc0de28b6577f3a5263b4fc76d9b68577abec944b3bf6908",
+      "changed": false
+    },
+    {
+      "file": "src/opencodeClipboard.ts",
+      "sha256": "67945cceaf59f8db1bd2ba60ad83d7cc2be66a07851979031283bb319e46356b",
+      "changed": false
+    },
+    {
+      "file": "src/opencodeClipboard.test.ts",
+      "sha256": "68d520b1f3260e7ffffb8f0e5f4c856c66ab82e51be1095237e522b47a3be757",
+      "changed": false
+    },
+    {
+      "file": "src/opencodePromptQueue.ts",
+      "sha256": "1634e18dfc2787a0333f5612eeb58c89c9daf4c1597032293927c6788d6ddacf",
+      "changed": false
+    },
+    {
+      "file": "package.json",
+      "sha256": "368483fc44b89f90d94f7b2e084894e4a094968790358772f7a28dd156c5bd1d",
+      "changed": false
+    },
+    {
+      "file": "dist/extension.js",
+      "sha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+      "changed": true
+    }
+  ],
+  "previousManualBuild": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa",
+  "compatibilityTarget": "OpenCode 2.2.5, macOS, VSCodium",
+  "scope": "Corrección de claves de pestaña activa y migración de claves anteriores; comandos y portapapeles preservados.",
+  "phase4Status": "CERRADA para OpenCode 2.2.5 en macOS/VSCodium; fase 5 pendiente"
+}

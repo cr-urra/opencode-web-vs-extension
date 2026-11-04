@@ -1,0 +1,57 @@
+{
+  "baselineRevision": "060062d743b40300568bcbd65b8b7b501a668f69",
+  "unchangedFunctions": [
+    "addToOpenCodeDisposable",
+    "addFilesToOpenCodeDisposable",
+    "attachToOpenCodeDisposable",
+    "attachFilesToOpenCodeDisposable",
+    "addRefsToOpenCode",
+    "attachUrisToOpenCode",
+    "attachFilesToOpenCode",
+    "getWorkspaceUriRefs",
+    "readAttachmentFiles",
+    "getWebviewHtml",
+    "sendTerminalToOpenCode"
+  ],
+  "manifestContributesUnchanged": true,
+  "activationEventsUnchanged": true,
+  "generatedBootstrapCases": [
+    {
+      "platform": "darwin",
+      "generation": "legacy",
+      "syntax": "PASS",
+      "unchangedPhysicalDropAndEditBridges": "PASS"
+    },
+    {
+      "platform": "darwin",
+      "generation": "v2",
+      "syntax": "PASS",
+      "unchangedPhysicalDropAndEditBridges": "PASS"
+    },
+    {
+      "platform": "linux",
+      "generation": "legacy",
+      "syntax": "PASS",
+      "unchangedPhysicalDropAndEditBridges": "PASS"
+    },
+    {
+      "platform": "linux",
+      "generation": "v2",
+      "syntax": "PASS",
+      "unchangedPhysicalDropAndEditBridges": "PASS"
+    },
+    {
+      "platform": "win32",
+      "generation": "legacy",
+      "syntax": "PASS",
+      "unchangedPhysicalDropAndEditBridges": "PASS"
+    },
+    {
+      "platform": "win32",
+      "generation": "v2",
+      "syntax": "PASS",
+      "unchangedPhysicalDropAndEditBridges": "PASS"
+    }
+  ],
+  "scope": "Comprobaciones de código y sintaxis, no equivalen a ejecución en esos sistemas ni a pruebas gráficas"
+}

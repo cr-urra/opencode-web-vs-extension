@@ -1,0 +1,57 @@
+
+> opencode-web-for-ide@1.14.43 test:unit
+> tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js
+
+✔ keeps the legacy project registry behavior (1.182834ms)
+✔ selects and opens the workspace draft in OpenCode v2 (1.052583ms)
+✔ restores the recent v2 session without creating a new draft (0.362459ms)
+✔ is idempotent for an existing v2 workspace draft (0.292333ms)
+✔ restores every persisted v2 tab and remaps the previous server origin (0.56825ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (0.430458ms)
+✔ validates persisted workspace tab state (0.094375ms)
+✔ pastes into the original input and selection after focus and caret change (1.938459ms)
+✔ inserts plain text into contenteditable with Selection/Range when paste and execCommand do not handle it (0.374542ms)
+✔ does not apply an already consumed clipboard response twice (0.269625ms)
+✔ ignores unsolicited clipboard responses (0.234542ms)
+✔ keeps two rapid independent pastes without a time based suppression window (0.281208ms)
+✔ handles two rapid native paste shortcuts as independent requests (0.298208ms)
+✔ correlates out of order clipboard replies to their respective inputs (1.114ms)
+✔ does not fall back after the frontend handles the paste event (0.674042ms)
+✔ does not manually insert twice when execCommand handles insertion (0.623958ms)
+✔ does not redirect a paste when the captured target has been detached (0.616292ms)
+✔ does not manually modify a read only input (0.56225ms)
+✔ does not modify an input that became disabled while awaiting the clipboard (0.530541ms)
+✔ does not insert into a contenteditable target after editing has been disabled (0.641083ms)
+✔ keeps selected input text when the clipboard is empty (0.532625ms)
+✔ keeps selected contenteditable text when the clipboard is empty (0.530333ms)
+✔ appends inside the original editable when there was no selection to capture (0.512709ms)
+✔ releases clipboard requests when the parent bridge cannot receive messages (0.510375ms)
+✔ releases expired clipboard requests and ignores late responses (0.40725ms)
+✔ cleans up failed clipboard requests without mutating the prompt (0.270417ms)
+✔ keeps native keyboard handling on non macOS platforms (0.240459ms)
+✔ does not use the legacy append endpoint as a paste fallback (0.233041ms)
+✔ parses current and legacy OpenCode versions (0.395333ms)
+✔ detects the v2 UI independently from the CLI major version (0.065084ms)
+✔ creates the credentials expected by OpenCode (0.0715ms)
+✔ uses the configured executable before PATH (1.511958ms)
+✔ reports an invalid configured executable without silently falling back (0.182125ms)
+✔ finds OpenCode on PATH (0.899292ms)
+✔ finds the default OpenCode installation outside PATH (0.146792ms)
+✔ honors OPENCODE_INSTALL_DIR and XDG_BIN_DIR (0.07825ms)
+✔ uses PATHEXT when resolving OpenCode on Windows (0.131333ms)
+✔ returns a Windows workspace path without duplicating the drive (0.427167ms)
+✔ returns a Windows common parent on the same drive (0.081333ms)
+✔ returns the Windows drive root when it is the only common parent (0.054333ms)
+✔ returns undefined for Windows paths on different drives (0.376958ms)
+✔ handles Windows UNC workspace paths (0.07375ms)
+✔ compares Windows paths case-insensitively (0.051833ms)
+✔ returns a POSIX common parent (0.05625ms)
+✔ keeps POSIX path comparison case-sensitive (0.050666ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.212875

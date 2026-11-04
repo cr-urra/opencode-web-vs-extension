@@ -1,0 +1,37 @@
+{
+  "state": {
+    "tabs": [
+      {
+        "type": "draft",
+        "draftID": "aa96be33-1e5e-4f4a-a862-722b9423908a",
+        "server": "http://127.0.0.1:51674",
+        "directory": "/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures"
+      },
+      {
+        "type": "session",
+        "server": "http://127.0.0.1:51674",
+        "sessionId": "ses_e5cfdcb91ffeXqDcfudAsPrzjN"
+      },
+      {
+        "type": "session",
+        "server": "http://127.0.0.1:51674",
+        "sessionId": "ses_e5cfdcb9dffeEox4hc1EH4vOmO"
+      },
+      {
+        "type": "draft",
+        "draftID": "611bafb1-ccc5-485e-b194-db0a5db9e5e0",
+        "server": "http://127.0.0.1:51674",
+        "directory": "/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures"
+      },
+      {
+        "type": "draft",
+        "draftID": "5556caff-38fa-4366-9cbb-258e35b97717",
+        "server": "http://127.0.0.1:51674",
+        "directory": "/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures"
+      }
+    ],
+    "recent": {
+      "key": "http://127.0.0.1:51674\n/server/aHR0cDovLzEyNy4wLjAuMTo1MTY3NA/session/ses_e5cfdcb91ffeXqDcfudAsPrzjN"
+    }
+  }
+}

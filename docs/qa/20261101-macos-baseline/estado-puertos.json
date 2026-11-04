@@ -1,0 +1,38 @@
+{
+  "checkedAtUtc": "2026-11-01T04:31:38.013Z",
+  "checks": [
+    {
+      "port": 50358,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 50726,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 50946,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 51508,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 23403,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 45249,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 31457,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "port": 51641,
+      "status": 200
+    }
+  ],
+  "expectedActiveMacProxy": 51641
+}

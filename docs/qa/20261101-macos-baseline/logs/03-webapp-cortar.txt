@@ -1,0 +1,119 @@
+Window: "QA_MAC_PASTE · OpenCode", App: Brave Browser.
+0 ventana estándar QA_MAC_PASTE · OpenCode - Brave, URL: 127.0.0.1:50358/server/aHR0cDovLzEyNy4wLjAuMTo1MDM1OA/session/ses_e6ac2efd1ffeGu5iFnPw4ORdQ2, Secondary Actions: Raise
+	1 container QA_MAC_PASTE · OpenCode - Brave, URL: 127.0.0.1:50358/server/aHR0cDovLzEyNy4wLjAuMTo1MDM1OA/session/ses_e6ac2efd1ffeGu5iFnPw4ORdQ2
+		2 container
+			3 barra de herramientas
+				4 botón Atrás
+				5 botón (disabled) Adelante
+				6 botón Volver a cargar
+				7 botón Agregar esta pestaña a favoritos
+				8 container
+					9 botón emergente Ver la información del sitio
+					10 campo de texto (settable) Barra de direcciones y de búsqueda, Value: 127.0.0.1:50358/server/aHR0cDovLzEyNy4wLjAuMTo1MDM1OA/session/ses_e6ac2efd1ffeGu5iFnPw4ORdQ2, Placeholder: Buscar en Google o escribir una URL
+					11 botón Instalar OpenCode
+					12 botón Traducir
+					13 botón
+					14 divisor Separador
+					15 botón emergente Brave Shields
+					16 botón emergente Recompensas de Brave
+				17 casilla Descargas, Value: 0
+				18 botón Mostrar la barra lateral
+				19 botón emergente Billetera de Brave
+				20 botón IA de Leo
+				21 botón emergente VPN
+				22 botón emergente Brave
+			23 container
+				24 área de desplazamiento
+					25 Contenido HTML QA_MAC_PASTE · OpenCode, URL: 127.0.0.1:50358/server/aHR0cDovLzEyNy4wLjAuMTo1MDM1OA/session/ses_e6ac2efd1ffeGu5iFnPw4ORdQ2
+						26 container
+							27 botón de activación Inicio, Value: 0
+							28 botón Search sessions
+							29 vínculo W QA_MAC_PASTE Cerrar pestaña
+								30 container
+									31 link W QA_MAC_PASTE, Value: 127.0.0.1:50358/server/aHR0cDovLzEyNy4wLjAuMTo1MDM1OA/session/ses_e6ac2efd1ffeGu5iFnPw4ORdQ2
+									32 botón Cerrar pestaña
+							33 botón Nueva sesión
+							34 container
+								35 botón Mostrar u ocultar revisión
+								36 container
+									37 container
+										38 container contenido desplazable
+											39 container
+												40 botón emergente workspace
+													41 texto workspace
+												42 cabecera QA_MAC_PASTE, Value: 1
+													43 texto QA_MAC_PASTE
+												44 botón emergente Más opciones
+												45 botón Toggle session context
+												46 botón emergente Detalles de la sesión
+											47 container
+												48 container
+													49 texto QA_MAC_PASTE
+													50 texto Big Pickle
+													51 botón Restablecer a este punto
+													52 botón emergente More actions
+												53 botón Se usaron 3 Shell y Leer
+												54 container
+													55 texto I see the QA fixture in the working directory:
+													56 lista de contenidos
+														57 container
+															58 AXListMarker • 
+															59 text archivo con espacios ñ.txt  — Unicode/space filename test ( áéíóú ñ )
+														60 container
+															61 AXListMarker • 
+															62 text contexto.txt  — two-line text file
+														63 container
+															64 AXListMarker • 
+															65 text imagen.png  — an image (I can't view images with this model)
+													66 container
+														67 text Your message was just  QA_MAC_PASTE , so I don't have an instruction yet. What would you like me to do? For example:
+													68 lista de contenidos
+														69 container
+															70 AXListMarker • 
+															71 texto Read or edit one of these files
+														72 container
+															73 AXListMarker • 
+															74 texto Verify filename/paste handling (spaces, accents, ñ)
+														75 container
+															76 AXListMarker • 
+															77 texto Create a new file with specific pasted content
+														78 container
+															79 AXListMarker • 
+															80 texto Something else — paste the actual content and I'll use it
+													81 botón Copiar respuesta
+													82 text Big Pickle 7s
+									83 container
+										84 container
+											85 área de entrada de texto (settable) Prompt, Value: 
+
+											86 texto Pregunta lo que quieras, / para comandos, @ para contexto…
+											87 botón emergente Añadir imágenes y archivos
+											88 botón Big Pickle
+											89 botón (disabled) Enviar
+						90 container Notifications alt+T
+			91 botón emergente Búsqueda de pestañas
+			92 container
+				93 grupo de pestañas
+					94 tabulador (settable, boolean) Usa apps con Intel en una Mac con chip de Apple - Soporte técnico de Apple (CL), Value: off
+					95 tabulador (settable, boolean) GitHub - cr-urra/opencode-web-vs-extension at feature/clipboard-mac · GitHub: Uso de memoria: 121 MB, Value: off
+					96 tabulador (selected, settable, boolean) QA_MAC_PASTE · OpenCode: Uso de memoria: 125 MB, Value: on
+						97 botón Cerrar
+			98 botón Nueva pestaña
+			99 container
+				100 divisor
+	101 botón de cierre
+	102 botón para pantalla completa Help: este botón también tiene una acción para acercar/alejar la ventana, Secondary Actions: acercar/alejar ventana
+	103 botón de minimización
+104 menu bar
+	105 Brave
+	106 Archivo
+	107 Edición
+	108 Visualización
+	109 Historial
+	110 Favoritos
+	111 Perfiles
+	112 Pestaña
+	113 Ventana
+	114 Ayuda
+
+The focused UI element is 85 área de entrada de texto (settable) Prompt, Value: 

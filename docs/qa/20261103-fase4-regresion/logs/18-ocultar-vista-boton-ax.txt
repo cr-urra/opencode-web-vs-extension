@@ -1,0 +1,186 @@
+Window: "[Host de desarrollo de la extensión] posicion-fase4.txt — workspace (área de trabajo) — QA-raiz-manual", App: VSCodium.
+0 ventana estándar URL: file:///private/tmp/opencode-manual-qa-Rfgyvg/workspace/posicion-fase4.txt, Secondary Actions: Raise, [Host de desarrollo de la extensión] posicion-fase4.txt — workspace (área de trabajo) — QA-raiz-manual
+	1 container [Host de desarrollo de la extensión] posicion-fase4.txt — workspace (área de trabajo) — QA-raiz-manual
+		2 container
+			3 Contenido HTML [Host de desarrollo de la extensión] posicion-fase4.txt — workspace (área de trabajo) — QA-raiz-manual, URL: vscode-file://vscode-app/Applications/VSCodium.app/Contents/Resources/app/out/vs/code/electron-browser/workbench/workbench.html
+				4 container
+					5 container
+						6 container
+							7 barra de herramientas
+								8 botón Volver (⌃-)
+									9 texto 
+								10 botón (disabled) Hacia delante (⌃⇧-)
+									11 texto 
+								12 botón [Host de desarrollo de la extensión] posicion-fase4.txt — workspace (área de trabajo) — QA-raiz-manual
+							13 barra de herramientas Acciones de título
+								14 botón de activación Description: Alternar barra lateral principal (⌘B), Value: 1
+									15 texto 
+								16 botón Personalizar diseño...
+									17 texto 
+								18 botón de activación Description: Alternar panel (⌘J), Value: 0
+									19 texto 
+								20 botón de activación Description: Alternar barra lateral secundaria (⌥⌘B), Value: 0
+									21 texto 
+						22 container
+							23 container
+								24 grupo de pestañas Modificador de vista activa
+									25 tab (selected) Explorador (⇧⌘E), Value: 1
+										26 container Explorador (⇧⌘E)
+											27 texto 
+									28 tab (settable, integer) Buscar (⇧⌘F), Value: 0
+										29 container Buscar (⇧⌘F)
+											30 texto 
+									31 tab (settable, integer) Control de código fuente (⌃⇧G), Value: 0
+										32 container Control de código fuente (⌃⇧G)
+											33 texto 
+									34 tab (settable, integer) Ejecución y depuración (⇧⌘D), Value: 0
+										35 container Ejecución y depuración (⇧⌘D)
+											36 texto 
+									37 tab (settable, integer) Extensiones (⇧⌘X), Value: 0
+										38 container Extensiones (⇧⌘X)
+											39 texto 
+								40 barra de herramientas Administrar
+									41 botón emergente Cuentas
+										42 container Cuentas
+											43 texto 
+									44 botón emergente Administrar QA-raiz-manual (perfil)
+										45 container Administrar QA-raiz-manual (perfil)
+											46 texto 
+										47 texto QA
+							48 container
+								49 cabecera EXPLORADOR, Value: 2
+									50 texto EXPLORADOR
+								51 barra de herramientas acciones de Explorador
+									52 botón emergente Vistas y más acciones...
+								53 container
+									54 container
+										55 botón Sección del explorador: workspace (área de trabajo)
+											56 texto 
+											57 cabecera Description: Sección del explorador: workspace (área de trabajo), Value: 3
+												58 texto WORKSPACE (ÁREA DE TRABAJO)
+										59 contorno Explorador de archivos
+											60 container
+												61 row workspace
+													62 container
+														63 texto 
+														64 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+															65 texto workspace
+												66 row .vscode
+													67 container
+														68 texto 
+														69 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/.vscode
+															70 texto .vscode
+												71 row archivo con espacios ñ.txt
+													72 container
+														73 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/archivo con espacios ñ.txt
+															74 texto 
+															75 texto archivo con espacios ñ.txt
+												76 row contexto.txt
+													77 container
+														78 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/contexto.txt
+															79 texto 
+															80 texto contexto.txt
+												81 row copiar-fase4.txt
+													82 container
+														83 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/copiar-fase4.txt
+															84 texto 
+															85 texto copiar-fase4.txt
+												86 row imagen.png
+													87 container
+														88 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/imagen.png
+															89 texto 
+															90 texto imagen.png
+												91 row (selected) posicion-fase4.txt
+													92 container
+														93 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/posicion-fase4.txt
+															94 texto 
+															95 texto posicion-fase4.txt
+												96 row workspace.code-workspace
+													97 container
+														98 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/workspace.code-workspace
+															99 texto 
+															100 texto workspace.code-workspace
+									101 botón Sección Esquema
+										102 texto 
+										103 cabecera ESQUEMA, Value: 3
+											104 texto ESQUEMA
+									105 botón Sección línea de tiempo
+										106 texto 
+										107 cabecera LÍNEA DE TIEMPO, Value: 3
+											108 texto LÍNEA DE TIEMPO
+							109 container
+								110 container
+									111 container
+										112 container
+											113 grupo de pestañas
+												114 tab (settable, integer) Description: copiar-fase4.txt, Value: 0
+													115 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/copiar-fase4.txt
+														116 texto 
+														117 texto copiar-fase4.txt
+													118 barra de herramientas Acciones de pestaña
+														119 botón Cerrar (⌘W)
+															120 texto 
+												121 tab (selected) Description: posicion-fase4.txt, Value: 1
+													122 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/posicion-fase4.txt
+														123 texto 
+														124 texto posicion-fase4.txt
+													125 barra de herramientas Acciones de pestaña
+														126 botón Cerrar (⌘W)
+															127 texto 
+											128 barra de herramientas Acciones de editor
+												129 botón Dividir Editor Derecho (⌃⌥⌘') [⌥] Dividir Editor Abajo
+													130 texto 
+												131 botón emergente Más Acciones...
+													132 texto 
+										133 lista de contenidos
+											134 container /private/tmp/opencode-manual-qa-Rfgyvg/workspace/posicion-fase4.txt
+												135 texto 
+												136 texto posicion-fase4.txt
+										137 container posicion-fase4.txt
+											138 container
+												139 editor (settable) Description: posicion-fase4.txt, Value: ANTESQUITARDESPUES
+													140 texto ANTESQUITARDESPUES
+						141 container
+							142 container remote
+								143 botón remote
+							144 container No hay problemas
+								145 botón No hay problemas
+									146 texto 
+									147 texto  0 
+									148 texto 
+									149 texto  0
+							150 container Notificaciones
+								151 botón Notificaciones
+							152 container Texto sin formato
+								153 botón Texto sin formato
+							154 container LF
+								155 botón LF
+							156 container UTF-8
+								157 botón UTF-8
+							158 container Espacios: 4
+								159 botón Espacios: 4
+							160 container Lín. 1, Col. 19 (18 seleccionada)
+								161 botón Lín. 1, Col. 19 (18 seleccionada)
+							162 container Lector de pantalla optimizado
+								163 botón Lector de pantalla optimizado
+					164 texto Secondary Side Bar hidden
+	165 botón de cierre
+	166 botón para pantalla completa Help: este botón también tiene una acción para acercar/alejar la ventana, Secondary Actions: acercar/alejar ventana
+	167 botón de minimización
+168 menu bar
+	169 VSCodium
+	170 Archivo
+	171 Editar
+	172 Selección
+	173 Ver
+	174 Ir
+	175 Ejecutar
+	176 Terminal
+	177 Ventana
+	178 Ayuda
+
+Selected text: ```
+ANTESQUITARDESPUES
+```
+
+Note: Pay special attention to the content selected by the user. If the user asks a question or refers to the content they are looking at on-screen, they might be referring to the selected content (but they might be referring to something else that's visible, too).

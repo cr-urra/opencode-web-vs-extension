@@ -1,0 +1,40 @@
+{
+  "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+  "source": "GUI real de VSCodium mediante CUA; cierre/reapertura completos sin seleccionar B antes de verificar la restauración",
+  "cases": [
+    {
+      "id": "active-B-restored",
+      "verdict": "PASS",
+      "screenshot": "03-restaurada-B.jpg",
+      "snapshot": "logs/03-restaurada-B-ax.txt"
+    },
+    {
+      "id": "same-tabs-restored",
+      "verdict": "PASS",
+      "ids": [
+        "aa96be33-1e5e-4f4a-a862-722b9423908a",
+        "ses_e5cfdcb91ffeXqDcfudAsPrzjN",
+        "ses_e5cfdcb9dffeEox4hc1EH4vOmO"
+      ],
+      "screenshot": "04-pestanas-restauradas.jpg",
+      "snapshot": "logs/04-pestanas-restauradas-ax.txt"
+    },
+    {
+      "id": "individual-reference",
+      "verdict": "PASS",
+      "screenshot": "05-mencion-individual.jpg",
+      "snapshot": "logs/05-mencion-individual-ax.txt"
+    },
+    {
+      "id": "individual-attachment",
+      "verdict": "PASS",
+      "screenshot": "06-adjunto-individual.jpg",
+      "snapshot": "logs/06-adjunto-individual-ax.txt"
+    },
+    {
+      "id": "closure",
+      "verdict": "PASS",
+      "evidence": "logs/cierre-final.json"
+    }
+  ]
+}

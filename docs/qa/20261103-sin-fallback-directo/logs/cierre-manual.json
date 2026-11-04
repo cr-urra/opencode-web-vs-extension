@@ -1,0 +1,95 @@
+{
+  "workspace": "/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures",
+  "scannedHostWindow": "window4",
+  "startupLogs": [
+    {
+      "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T170158/1-OpenCode.log",
+      "serversStarted": 1,
+      "ports": [
+        35051,
+        50239
+      ],
+      "lastSavedState": [
+        "[2026-11-03T20:01:59.342Z] Saved OpenCode workspace state: 1 tabs"
+      ]
+    },
+    {
+      "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T164454/1-OpenCode.log",
+      "serversStarted": 1,
+      "ports": [
+        43914,
+        49666
+      ],
+      "lastSavedState": [
+        "[2026-11-03T19:45:18.722Z] Saved OpenCode workspace state: 1 tabs"
+      ]
+    },
+    {
+      "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T170146/1-OpenCode.log",
+      "serversStarted": 1,
+      "ports": [
+        17967,
+        50214
+      ],
+      "lastSavedState": [
+        "[2026-11-03T20:01:46.965Z] Saved OpenCode workspace state: 1 tabs"
+      ]
+    },
+    {
+      "source": "/Users/cristobal/Library/Application Support/VSCodium/logs/20261103T154830/window4/exthost/output_logging_20261103T170125/1-OpenCode.log",
+      "serversStarted": 1,
+      "ports": [
+        29283,
+        50186
+      ],
+      "lastSavedState": [
+        "[2026-11-03T20:01:26.174Z] Saved OpenCode workspace state: 1 tabs"
+      ]
+    }
+  ],
+  "ports": [
+    {
+      "port": 17967,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 29283,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 35051,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 43914,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 49666,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 50186,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 50214,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 50239,
+      "listening": false,
+      "exitCode": 1
+    }
+  ],
+  "noListeners": true,
+  "oneServerPerStartup": true,
+  "scope": "Puertos registrados por el host QA de este workspace; no inventario global de procesos."
+}

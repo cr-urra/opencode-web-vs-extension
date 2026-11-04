@@ -1,0 +1,160 @@
+
+> opencode-web-for-ide@1.14.43 test:unit
+> tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js
+
+✔ keeps the legacy project registry behavior (2.322958ms)
+✔ selects and opens the workspace draft in OpenCode v2 (1.097708ms)
+✔ restores the recent v2 session without creating a new draft (0.543333ms)
+✔ is idempotent for an existing v2 workspace draft (0.283667ms)
+✔ restores every persisted v2 tab and remaps the previous server origin (0.55625ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (0.424208ms)
+✔ validates persisted workspace tab state (0.096875ms)
+✔ pastes into the original input and selection after focus and caret change (1.353708ms)
+✔ restores the original contenteditable range before the frontend handles plain text paste (0.407041ms)
+✖ keeps selected input text unchanged when paste and execCommand both reject insertion (0.66575ms)
+✖ keeps contenteditable text and range unchanged when both insertion paths reject (0.316584ms)
+✔ uses execCommand with the restored contenteditable selection if paste is not handled (0.272291ms)
+✔ can use execCommand after dispatching paste throws (0.658208ms)
+✖ does not directly change an input if both paste and execCommand throw (0.261ms)
+✖ does not directly change contenteditable if execCommand throws after unhandled paste (0.247083ms)
+✔ does not apply an already consumed clipboard response twice (0.248417ms)
+✔ ignores unsolicited clipboard responses (0.232333ms)
+✔ keeps two rapid independent pastes without a time based suppression window (2.446083ms)
+✔ handles two rapid native paste shortcuts as independent requests (0.847958ms)
+✔ correlates out of order clipboard replies to their respective inputs (0.667541ms)
+✔ does not fall back after the frontend handles the paste event (0.589667ms)
+✔ does not manually insert twice when execCommand handles insertion (0.762833ms)
+✔ does not redirect a paste when the captured target has been detached (0.2575ms)
+✔ does not manually modify a read only input (0.238916ms)
+✔ does not modify an input that became disabled while awaiting the clipboard (0.209541ms)
+✔ does not insert into a contenteditable target after editing has been disabled (0.201917ms)
+✔ keeps selected input text when the clipboard is empty (0.21925ms)
+✔ keeps selected contenteditable text when the clipboard is empty (0.195458ms)
+✔ lets the frontend paste into the focused original editable when no selection was captured (0.215083ms)
+✔ releases clipboard requests when the parent bridge cannot receive messages (0.2055ms)
+✔ releases expired clipboard requests and ignores late responses (0.207584ms)
+✔ cleans up failed clipboard requests without mutating the prompt (0.181958ms)
+✔ keeps native keyboard handling on non macOS platforms (0.196625ms)
+✔ does not use the legacy append endpoint as a paste fallback (0.588709ms)
+✔ parses current and legacy OpenCode versions (0.428667ms)
+✔ detects the v2 UI independently from the CLI major version (0.067583ms)
+✔ creates the credentials expected by OpenCode (0.075084ms)
+✔ uses the configured executable before PATH (0.714459ms)
+✔ reports an invalid configured executable without silently falling back (0.078083ms)
+✔ finds OpenCode on PATH (0.55375ms)
+✔ finds the default OpenCode installation outside PATH (0.136208ms)
+✔ honors OPENCODE_INSTALL_DIR and XDG_BIN_DIR (0.074458ms)
+✔ uses PATHEXT when resolving OpenCode on Windows (0.123042ms)
+✔ waits for a mounted prompt and delivers queued commands in order (1.506542ms)
+✔ defers even when the prompt already exists, allowing mount listeners to finish (1.83ms)
+✔ expires commands instead of delivering them to a later unrelated editor (2.339ms)
+✔ ignores detached and noneditable elements until a connected editor appears (0.738583ms)
+✔ a failed command does not block the next queued action (0.669958ms)
+✔ returns a Windows workspace path without duplicating the drive (0.389625ms)
+✔ returns a Windows common parent on the same drive (0.075208ms)
+✔ returns the Windows drive root when it is the only common parent (0.049833ms)
+✔ returns undefined for Windows paths on different drives (0.345125ms)
+✔ handles Windows UNC workspace paths (0.102208ms)
+✔ compares Windows paths case-insensitively (0.062375ms)
+✔ returns a POSIX common parent (0.061042ms)
+✔ keeps POSIX path comparison case-sensitive (0.051917ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 52
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 156.890625
+
+✖ failing tests:
+
+test at out/opencodeClipboard.test.js:266:22
+✖ keeps selected input text unchanged when paste and execCommand both reject insertion (0.66575ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANTESñ\nlíneaDESPUES'
+  - 'ANTESQUITARDESPUES'
+          ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:274:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANTESñ\nlíneaDESPUES',
+    expected: 'ANTESQUITARDESPUES',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:282:22
+✖ keeps contenteditable text and range unchanged when both insertion paths reject (0.316584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANTES<b>ñ</b>\nlíneaDESPUES'
+  - 'ANTESQUITARDESPUES'
+          ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:288:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANTES<b>ñ</b>\nlíneaDESPUES',
+    expected: 'ANTESQUITARDESPUES',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:318:22
+✖ does not directly change an input if both paste and execCommand throw (0.261ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'X' !== 'AB'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:326:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'X',
+    expected: 'AB',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:334:22
+✖ does not directly change contenteditable if execCommand throws after unhandled paste (0.247083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'X' !== 'AB'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:338:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'X',
+    expected: 'AB',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

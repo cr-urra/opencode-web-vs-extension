@@ -1,0 +1,27 @@
+[2026-11-03T04:23:46.764Z] Activating extension
+[2026-11-03T04:23:46.766Z] Resolving sidebar webview
+[2026-11-03T04:23:46.767Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:23:47.101Z] Detected OpenCode CLI major: 2
+[2026-11-03T04:23:47.101Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T04:23:47.102Z] Started opencode serve on port 45289 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:23:47.266Z] Opening sidebar container
+[2026-11-03T04:23:47.446Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:23:47.447Z] opencode server is ready on port 45289
+[2026-11-03T04:23:47.448Z] Started opencode proxy on port 52233
+[2026-11-03T04:23:47.448Z] Loading webview iframe: http://127.0.0.1:52233/
+[2026-11-03T04:23:47.448Z] Loading authenticated OpenCode iframe: http://127.0.0.1:52233/
+[2026-11-03T04:23:47.463Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:23:47.523Z] Serving injected workspace bootstrap script
+[2026-11-03T04:23:47.572Z] Saved OpenCode workspace state: 16 tabs
+[2026-11-03T04:23:47.786Z] Injected script: clipboard bridge installed
+[2026-11-03T04:23:47.786Z] Injected script: paste bridge installed
+[2026-11-03T04:23:47.788Z] Injected script: edit command bridge installed
+[2026-11-03T04:23:47.788Z] Injected script: insert text bridge installed
+[2026-11-03T04:23:47.791Z] Injected script: attachment bridge installed
+[2026-11-03T04:23:47.791Z] Injected script: drop paths bridge installed
+[2026-11-03T04:23:47.791Z] Injected script: drop normalizer installed
+[2026-11-03T04:23:47.791Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:23:47.794Z] Injected script: restored 16 workspace tabs
+[2026-11-03T04:23:47.795Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab http://127.0.0.1:52233
+ses_e605b7eb1ffeSKGbltOHRbiy9X
+[2026-11-03T04:23:48.062Z] Proxy injected workspace bootstrap into HTML

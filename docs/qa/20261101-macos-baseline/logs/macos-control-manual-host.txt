@@ -1,0 +1,24 @@
+[2026-11-01T04:29:14.663Z] Activating extension
+[2026-11-01T04:29:14.667Z] Resolving sidebar webview
+[2026-11-01T04:29:14.667Z] Resolved workspace root: /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:29:14.669Z] Started opencode serve on port 29862 with cwd /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:29:15.167Z] Opening sidebar container
+[2026-11-01T04:29:15.499Z] opencode server is ready on port 29862
+[2026-11-01T04:29:15.501Z] Started opencode proxy on port 51641
+[2026-11-01T04:29:15.501Z] Appending prompt to opencode at http://127.0.0.1:29862: Workspace context:
+[2026-11-01T04:29:15.531Z] Failed to append workspace context: OpenCode append prompt failed with HTTP 405 Method Not Allowed
+[2026-11-01T04:29:15.531Z] Loading webview iframe: http://127.0.0.1:51641/
+[2026-11-01T04:29:15.547Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T04:29:15.553Z] Serving injected workspace bootstrap script
+[2026-11-01T04:29:15.581Z] OpenCode iframe bridge ready: macPasteFallback=true
+[2026-11-01T04:29:15.892Z] Injected script: clipboard bridge installed
+[2026-11-01T04:29:15.892Z] Injected script: paste bridge installed
+[2026-11-01T04:29:15.892Z] Injected script: edit command bridge installed
+[2026-11-01T04:29:15.893Z] Injected script: insert text bridge installed
+[2026-11-01T04:29:15.893Z] Injected script: attachment bridge installed
+[2026-11-01T04:29:15.899Z] Injected script: drop paths bridge installed
+[2026-11-01T04:29:15.900Z] Injected script: drop normalizer installed
+[2026-11-01T04:29:15.900Z] Injected script: bootstrap executing for /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:29:15.900Z] Injected script: seeded opencode.global.dat:server local=/var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:29:16.195Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T04:31:38.006Z] Proxy injected workspace bootstrap into HTML

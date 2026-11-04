@@ -1,0 +1,27 @@
+[2026-11-03T04:44:25.537Z] Activating extension
+[2026-11-03T04:44:25.538Z] Resolving sidebar webview
+[2026-11-03T04:44:25.539Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:44:25.723Z] Detected OpenCode CLI major: 2
+[2026-11-03T04:44:25.723Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T04:44:25.724Z] Started opencode serve on port 63636 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:44:25.951Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:44:25.951Z] opencode server is ready on port 63636
+[2026-11-03T04:44:25.953Z] Started opencode proxy on port 52923
+[2026-11-03T04:44:25.953Z] Loading webview iframe: http://127.0.0.1:52923/
+[2026-11-03T04:44:25.953Z] Loading authenticated OpenCode iframe: http://127.0.0.1:52923/
+[2026-11-03T04:44:25.965Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:44:26.022Z] Serving injected workspace bootstrap script
+[2026-11-03T04:44:26.046Z] Opening sidebar container
+[2026-11-03T04:44:26.086Z] Saved OpenCode workspace state: 27 tabs
+[2026-11-03T04:44:26.470Z] Injected script: clipboard bridge installed
+[2026-11-03T04:44:26.470Z] Injected script: paste bridge installed
+[2026-11-03T04:44:26.470Z] Injected script: edit command bridge installed
+[2026-11-03T04:44:26.471Z] Injected script: insert text bridge installed
+[2026-11-03T04:44:26.471Z] Injected script: attachment bridge installed
+[2026-11-03T04:44:26.472Z] Injected script: drop paths bridge installed
+[2026-11-03T04:44:26.472Z] Injected script: drop normalizer installed
+[2026-11-03T04:44:26.472Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:44:26.474Z] Injected script: restored 27 workspace tabs
+[2026-11-03T04:44:26.474Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab draft:db78b90c-0175-43d2-bace-d4a8e7f55917
+[2026-11-03T04:44:27.125Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:44:37.052Z] Saved OpenCode workspace state: 28 tabs

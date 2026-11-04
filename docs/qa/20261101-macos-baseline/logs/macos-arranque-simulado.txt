@@ -1,0 +1,31 @@
+HOST SIMULADO: estos logs no provienen de una ventana real de VSCodium.
+[2026-11-01T03:49:34.312Z] Activating extension
+[2026-11-01T03:49:34.813Z] Opening sidebar container
+[2026-11-01T03:49:34.814Z] Resolving sidebar webview
+[2026-11-01T03:49:34.815Z] Resolved workspace root: /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T03:49:34.816Z] Started opencode serve on port 49507 with cwd /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T03:49:35.035Z] opencode server is ready on port 49507
+[2026-11-01T03:49:35.035Z] Started opencode proxy on port 50344
+[2026-11-01T03:49:35.035Z] Appending prompt to opencode at http://127.0.0.1:49507: Workspace context:
+[2026-11-01T03:49:35.038Z] Failed to append workspace context: OpenCode append prompt failed with HTTP 405 Method Not Allowed
+[2026-11-01T03:49:35.038Z] Loading webview iframe: http://127.0.0.1:50344/
+[2026-11-01T03:49:35.040Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T03:49:35.041Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T03:49:35.042Z] Serving injected workspace bootstrap script
+{
+  "mode": "bundle real + VS Code API simulada; OpenCode y proxy reales",
+  "passed": true,
+  "appStatus": 200,
+  "healthStatus": 200,
+  "healthContentType": "text/html",
+  "healthReturnsJson": false,
+  "serverVersion": "opencode v2.2.5",
+  "bootstrapStatus": 200,
+  "bootstrapInjected": true,
+  "bootstrapSyntaxValid": true,
+  "iframeCarriesAuthToken": false,
+  "parentKeyCapturePresent": true,
+  "parentDropCapturePresent": true,
+  "contenteditableRangeFallbackPresent": true
+}
+[2026-11-01T03:49:35.050Z] opencode serve exited on port 49507 with code 130 signal <none>

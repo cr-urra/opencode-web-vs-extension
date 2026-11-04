@@ -1,0 +1,67 @@
+✔ keeps the legacy project registry behavior (1.806458ms)
+✔ selects and opens the workspace draft in OpenCode v2 (1.643625ms)
+✖ restores the recent v2 session without creating a new draft (1.009917ms)
+✔ is idempotent for an existing v2 workspace draft (0.287ms)
+✖ restores every persisted v2 tab and remaps the previous server origin (0.61725ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (0.510542ms)
+✔ validates persisted workspace tab state (0.096208ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 75.168541
+
+✖ failing tests:
+
+test at out/opencodeBootstrap.test.js:100:22
+✖ restores the recent v2 session without creating a new draft (1.009917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   '/L3dvcmtzcGFjZS9yb290/session/ses-123?auth_token=encoded'
+  -   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-123?auth_token=encoded'
+    ]
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:115:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '/L3dvcmtzcGFjZS9yb290/session/ses-123?auth_token=encoded' ],
+    expected: [ '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-123?auth_token=encoded' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeBootstrap.test.js:129:22
+✖ restores every persisted v2 tab and remaps the previous server origin (0.61725ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   '/L3dvcmtzcGFjZS9yb290/session/ses-active?auth_token=encoded'
+  -   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-active?auth_token=encoded'
+    ]
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:150:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '/L3dvcmtzcGFjZS9yb290/session/ses-active?auth_token=encoded' ],
+    expected: [ '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-active?auth_token=encoded' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

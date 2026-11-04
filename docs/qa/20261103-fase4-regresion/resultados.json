@@ -1,0 +1,1142 @@
+{
+  "date": "2026-11-03",
+  "runtime": "/private/tmp/opencode-manual-qa-Rfgyvg",
+  "workspace": "/private/tmp/opencode-manual-qa-Rfgyvg/workspace",
+  "profile": "QA-raiz-manual",
+  "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387",
+  "version": "1.14.43",
+  "status": "Fase 4 ejecutada con limitación RANGE-UNDO pendiente",
+  "cases": [
+    {
+      "name": "01-primer-comando",
+      "verdict": "FAIL",
+      "expected": {
+        "prompt": "@contexto.txt "
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:12:41.338Z",
+      "screenshot": "01-primer-comando.jpg",
+      "snapshot": "logs/01-primer-comando-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "02-primer-comando-observacion-final",
+      "verdict": "FAIL",
+      "expected": {
+        "prompt": "@contexto.txt "
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:14:31.783Z",
+      "screenshot": "02-primer-comando-observacion-final.jpg",
+      "snapshot": "logs/02-primer-comando-observacion-final-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "03-mismo-comando-app-lista",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@contexto.txt "
+      },
+      "actual": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:14:34.264Z",
+      "screenshot": "03-mismo-comando-app-lista.jpg",
+      "snapshot": "logs/03-mismo-comando-app-lista-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "04-pegado-inmediato",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:15:22.569Z",
+      "screenshot": "04-pegado-inmediato.jpg",
+      "snapshot": "logs/04-pegado-inmediato-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "05-seleccionar-y-cortar",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:15:37.656Z",
+      "screenshot": "05-seleccionar-y-cortar.jpg",
+      "snapshot": "logs/05-seleccionar-y-cortar-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "06-restaurar-corte",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:15:38.726Z",
+      "screenshot": "06-restaurar-corte.jpg",
+      "snapshot": "logs/06-restaurar-corte-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "07-deshacer-pegado",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:15:39.789Z",
+      "screenshot": "07-deshacer-pegado.jpg",
+      "snapshot": "logs/07-deshacer-pegado-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "08-rehacer-pegado",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:15:40.863Z",
+      "screenshot": "08-rehacer-pegado.jpg",
+      "snapshot": "logs/08-rehacer-pegado-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "09-pegado-demorado",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:16:32.906Z",
+      "screenshot": "09-pegado-demorado.jpg",
+      "snapshot": "logs/09-pegado-demorado-ax.txt",
+      "delayMs": 39044,
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "10-texto-base-posicion",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "ANTESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUES",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:16:57.579Z",
+      "screenshot": "10-texto-base-posicion.jpg",
+      "snapshot": "logs/10-texto-base-posicion-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "11-reemplazo-seleccion-multilinea",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "ANTESQA_FASE4\nlínea_ñDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQA_FASE4\nlínea_ñDESPUES",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:17:00.513Z",
+      "screenshot": "11-reemplazo-seleccion-multilinea.jpg",
+      "snapshot": "logs/11-reemplazo-seleccion-multilinea-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "12-menu-nativo-pegar",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:17:17.004Z",
+      "screenshot": "12-menu-nativo-pegar.jpg",
+      "snapshot": "logs/12-menu-nativo-pegar-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "13-comando-paleta-pegar",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:17:44.594Z",
+      "screenshot": "13-comando-paleta-pegar.jpg",
+      "snapshot": "logs/13-comando-paleta-pegar-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "14-insercion-en-cursor",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "ANTESANTESQUITARDESPUESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESANTESQUITARDESPUESQUITARDESPUES",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:17:49.831Z",
+      "screenshot": "14-insercion-en-cursor.jpg",
+      "snapshot": "logs/14-insercion-en-cursor-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "15-pegados-consecutivos",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:18:13.521Z",
+      "screenshot": "15-pegados-consecutivos.jpg",
+      "snapshot": "logs/15-pegados-consecutivos-ax.txt",
+      "keySequenceMs": 27,
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "16-ocultar-vista",
+      "verdict": "INTENTO NO VÁLIDO",
+      "expected": {
+        "prompt": null
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:18:39.158Z",
+      "screenshot": "16-ocultar-vista.jpg",
+      "snapshot": "logs/16-ocultar-vista-ax.txt",
+      "note": "El atajo no cambió la visibilidad de la barra secundaria; se repite mediante los botones nativos.",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "17-mostrar-contenido-conservado",
+      "verdict": "INTENTO NO VÁLIDO",
+      "expected": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES",
+        "attachmentCount": 0
+      },
+      "capturedAtUtc": "2026-11-03T04:18:40.225Z",
+      "screenshot": "17-mostrar-contenido-conservado.jpg",
+      "snapshot": "logs/17-mostrar-contenido-conservado-ax.txt",
+      "sameWebviewDocument": true,
+      "note": "El atajo no cambió la visibilidad de la barra secundaria; se repite mediante los botones nativos.",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "18-ocultar-vista-boton",
+      "verdict": "PASS",
+      "expected": {
+        "secondaryVisible": false
+      },
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": false
+      },
+      "capturedAtUtc": "2026-11-03T04:19:19.706Z",
+      "screenshot": "18-ocultar-vista-boton.jpg",
+      "snapshot": "logs/18-ocultar-vista-boton-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "19-mostrar-vista-boton",
+      "verdict": "PASS",
+      "expected": {
+        "secondaryVisible": true,
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:19:20.589Z",
+      "screenshot": "19-mostrar-vista-boton.jpg",
+      "snapshot": "logs/19-mostrar-vista-boton-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "20-menciones-multiples",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@archivo con espacios ñ.txt @contexto.txt "
+      },
+      "actual": {
+        "prompt": "@archivo con espacios ñ.txt @contexto.txt ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:20:06.201Z",
+      "screenshot": "20-menciones-multiples.jpg",
+      "snapshot": "logs/20-menciones-multiples-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "21-adjunto-individual",
+      "verdict": "EN CARGA",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 1
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:20:10.400Z",
+      "screenshot": "21-adjunto-individual.jpg",
+      "snapshot": "logs/21-adjunto-individual-ax.txt",
+      "note": "La captura intermedia mostraba imagen.png al 0% con Cancelar carga; no se clasifica como fallo funcional.",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "22-adjuntos-multiples",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 2
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 2,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:20:17.562Z",
+      "screenshot": "22-adjuntos-multiples.jpg",
+      "snapshot": "logs/22-adjuntos-multiples-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "23-adjunto-individual-carga-completa",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 1
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 1,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:21:01.333Z",
+      "screenshot": "23-adjunto-individual-carga-completa.jpg",
+      "snapshot": "logs/23-adjunto-individual-carga-completa-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "24-sesion-A-abierta",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:23:04.784Z",
+      "screenshot": "24-sesion-A-abierta.jpg",
+      "snapshot": "logs/24-sesion-A-abierta-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "25-sesion-B-activa",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:23:07.862Z",
+      "screenshot": "25-sesion-B-activa.jpg",
+      "snapshot": "logs/25-sesion-B-activa-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "26-pestanas-antes-reinicio",
+      "verdict": "PASS",
+      "expected": {},
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": true,
+        "hasSessionA": true,
+        "hasSessionB": true
+      },
+      "capturedAtUtc": "2026-11-03T04:23:08.840Z",
+      "screenshot": "26-pestanas-antes-reinicio.jpg",
+      "snapshot": "logs/26-pestanas-antes-reinicio-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "27-restauracion-observacion-inicial",
+      "verdict": "OBSERVADO",
+      "expected": {},
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:23:46.289Z",
+      "screenshot": "27-restauracion-observacion-inicial.jpg",
+      "snapshot": "logs/27-restauracion-observacion-inicial-ax.txt",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "28-restauracion-sesion-activa",
+      "verdict": "FAIL",
+      "expected": {},
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": true,
+        "restoredSessionB": false
+      },
+      "capturedAtUtc": "2026-11-03T04:24:07.815Z",
+      "screenshot": "28-restauracion-sesion-activa.jpg",
+      "snapshot": "logs/28-restauracion-sesion-activa-ax.txt",
+      "note": "Sesión activa tras reabrir el mismo workspace; IDs y título comprobados en accesibilidad",
+      "buildSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387"
+    },
+    {
+      "name": "29-restauracion-corregida",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "secondaryVisible": true
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true,
+        "activeSessionB": true
+      },
+      "capturedAtUtc": "2026-11-03T04:34:09.954Z",
+      "screenshot": "29-restauracion-corregida.jpg",
+      "snapshot": "logs/29-restauracion-corregida-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "30-pestanas-restauradas",
+      "verdict": "PASS",
+      "expected": {},
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": true,
+        "sessionA": true,
+        "sessionB": true,
+        "draftCount": 14,
+        "sameDraftIDs": true
+      },
+      "capturedAtUtc": "2026-11-03T04:34:15.888Z",
+      "screenshot": "30-pestanas-restauradas.jpg",
+      "snapshot": "logs/30-pestanas-restauradas-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "31-primer-comando-corregido",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:02.422Z",
+      "screenshot": "31-primer-comando-corregido.jpg",
+      "snapshot": "logs/31-primer-comando-corregido-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "32-menciones-multiples-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@archivo con espacios ñ.txt @contexto.txt ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": "@archivo con espacios ñ.txt @contexto.txt ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:13.704Z",
+      "screenshot": "32-menciones-multiples-final.jpg",
+      "snapshot": "logs/32-menciones-multiples-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "33-adjunto-individual-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 1
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 1,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:22.377Z",
+      "screenshot": "33-adjunto-individual-final.jpg",
+      "snapshot": "logs/33-adjunto-individual-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "34-adjuntos-multiples-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 2
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 2,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:34.479Z",
+      "screenshot": "34-adjuntos-multiples-final.jpg",
+      "snapshot": "logs/34-adjuntos-multiples-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "35-pegado-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:39.017Z",
+      "screenshot": "35-pegado-final.jpg",
+      "snapshot": "logs/35-pegado-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "36-corte-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:40.076Z",
+      "screenshot": "36-corte-final.jpg",
+      "snapshot": "logs/36-corte-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "37-reponer-corte-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:41.118Z",
+      "screenshot": "37-reponer-corte-final.jpg",
+      "snapshot": "logs/37-reponer-corte-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "38-deshacer-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:42.186Z",
+      "screenshot": "38-deshacer-final.jpg",
+      "snapshot": "logs/38-deshacer-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "39-rehacer-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:35:43.218Z",
+      "screenshot": "39-rehacer-final.jpg",
+      "snapshot": "logs/39-rehacer-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "40-seleccion-pegado-demorado-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "ANTESQA_FASE4\nlínea_ñDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQA_FASE4\nlínea_ñDESPUES",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:36:28.116Z",
+      "screenshot": "40-seleccion-pegado-demorado-final.jpg",
+      "snapshot": "logs/40-seleccion-pegado-demorado-final-ax.txt",
+      "delayMs": 20093,
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "41-pegados-consecutivos-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:36:39.231Z",
+      "screenshot": "41-pegados-consecutivos-final.jpg",
+      "snapshot": "logs/41-pegados-consecutivos-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "42-ocultar-final",
+      "verdict": "PASS",
+      "expected": {
+        "secondaryVisible": false
+      },
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": false
+      },
+      "capturedAtUtc": "2026-11-03T04:36:40.182Z",
+      "screenshot": "42-ocultar-final.jpg",
+      "snapshot": "logs/42-ocultar-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "43-mostrar-final",
+      "verdict": "PASS",
+      "expected": {
+        "secondaryVisible": true,
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES"
+      },
+      "actual": {
+        "prompt": "ANTESQUITARDESPUESANTESQUITARDESPUES",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:36:41.097Z",
+      "screenshot": "43-mostrar-final.jpg",
+      "snapshot": "logs/43-mostrar-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "44-range-cambio-foco",
+      "verdict": "PASS",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15",
+      "layer": "Fixture en Brave con módulo generado de producción; no OpenCode",
+      "capturedAtUtc": "2026-11-03T04:39:21.070Z",
+      "screenshot": "44-range-cambio-foco.jpg",
+      "snapshot": "logs/44-range-cambio-foco-ax.txt",
+      "note": "AX separa nodos Text con saltos de línea adicionales; contenido exacto verificado en el log input del fixture y en la captura."
+    },
+    {
+      "name": "45-range-deshacer",
+      "verdict": "FAIL",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15",
+      "layer": "Fixture en Brave con módulo generado de producción; no OpenCode",
+      "capturedAtUtc": "2026-11-03T04:39:40.537Z",
+      "screenshot": "45-range-deshacer.jpg",
+      "snapshot": "logs/45-range-deshacer-ax.txt"
+    },
+    {
+      "name": "46-range-rehacer-sin-historial",
+      "verdict": "OBSERVADO",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15",
+      "layer": "Fixture en Brave con módulo generado de producción; no OpenCode",
+      "capturedAtUtc": "2026-11-03T04:39:41.537Z",
+      "screenshot": "46-range-rehacer-sin-historial.jpg",
+      "snapshot": "logs/46-range-rehacer-sin-historial-ax.txt",
+      "note": "Rehacer no cambia el contenido después de que deshacer no tuvo efecto; no acredita historial de redo."
+    },
+    {
+      "name": "47-menu-nativo-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:40:26.351Z",
+      "screenshot": "47-menu-nativo-final.jpg",
+      "snapshot": "logs/47-menu-nativo-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "48-comando-pegar-final",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:40:37.335Z",
+      "screenshot": "48-comando-pegar-final.jpg",
+      "snapshot": "logs/48-comando-pegar-final-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "49-primer-comando-arranque-inmediato",
+      "verdict": "EN CARGA",
+      "expected": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:41:55.550Z",
+      "screenshot": "49-primer-comando-arranque-inmediato.jpg",
+      "snapshot": "logs/49-primer-comando-arranque-inmediato-ax.txt",
+      "note": "Captura anterior al montaje del Prompt; entrega posterior comprobada sin repetir en caso 50.",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "50-primer-comando-arranque-completo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:42:03.093Z",
+      "screenshot": "50-primer-comando-arranque-completo.jpg",
+      "snapshot": "logs/50-primer-comando-arranque-completo-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "51-adjunto-arranque-completo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 1
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 1,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:42:34.470Z",
+      "screenshot": "51-adjunto-arranque-completo.jpg",
+      "snapshot": "logs/51-adjunto-arranque-completo-ax.txt",
+      "buildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15"
+    },
+    {
+      "name": "52-arranque-serializado-referencia",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": "@contexto.txt ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:44:54.675Z",
+      "screenshot": "52-arranque-serializado-referencia.jpg",
+      "snapshot": "logs/52-arranque-serializado-referencia-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "53-menciones-build-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "@archivo con espacios ñ.txt @contexto.txt ",
+        "attachmentCount": 0
+      },
+      "actual": {
+        "prompt": "@archivo con espacios ñ.txt @contexto.txt ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:01.175Z",
+      "screenshot": "53-menciones-build-definitivo.jpg",
+      "snapshot": "logs/53-menciones-build-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "54-adjunto-build-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 1
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 1,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:09.163Z",
+      "screenshot": "54-adjunto-build-definitivo.jpg",
+      "snapshot": "logs/54-adjunto-build-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "55-adjuntos-multiples-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "",
+        "attachmentCount": 2
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 2,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:26.918Z",
+      "screenshot": "55-adjuntos-multiples-definitivo.jpg",
+      "snapshot": "logs/55-adjuntos-multiples-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "56-pegado-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:31.439Z",
+      "screenshot": "56-pegado-definitivo.jpg",
+      "snapshot": "logs/56-pegado-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "57-deshacer-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:32.471Z",
+      "screenshot": "57-deshacer-definitivo.jpg",
+      "snapshot": "logs/57-deshacer-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "58-rehacer-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": "QA_FASE4\nlínea_ñ"
+      },
+      "actual": {
+        "prompt": "QA_FASE4\nlínea_ñ",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:33.544Z",
+      "screenshot": "58-rehacer-definitivo.jpg",
+      "snapshot": "logs/58-rehacer-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "59-sesion-activa-antes-cierre-definitivo",
+      "verdict": "PASS",
+      "expected": {
+        "prompt": ""
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true
+      },
+      "capturedAtUtc": "2026-11-03T04:45:35.605Z",
+      "screenshot": "59-sesion-activa-antes-cierre-definitivo.jpg",
+      "snapshot": "logs/59-sesion-activa-antes-cierre-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "60-restauracion-build-definitivo",
+      "verdict": "FAIL",
+      "expected": {
+        "prompt": "",
+        "secondaryVisible": true
+      },
+      "actual": {
+        "prompt": "",
+        "attachmentCount": 0,
+        "secondaryVisible": true,
+        "activeSessionB": false
+      },
+      "capturedAtUtc": "2026-11-03T04:46:07.897Z",
+      "screenshot": "60-restauracion-build-definitivo.jpg",
+      "snapshot": "logs/60-restauracion-build-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    },
+    {
+      "name": "61-pestanas-build-definitivo",
+      "verdict": "PASS",
+      "expected": {},
+      "actual": {
+        "prompt": null,
+        "attachmentCount": 0,
+        "secondaryVisible": true,
+        "sessionA": true,
+        "sessionB": true,
+        "draftCount": 30
+      },
+      "capturedAtUtc": "2026-11-03T04:46:09.109Z",
+      "screenshot": "61-pestanas-build-definitivo.jpg",
+      "snapshot": "logs/61-pestanas-build-definitivo-ax.txt",
+      "buildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d"
+    }
+  ],
+  "persistenceBefore": {
+    "sessionA": "ses_e605b7ec0ffeRaxeolYNQZdnEA",
+    "activeSession": "ses_e605b7eb1ffeSKGbltOHRbiy9X",
+    "proxy": "http://127.0.0.1:51813"
+  },
+  "finalBuildSha256": "cceffb877d198a55ab48b6f099dd1194429366c2884d81d88d1921fa6bd8349d",
+  "openIssues": [
+    {
+      "id": "RANGE-UNDO",
+      "severity": "Limitación del fallback de último recurso",
+      "status": "Pendiente",
+      "detail": "Range.insertNode no crea entrada en undo nativo en el fixture Brave; el recorrido normal de OpenCode pasa undo/redo. No se certifica undo en el fallback."
+    }
+  ],
+  "cleanup": [
+    {
+      "port": 22156,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 50476,
+      "listening": true,
+      "exitCode": 0
+    },
+    {
+      "port": 52845,
+      "listening": false,
+      "exitCode": 1
+    },
+    {
+      "port": 52846,
+      "listening": false,
+      "exitCode": 1
+    }
+  ],
+  "checks": {
+    "unitTests": {
+      "pass": 50,
+      "fail": 0
+    },
+    "types": "PASS",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 754
+    },
+    "productionBuild": "PASS",
+    "bootstrapSyntaxCases": 6,
+    "startupGateCases": 3
+  },
+  "intermediateBuildSha256": "eba3f5134dbb7a0388d8ba28912ee53d0513ca4cab7e411432771e8044781e15",
+  "cleanupFinal": [
+    {
+      "port": 23868,
+      "listening": false
+    },
+    {
+      "port": 53049,
+      "listening": false
+    },
+    {
+      "port": 50476,
+      "listening": false
+    }
+  ],
+  "fixedIssues": [
+    "Primer comando entregado antes del montaje del prompt",
+    "Ruta de restauración de sesión v2",
+    "Arranque simultáneo de dos servidores"
+  ],
+  "cleanupAllPorts": [
+    {
+      "port": 20556,
+      "listening": false
+    },
+    {
+      "port": 22156,
+      "listening": false
+    },
+    {
+      "port": 23868,
+      "listening": false
+    },
+    {
+      "port": 27375,
+      "listening": false
+    },
+    {
+      "port": 33994,
+      "listening": false
+    },
+    {
+      "port": 45289,
+      "listening": false
+    },
+    {
+      "port": 46111,
+      "listening": false
+    },
+    {
+      "port": 50476,
+      "listening": false
+    },
+    {
+      "port": 51596,
+      "listening": false
+    },
+    {
+      "port": 51813,
+      "listening": false
+    },
+    {
+      "port": 52233,
+      "listening": false
+    },
+    {
+      "port": 52436,
+      "listening": false
+    },
+    {
+      "port": 52502,
+      "listening": false
+    },
+    {
+      "port": 52804,
+      "listening": false
+    },
+    {
+      "port": 52805,
+      "listening": false
+    },
+    {
+      "port": 52845,
+      "listening": false
+    },
+    {
+      "port": 52846,
+      "listening": false
+    },
+    {
+      "port": 52923,
+      "listening": false
+    },
+    {
+      "port": 52957,
+      "listening": false
+    },
+    {
+      "port": 53049,
+      "listening": false
+    },
+    {
+      "port": 57456,
+      "listening": false
+    },
+    {
+      "port": 63636,
+      "listening": false
+    }
+  ],
+  "cleanupNotes": "Se cerraron explícitamente los dos servidores huérfanos de builds anteriores (puertos 50476 y 33994). El build definitivo cerró sus servidores automáticamente."
+}

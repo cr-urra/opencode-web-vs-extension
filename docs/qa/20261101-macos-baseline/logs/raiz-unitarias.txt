@@ -1,0 +1,32 @@
+✔ keeps the legacy project registry behavior (3.648083ms)
+✔ selects and opens the workspace draft in OpenCode v2 (1.729291ms)
+✔ restores the recent v2 session without creating a new draft (0.857708ms)
+✔ is idempotent for an existing v2 workspace draft (0.68425ms)
+✔ restores every persisted v2 tab and remaps the previous server origin (1.437417ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (0.965334ms)
+✔ validates persisted workspace tab state (0.112833ms)
+✔ parses current and legacy OpenCode versions (0.386459ms)
+✔ detects the v2 UI independently from the CLI major version (0.064125ms)
+✔ creates the credentials expected by OpenCode (0.071166ms)
+✔ uses the configured executable before PATH (0.687542ms)
+✔ reports an invalid configured executable without silently falling back (0.078542ms)
+✔ finds OpenCode on PATH (0.629625ms)
+✔ finds the default OpenCode installation outside PATH (0.143209ms)
+✔ honors OPENCODE_INSTALL_DIR and XDG_BIN_DIR (0.079666ms)
+✔ uses PATHEXT when resolving OpenCode on Windows (0.120875ms)
+✔ returns a Windows workspace path without duplicating the drive (0.412292ms)
+✔ returns a Windows common parent on the same drive (0.077667ms)
+✔ returns the Windows drive root when it is the only common parent (0.053125ms)
+✔ returns undefined for Windows paths on different drives (0.428166ms)
+✔ handles Windows UNC workspace paths (0.070166ms)
+✔ compares Windows paths case-insensitively (0.051333ms)
+✔ returns a POSIX common parent (0.060375ms)
+✔ keeps POSIX path comparison case-sensitive (0.049167ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85.843875

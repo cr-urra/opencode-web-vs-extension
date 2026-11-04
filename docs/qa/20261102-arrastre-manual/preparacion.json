@@ -1,0 +1,18 @@
+{
+  "runtime": "/private/tmp/opencode-manual-qa-Rfgyvg",
+  "workspace": "/private/tmp/opencode-manual-qa-Rfgyvg/workspace",
+  "userDate": "2026-11-02",
+  "userTimezone": "America/Santiago",
+  "profile": "QA-macos-manual",
+  "variant": "macos",
+  "proxy": "http://127.0.0.1:49611",
+  "draftId": "12b7f1fe-9784-41b9-8a35-da5de823d231",
+  "fixture": "imagen.png",
+  "fixtureSha256": "fbe53e211b8e42b071e0c680f84544c1e4e4d47edbf99cdacbdeb95372f67a99",
+  "uiVerified": [
+    "Finder en mitad izquierda; imagen.png seleccionada",
+    "Host de desarrollo QA-macos-manual en mitad derecha",
+    "Prompt vacío; workspace seleccionado"
+  ],
+  "status": "Preparado. Arrastre manual del usuario pendiente; no se declara PASS ni FAIL."
+}

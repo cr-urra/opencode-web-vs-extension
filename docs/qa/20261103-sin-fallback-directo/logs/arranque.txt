@@ -1,0 +1,3 @@
+PASS: concurrent loads share one pending startup and await completion.
+PASS: a completed load allows a subsequent reload.
+PASS: a rejected load releases the gate and allows retry.

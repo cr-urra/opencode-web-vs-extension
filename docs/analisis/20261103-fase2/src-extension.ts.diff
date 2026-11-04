@@ -1,0 +1,880 @@
+diff --git a/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac/src/extension.ts b/Users/cristobal/Documents/opencode-web-vs-extension/src/extension.ts
+index 6295e26..aeb4b1a 100644
+--- a/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac/src/extension.ts
++++ b/Users/cristobal/Documents/opencode-web-vs-extension/src/extension.ts
+@@ -5,15 +5,31 @@ import * as vscode from "vscode"
+ import * as path from "path"
+ import * as http from "http"
+ import * as net from "net"
++import { randomBytes } from "crypto"
+ import { spawn, type ChildProcess } from "child_process"
+ import { getCommonParentPath } from "./pathUtils"
++import { resolveOpenCodeExecutable } from "./opencodeExecutable"
++import {
++  getOpenCodeWorkspaceStateScript,
++  sanitizeOpenCodeWorkspaceState,
++  type OpenCodePersistedWorkspaceState,
++} from "./opencodeBootstrap"
++import {
++  createOpenCodeAuthToken,
++  createOpenCodeBasicAuth,
++  detectOpenCodeMajorVersion,
++  getOpenCodeUiGeneration,
++  parseOpenCodeMajorVersion,
++  type OpenCodeUiGeneration,
++} from "./opencodeCompatibility"
+ 
+ const SIDEBAR_VIEW_ID = "opencode.sidebar"
+ const SIDEBAR_CONTAINER_COMMAND = "workbench.view.extension.opencode"
+ const EXPERIMENTAL_OPENCODE_SERVER = ""
++const MAX_TERMINAL_CONTEXT_CHARACTERS = 100_000
++const OPENCODE_WORKSPACE_STATE_KEY = "opencodeWeb.v2WorkspaceState"
+ 
+ export function activate(context: vscode.ExtensionContext) {
+-  let sidebarPort: number | undefined
+   let sidebarServerUrl: string | undefined
+   let sidebarProcess: ChildProcess | undefined
+   let proxyServer: http.Server | undefined
+@@ -21,31 +37,60 @@ export function activate(context: vscode.ExtensionContext) {
+   let workspaceContextServerUrl: string | undefined
+   let workspaceRoot: string | undefined
+   let sidebarWebview: vscode.Webview | undefined
++  let lastNotifiedStartupError: string | undefined
++  let sidebarServerPassword: string | undefined
++  let openCodeMajorVersion: number | undefined
++  let openCodeUiGeneration: OpenCodeUiGeneration = "legacy"
+   const output = vscode.window.createOutputChannel("OpenCode")
+ 
+   log("Activating extension")
+ 
+-  const sidebarDisposable = vscode.window.registerWebviewViewProvider(SIDEBAR_VIEW_ID, {
+-    resolveWebviewView(view) {
+-      sidebarWebview = view.webview
+-      view.webview.options = {
+-        enableScripts: true,
+-      }
+-      context.subscriptions.push(view.webview.onDidReceiveMessage((message) => handleWebviewMessage(view.webview, message)))
+-      log("Resolving sidebar webview")
+-      view.onDidChangeVisibility(() => {
+-        if (view.visible) {
+-          void loadSidebar(view.webview)
++  const sidebarDisposable = vscode.window.registerWebviewViewProvider(
++    SIDEBAR_VIEW_ID,
++    {
++      resolveWebviewView(view) {
++        sidebarWebview = view.webview
++        view.webview.options = {
++          enableScripts: true,
+         }
+-      })
+-      void loadSidebar(view.webview)
++        context.subscriptions.push(
++          view.webview.onDidReceiveMessage((message) => handleWebviewMessage(view.webview, message)),
++          view.onDidDispose(() => {
++            if (sidebarWebview === view.webview) {
++              sidebarWebview = undefined
++            }
++          }),
++        )
++        log("Resolving sidebar webview")
++        void loadSidebar(view.webview)
++      },
+     },
+-  })
++    {
++      webviewOptions: {
++        retainContextWhenHidden: true,
++      },
++    },
++  )
+ 
+   const workspaceFoldersDisposable = vscode.workspace.onDidChangeWorkspaceFolders(() => {
+     void reloadSidebarIfWorkspaceRootChanged()
+   })
+ 
++  const configurationDisposable = vscode.workspace.onDidChangeConfiguration((event) => {
++    if (!event.affectsConfiguration("opencodeWeb.executablePath")) {
++      return
++    }
++
++    log("OpenCode executable configuration changed; restarting sidebar server")
++    lastNotifiedStartupError = undefined
++    proxyPort = undefined
++    workspaceContextServerUrl = undefined
++    stopSidebarProcess()
++    if (sidebarWebview) {
++      void loadSidebar(sidebarWebview)
++    }
++  })
++
+   const addFilepathDisposable = vscode.commands.registerCommand("opencode.addFilepathToTerminal", async () => {
+     const fileRef = getActiveFile()
+     if (!fileRef) {
+@@ -57,7 +102,7 @@ export function activate(context: vscode.ExtensionContext) {
+       return
+     }
+ 
+-    await appendPrompt(readyServerUrl, fileRef)
++    await insertTextOrAppendPrompt(readyServerUrl, fileRef)
+   })
+ 
+   const addToOpenCodeDisposable = vscode.commands.registerCommand("opencode.addToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
+@@ -94,6 +139,16 @@ export function activate(context: vscode.ExtensionContext) {
+     await appendPrompt(readyServerUrl, text)
+   }
+ 
++  async function insertTextOrAppendPrompt(serverUrl: string, text: string) {
++    if (openCodeUiGeneration === "v2" && sidebarWebview) {
++      log(`Inserting text into OpenCode webview: ${text.split("\n")[0]}`)
++      await sidebarWebview.postMessage({ source: "opencode-insert-text", text })
++      return
++    }
++
++    await appendPrompt(serverUrl, text)
++  }
++
+   const attachToOpenCodeDisposable = vscode.commands.registerCommand("opencode.attachToOpenCode", async (resource?: vscode.Uri, selectedResources?: vscode.Uri[]) => {
+     const uris = await getAttachUris(resource, selectedResources)
+     await attachUrisToOpenCode(uris)
+@@ -104,26 +159,41 @@ export function activate(context: vscode.ExtensionContext) {
+     await attachUrisToOpenCode(uris)
+   })
+ 
++  const sendTerminalToOpenCodeDisposable = vscode.commands.registerCommand("opencode.sendTerminalToOpenCode", async () => {
++    try {
++      await sendTerminalToOpenCode()
++    } catch (error) {
++      const message = `Failed to send terminal contents to OpenCode: ${formatError(error)}`
++      log(message)
++      await vscode.window.showErrorMessage(message)
++    }
++  })
++
+   async function attachUrisToOpenCode(uris: vscode.Uri[]) {
+     if (!uris.length) {
+       log("Attach to OpenCode skipped: no resources")
+       return
+     }
+ 
+-    await ensureSidebarServer()
+-    if (!sidebarWebview) {
+-      log("Attach to OpenCode failed: no webview")
+-      return
+-    }
+-
+     const files = await readAttachmentFiles(uris)
+     if (!files.length) {
+       log("Attach to OpenCode skipped: no readable files")
+       return
+     }
+ 
++    await attachFilesToOpenCode(files)
++  }
++
++  async function attachFilesToOpenCode(files: Array<{ name: string; type: string; data: string }>) {
++    await ensureSidebarServer()
++    if (!sidebarWebview) {
++      log("Attach to OpenCode failed: no webview")
++      return false
++    }
++
+     log(`Attaching files to OpenCode: ${files.map((file) => file.name).join(", ")}`)
+     await sidebarWebview.postMessage({ source: "opencode-attach-files", files })
++    return true
+   }
+ 
+   const pasteIntoOpenCodeDisposable = vscode.commands.registerCommand("opencode.pasteIntoOpenCode", async () => {
+@@ -154,11 +224,13 @@ export function activate(context: vscode.ExtensionContext) {
+     output,
+     sidebarDisposable,
+     workspaceFoldersDisposable,
++    configurationDisposable,
+     addFilepathDisposable,
+     addToOpenCodeDisposable,
+     addFilesToOpenCodeDisposable,
+     attachToOpenCodeDisposable,
+     attachFilesToOpenCodeDisposable,
++    sendTerminalToOpenCodeDisposable,
+     pasteIntoOpenCodeDisposable,
+     copyInOpenCodeDisposable,
+     cutInOpenCodeDisposable,
+@@ -220,7 +292,6 @@ export function activate(context: vscode.ExtensionContext) {
+     log(`Resolved workspace root: ${workspaceRoot ?? "<none>"}`)
+ 
+     if (EXPERIMENTAL_OPENCODE_SERVER) {
+-      sidebarPort = undefined
+       sidebarServerUrl = EXPERIMENTAL_OPENCODE_SERVER
+       log(`Using experimental external opencode server: ${sidebarServerUrl}`)
+       if (await waitForServer(sidebarServerUrl)) {
+@@ -235,40 +306,112 @@ export function activate(context: vscode.ExtensionContext) {
+       return
+     }
+ 
+-    sidebarPort = Math.floor(Math.random() * (65535 - 16384 + 1)) + 16384
+-    sidebarServerUrl = `http://127.0.0.1:${sidebarPort}`
++    const configuredExecutablePath = vscode.workspace.getConfiguration("opencodeWeb").get<string>("executablePath", "")
++    const executableResolution = await resolveOpenCodeExecutable({ configuredPath: configuredExecutablePath })
++    if (!executableResolution.executablePath) {
++      const startupError = executableResolution.configuredPathInvalid
++        ? `The configured OpenCode executable does not exist or cannot be executed: ${executableResolution.checkedPaths[0]}`
++        : "The OpenCode executable was not found. Configure opencodeWeb.executablePath or install OpenCode in a standard location."
++      log(`${startupError} Checked paths: ${executableResolution.checkedPaths.join(", ") || "<none>"}`)
++      showStartupError(startupError)
++      sidebarServerUrl = undefined
++      webview.html = getErrorHtml(webview, startupError)
++      return
++    }
++
++    const executablePath = executableResolution.executablePath
++    openCodeMajorVersion = await detectOpenCodeMajorVersion(executablePath)
++    openCodeUiGeneration = getOpenCodeUiGeneration(undefined, openCodeMajorVersion)
++    sidebarServerPassword = randomBytes(32).toString("base64url")
++    log(`Detected OpenCode CLI major: ${openCodeMajorVersion ?? "unknown"}`)
++    const serverPort = Math.floor(Math.random() * (65535 - 16384 + 1)) + 16384
++    const serverUrl = `http://127.0.0.1:${serverPort}`
++    sidebarServerUrl = serverUrl
+     const processEnv = {
+       ...process.env,
+-      _EXTENSION_OPENCODE_PORT: sidebarPort.toString(),
++      _EXTENSION_OPENCODE_PORT: serverPort.toString(),
+       OPENCODE_CALLER: "vscode",
++      OPENCODE_SERVER_PASSWORD: sidebarServerPassword,
+       ...(workspaceRoot ? { PWD: workspaceRoot, INIT_CWD: workspaceRoot } : {}),
+     }
+-    sidebarProcess = spawn("opencode", ["serve", "--port", sidebarPort.toString()], {
+-      cwd: workspaceRoot,
+-      env: processEnv,
+-      shell: process.platform === "win32",
+-      stdio: "ignore",
+-    })
+-    log(`Started opencode serve on port ${sidebarPort} with cwd ${workspaceRoot ?? "<default>"}`)
+-    sidebarProcess.once("error", (error) => {
+-      log(`Failed to start opencode serve on port ${sidebarPort}: ${formatError(error)}`)
+-      sidebarProcess = undefined
+-    })
+-    sidebarProcess.once("exit", (code, signal) => {
+-      log(`opencode serve exited on port ${sidebarPort} with code ${code ?? "<none>"} signal ${signal ?? "<none>"}`)
+-      sidebarProcess = undefined
++    log(`Using OpenCode executable from ${executableResolution.source}: ${executablePath}`)
++
++    let launchedProcess: ChildProcess
++    try {
++      launchedProcess = spawn(executablePath, ["serve", "--port", serverPort.toString()], {
++        cwd: workspaceRoot,
++        env: processEnv,
++        shell: process.platform === "win32",
++        stdio: "ignore",
++      })
++      sidebarProcess = launchedProcess
++    } catch (error) {
++      const startupError = `Failed to start OpenCode: ${formatError(error)}`
++      log(startupError)
++      showStartupError(startupError)
++      sidebarServerUrl = undefined
++      webview.html = getErrorHtml(webview, startupError)
++      return
++    }
++
++    const processFailure = new Promise<Error>((resolve) => {
++      launchedProcess.once("spawn", () => {
++        log(`Started opencode serve on port ${serverPort} with cwd ${workspaceRoot ?? "<default>"}`)
++      })
++      launchedProcess.once("error", (error) => {
++        log(`Failed to start opencode serve on port ${serverPort}: ${formatError(error)}`)
++        if (sidebarProcess === launchedProcess) {
++          sidebarProcess = undefined
++        }
++        resolve(error)
++      })
++      launchedProcess.once("exit", (code, signal) => {
++        log(`opencode serve exited on port ${serverPort} with code ${code ?? "<none>"} signal ${signal ?? "<none>"}`)
++        if (sidebarProcess === launchedProcess) {
++          sidebarProcess = undefined
++        }
++        resolve(new Error(`OpenCode exited before becoming ready (code ${code ?? "none"}, signal ${signal ?? "none"})`))
++      })
+     })
+ 
+-    if (await waitForServer(sidebarServerUrl)) {
+-      log(`opencode server is ready on port ${sidebarPort}`)
+-      proxyPort = await startProxyServer(sidebarServerUrl, workspaceRoot)
+-      await appendWorkspaceContext(sidebarServerUrl)
++    const startupResult = await Promise.race([
++      waitForServer(serverUrl).then((ready) => ({ ready, error: undefined })),
++      processFailure.then((error) => ({ ready: false, error })),
++    ])
++
++    if (startupResult.ready) {
++      lastNotifiedStartupError = undefined
++      log(`opencode server is ready on port ${serverPort}`)
++      proxyPort = await startProxyServer(serverUrl, workspaceRoot)
++      await appendWorkspaceContext(serverUrl)
+       webview.html = await getWebviewHtml(webview, proxyPort)
+       return
+     }
+ 
+-    log(`opencode server did not become ready on port ${sidebarPort}`)
+-    webview.html = getErrorHtml(webview)
++    const startupError = startupResult.error
++      ? `Failed to start OpenCode: ${formatError(startupResult.error)}`
++      : `OpenCode did not become ready on port ${serverPort}.`
++    log(startupError)
++    showStartupError(startupError)
++    if (sidebarProcess === launchedProcess) {
++      launchedProcess.kill()
++      sidebarProcess = undefined
++    }
++    sidebarServerUrl = undefined
++    webview.html = getErrorHtml(webview, startupError)
++  }
++
++  function showStartupError(message: string) {
++    if (lastNotifiedStartupError === message) {
++      return
++    }
++
++    lastNotifiedStartupError = message
++    void vscode.window.showErrorMessage(message, "Configure OpenCode Path").then((selection) => {
++      if (selection === "Configure OpenCode Path") {
++        void vscode.commands.executeCommand("workbench.action.openSettings", "opencodeWeb.executablePath")
++      }
++    })
+   }
+ 
+   function stopSidebarProcess() {
+@@ -277,6 +420,9 @@ export function activate(context: vscode.ExtensionContext) {
+     sidebarProcess?.kill()
+     sidebarProcess = undefined
+     sidebarServerUrl = undefined
++    sidebarServerPassword = undefined
++    openCodeMajorVersion = undefined
++    openCodeUiGeneration = "legacy"
+   }
+ 
+   async function handleWebviewMessage(webview: vscode.Webview, message: unknown) {
+@@ -284,14 +430,16 @@ export function activate(context: vscode.ExtensionContext) {
+       return
+     }
+ 
+-    const payload = message as { source?: string; id?: string; uris?: unknown; text?: unknown }
+-    if (payload.source === "opencode-bridge-ready") {
+-      log(`OpenCode iframe bridge ready${typeof payload.text === "string" ? `: ${payload.text}` : ""}`)
+-      return
+-    }
++    const payload = message as { source?: string; id?: string; uris?: unknown; text?: unknown; state?: unknown }
++    if (payload.source === "opencode-workspace-state") {
++      const state = sanitizeOpenCodeWorkspaceState(payload.state)
++      if (!state) {
++        log("Ignored invalid OpenCode workspace state")
++        return
++      }
+ 
+-    if (payload.source === "opencode-log" && typeof payload.text === "string") {
+-      log(`Webview: ${payload.text}`)
++      await context.workspaceState.update(OPENCODE_WORKSPACE_STATE_KEY, state)
++      log("Saved OpenCode workspace state: " + state.tabs.length + " tabs")
+       return
+     }
+ 
+@@ -352,6 +500,84 @@ export function activate(context: vscode.ExtensionContext) {
+     await sidebarWebview.postMessage({ source: "opencode-edit-command", command })
+   }
+ 
++  async function sendTerminalToOpenCode() {
++    const terminal = vscode.window.activeTerminal
++    if (!terminal) {
++      await vscode.window.showInformationMessage("Open a terminal before sending its contents to OpenCode.")
++      return
++    }
++
++    const terminalText = await captureActiveTerminalText()
++    if (!terminalText.trim()) {
++      await vscode.window.showInformationMessage("The active terminal has no content to send to OpenCode.")
++      return
++    }
++
++    const truncated = terminalText.length > MAX_TERMINAL_CONTEXT_CHARACTERS
++    const text = truncated ? terminalText.slice(-MAX_TERMINAL_CONTEXT_CHARACTERS) : terminalText
++    const truncationNotice = truncated
++      ? `[Only the latest ${MAX_TERMINAL_CONTEXT_CHARACTERS.toLocaleString()} characters are included.]\n\n`
++      : ""
++    const attachmentText = `${truncationNotice}${text.trim()}\n`
++    log(`Attaching terminal contents to OpenCode: ${text.length} chars${truncated ? " (truncated)" : ""}`)
++    const attached = await attachFilesToOpenCode([
++      {
++        name: "terminal-output.txt",
++        type: "text/plain",
++        data: Buffer.from(attachmentText, "utf8").toString("base64"),
++      },
++    ])
++
++    if (!attached) {
++      await vscode.window.showErrorMessage("Could not attach the terminal contents because the OpenCode view is not available.")
++      return
++    }
++
++    if (truncated) {
++      await vscode.window.showInformationMessage(
++        `Terminal content was limited to the latest ${MAX_TERMINAL_CONTEXT_CHARACTERS.toLocaleString()} characters.`,
++      )
++    }
++  }
++
++  async function captureActiveTerminalText() {
++    const originalClipboard = await vscode.env.clipboard.readText()
++    const clipboardMarker = `__OPENCODE_TERMINAL_CAPTURE_${randomBytes(16).toString("hex")}__`
++    let clipboardChanged = false
++
++    try {
++      await vscode.env.clipboard.writeText(clipboardMarker)
++      clipboardChanged = true
++      await vscode.commands.executeCommand("workbench.action.terminal.selectAll")
++      await vscode.commands.executeCommand("workbench.action.terminal.copySelection")
++
++      for (let attempt = 0; attempt < 10; attempt++) {
++        const text = await vscode.env.clipboard.readText()
++        if (text !== clipboardMarker) {
++          return text
++        }
++        await new Promise((resolve) => setTimeout(resolve, 20))
++      }
++
++      throw new Error("VS Code did not copy the active terminal selection.")
++    } finally {
++      try {
++        await vscode.commands.executeCommand("workbench.action.terminal.clearSelection")
++      } catch (error) {
++        log(`Failed to clear terminal selection: ${formatError(error)}`)
++      }
++
++      if (clipboardChanged) {
++        try {
++          await vscode.env.clipboard.writeText(originalClipboard)
++        } catch (error) {
++          log(`Failed to restore clipboard after terminal capture: ${formatError(error)}`)
++          await vscode.window.showWarningMessage("The terminal was captured, but the previous clipboard text could not be restored.")
++        }
++      }
++    }
++  }
++
+   async function pasteClipboardIntoOpenCode(source: string) {
+     if (process.platform !== "darwin") {
+       log(`Paste fallback ignored on non-macOS from ${source}`)
+@@ -410,6 +636,7 @@ export function activate(context: vscode.ExtensionContext) {
+     const target = new URL(targetServerUrl)
+     const targetHost = target.hostname
+     const targetPort = Number(target.port || (target.protocol === "https:" ? 443 : 80))
++    const authHeader = sidebarServerPassword ? createOpenCodeBasicAuth(sidebarServerPassword) : undefined
+ 
+     const server = http.createServer((request, response) => {
+       if (request.url?.startsWith("/__opencode_extension_log")) {
+@@ -484,12 +711,15 @@ export function activate(context: vscode.ExtensionContext) {
+           "Content-Type": "application/javascript; charset=utf-8",
+           "Cache-Control": "no-store",
+         })
+-        response.end(getWorkspaceBootstrapScript(directory))
++        response.end(getWorkspaceBootstrapScript(directory, openCodeUiGeneration))
+         return
+       }
+ 
+       const headers = { ...request.headers }
+       delete headers["accept-encoding"]
++      if (authHeader) {
++        headers.authorization = authHeader
++      }
+ 
+       const proxyRequest = http.request(
+         {
+@@ -535,7 +765,7 @@ export function activate(context: vscode.ExtensionContext) {
+     server.on("upgrade", (request, socket, head) => {
+       log(`Proxy websocket upgrade: ${request.url ?? "<unknown>"}`)
+       const targetSocket = net.connect(targetPort, targetHost, () => {
+-        const headers = Object.entries(request.headers)
++        const headers = Object.entries({ ...request.headers, ...(authHeader ? { authorization: authHeader } : {}) })
+           .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value ?? ""}`)
+           .join("\r\n")
+         targetSocket.write(`${request.method} ${request.url} HTTP/${request.httpVersion}\r\n${headers}\r\n\r\n`)
+@@ -575,11 +805,10 @@ export function activate(context: vscode.ExtensionContext) {
+     return html.replace(/<head([^>]*)>/i, `<head$1>${script}`)
+   }
+ 
+-  function getWorkspaceBootstrapScript(directory?: string) {
++  function getWorkspaceBootstrapScript(directory: string | undefined, generation: OpenCodeUiGeneration) {
+     return String.raw`(function(){
+   var dir=${JSON.stringify(directory)};
+   var macPasteFallback=${JSON.stringify(process.platform === "darwin")};
+-  var key="opencode.global.dat:server";
+   function report(message){try{fetch("/__opencode_extension_log?message="+encodeURIComponent(message)).catch(function(){})}catch(error){}}
+   function normalizePath(value){return String(value||"").replace(/\\/g,"/").replace(/\/+$/g,"")}
+   function isInsideWorkspace(filepath){var normalizedDir=normalizePath(dir);var normalizedFilepath=normalizePath(filepath);return normalizedDir&&normalizedFilepath&&(normalizedFilepath===normalizedDir||normalizedFilepath.indexOf(normalizedDir+"/")===0)}
+@@ -600,97 +829,17 @@ export function activate(context: vscode.ExtensionContext) {
+     return uris
+   }
+   function requestDropFallback(uris){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-drop-fallback",id:id,uris:uris},"*");report("requested drop fallback: "+uris.join(","))}catch(error){report("drop fallback request failed: "+(error&&error.message?error.message:String(error)))}return id}
+-  var pendingClipboardReads={};
+-  function requestClipboardText(target){var id=String(Date.now())+"-"+String(Math.random()).slice(2);pendingClipboardReads[id]={target:target||null};try{window.parent.postMessage({source:"opencode-clipboard-read",id:id},"*");report("requested clipboard text: "+id)}catch(error){report("clipboard text request failed: "+(error&&error.message?error.message:String(error)))}return id}
++  function requestClipboardText(){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-clipboard-read",id:id},"*");report("requested clipboard text: "+id)}catch(error){report("clipboard text request failed: "+(error&&error.message?error.message:String(error)))}return id}
+   function writeClipboardText(text){var id=String(Date.now())+"-"+String(Math.random()).slice(2);try{window.parent.postMessage({source:"opencode-clipboard-write",id:id,text:String(text||"")},"*");report("requested clipboard write: "+id+" "+String(text||"").length+" chars")}catch(error){report("clipboard write request failed: "+(error&&error.message?error.message:String(error)))}return id}
+   function editableSelection(target){try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:0;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;return target.value.slice(start,end)}}catch(error){}try{return String(window.getSelection?window.getSelection().toString():"")}catch(error){return ""}}
+   function deleteEditableSelection(target){try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:0;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;if(end>start){target.value=target.value.slice(0,start)+target.value.slice(end);target.selectionStart=target.selectionEnd=start;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"deleteByCut"}));return true}}}catch(error){report("delete editable selection failed: "+(error&&error.message?error.message:String(error)))}try{return !!(document.execCommand&&document.execCommand("delete",false))}catch(error){report("delete selection command failed: "+(error&&error.message?error.message:String(error)));return false}}
+   function selectAllEditable(target){try{if(target&&typeof target.value==="string"&&typeof target.setSelectionRange==="function"){target.setSelectionRange(0,target.value.length);target.dispatchEvent(new Event("select",{bubbles:true}));return true}}catch(error){report("select all editable failed: "+(error&&error.message?error.message:String(error)))}try{return !!(document.execCommand&&document.execCommand("selectAll",false))}catch(error){report("select all command failed: "+(error&&error.message?error.message:String(error)));return false}}
+-  var lastEditTrigger={command:"",time:0};
+-  function shouldRunEditCommand(command){
+-    var now=Date.now();
+-    if(lastEditTrigger.command===command&&(now-lastEditTrigger.time)<500){
+-      report("edit "+command+" ignored duplicate trigger (multiple sources fired)");
+-      return false
+-    }
+-    lastEditTrigger={command:command,time:now};
+-    return true
+-  }
+-  function runEditCommand(command){
+-    if(!shouldRunEditCommand(command))return;
+-    var target=textTarget();
+-    if(command==="paste"){requestClipboardText(target);report("edit paste requested clipboard text");return}
+-    if(command==="copy"||command==="cut"){var text=editableSelection(target);if(text){writeClipboardText(text);if(command==="cut")deleteEditableSelection(target);report("edit "+command+" handled: "+text.length+" chars");return}try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled by execCommand");return}}catch(error){report("edit "+command+" command failed: "+(error&&error.message?error.message:String(error)))}report("edit "+command+" had no selection");return}
+-    if(command==="selectAll"){selectAllEditable(target);report("edit selectAll handled");return}
+-    if(command==="undo"||command==="redo"){try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled");return}}catch(error){report("edit "+command+" failed: "+(error&&error.message?error.message:String(error)))}return}
+-    report("unknown edit command: "+command)
+-  }
++  function runEditCommand(command){var target=document.activeElement||document.body;if(command==="paste"){requestClipboardText();report("edit paste requested clipboard text");return}if(command==="copy"||command==="cut"){var text=editableSelection(target);if(text){writeClipboardText(text);if(command==="cut")deleteEditableSelection(target);report("edit "+command+" handled: "+text.length+" chars");return}try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled by execCommand");return}}catch(error){report("edit "+command+" command failed: "+(error&&error.message?error.message:String(error)))}report("edit "+command+" had no selection");return}if(command==="selectAll"){selectAllEditable(target);report("edit selectAll handled");return}if(command==="undo"||command==="redo"){try{if(document.execCommand&&document.execCommand(command,false)){report("edit "+command+" handled");return}}catch(error){report("edit "+command+" failed: "+(error&&error.message?error.message:String(error)))}return}report("unknown edit command: "+command)}
+   function installEditCommandBridge(){if(!macPasteFallback){report("edit command bridge skipped on non-macOS");return}window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-edit-command")return;runEditCommand(String(data.command||""))});window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-clipboard-write-result")return;if(data.ok){report("clipboard write result ok: "+data.id)}else{report("clipboard write result failed: "+(data.error||data.id))}});document.addEventListener("keydown",function(event){if(!event.metaKey||event.ctrlKey||event.altKey)return;var key=String(event.key||"").toLowerCase();var command="";if(key==="c"&&!event.shiftKey)command="copy";if(key==="x"&&!event.shiftKey)command="cut";if(key==="a"&&!event.shiftKey)command="selectAll";if(key==="z"&&!event.shiftKey)command="undo";if(key==="z"&&event.shiftKey)command="redo";if(!command)return;event.preventDefault();event.stopImmediatePropagation();runEditCommand(command)},true);report("edit command bridge installed")}
+   function textTarget(){var active=document.activeElement;if(active&&active!==document.body)return active;return document.querySelector("textarea,input,[contenteditable=true],[contenteditable='true']")||document.body}
+-  function insertClipboardText(text,preferredTarget){
+-    var target=preferredTarget||textTarget();
+-    try{if(target&&typeof target.focus==="function")target.focus()}catch(error){}
+-    try{
+-      var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain",text);
+-      var pasteEvent=new ClipboardEvent("paste",{bubbles:true,cancelable:true,clipboardData:dataTransfer});
+-      if(!target.dispatchEvent(pasteEvent)){report("clipboard paste event handled: "+String(text).length+" chars");return}
+-    }catch(error){report("clipboard paste event failed: "+(error&&error.message?error.message:String(error)))}
+-    try{if(document.execCommand&&document.execCommand("insertText",false,text)){report("clipboard inserted with execCommand: "+String(text).length+" chars");return}}catch(error){report("clipboard execCommand failed: "+(error&&error.message?error.message:String(error)))}
+-    try{
+-      if(target&&typeof target.value==="string"){
+-        var start=typeof target.selectionStart==="number"?target.selectionStart:target.value.length;
+-        var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;
+-        target.value=target.value.slice(0,start)+text+target.value.slice(end);
+-        target.selectionStart=target.selectionEnd=start+text.length;
+-        target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));
+-        report("clipboard inserted into input: "+String(text).length+" chars");
+-        return
+-      }
+-    }catch(error){report("clipboard input insert failed: "+(error&&error.message?error.message:String(error)))}
+-    try{
+-      var isEditable=!!(target&&(target.isContentEditable||(target.getAttribute&&target.getAttribute("contenteditable")==="true")));
+-      if(isEditable&&window.getSelection){
+-        var selection=window.getSelection();
+-        var range=selection&&selection.rangeCount?selection.getRangeAt(0):null;
+-        if(!range||!target.contains(range.startContainer)){
+-          range=document.createRange();
+-          range.selectNodeContents(target);
+-          range.collapse(false);
+-        }
+-        range.deleteContents();
+-        var node=document.createTextNode(text);
+-        range.insertNode(node);
+-        range.setStartAfter(node);
+-        range.setEndAfter(node);
+-        selection.removeAllRanges();
+-        selection.addRange(range);
+-        target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));
+-        report("clipboard inserted into contenteditable: "+String(text).length+" chars");
+-        return
+-      }
+-    }catch(error){report("clipboard contenteditable insert failed: "+(error&&error.message?error.message:String(error)))}
+-    report("clipboard text could not be inserted, falling back to append-prompt");
+-    try{window.parent.postMessage({source:"opencode-paste-clipboard"},"*")}catch(error){report("append-prompt fallback request failed: "+(error&&error.message?error.message:String(error)))}
+-  }
++  function insertClipboardText(text){var target=textTarget();try{if(target&&typeof target.focus==="function")target.focus()}catch(error){}try{var dataTransfer=new DataTransfer();dataTransfer.setData("text/plain",text);var pasteEvent=new ClipboardEvent("paste",{bubbles:true,cancelable:true,clipboardData:dataTransfer});if(!target.dispatchEvent(pasteEvent)){report("clipboard paste event handled: "+String(text).length+" chars");return}}catch(error){report("clipboard paste event failed: "+(error&&error.message?error.message:String(error)))}try{if(document.execCommand&&document.execCommand("insertText",false,text)){report("clipboard inserted with execCommand: "+String(text).length+" chars");return}}catch(error){report("clipboard execCommand failed: "+(error&&error.message?error.message:String(error)))}try{if(target&&typeof target.value==="string"){var start=typeof target.selectionStart==="number"?target.selectionStart:target.value.length;var end=typeof target.selectionEnd==="number"?target.selectionEnd:start;target.value=target.value.slice(0,start)+text+target.value.slice(end);target.selectionStart=target.selectionEnd=start+text.length;target.dispatchEvent(new InputEvent("input",{bubbles:true,inputType:"insertFromPaste",data:text}));report("clipboard inserted into input: "+String(text).length+" chars");return}}catch(error){report("clipboard input insert failed: "+(error&&error.message?error.message:String(error)))}report("clipboard text could not be inserted")}
+   function installTextInsertBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-insert-text")return;var texts=Array.isArray(data.texts)?data.texts:[data.text];var index=0;var next=function(){if(index>=texts.length)return;var text=String(texts[index]||"");index++;insertClipboardText(text);report("insert text bridge handled: "+text.length+" chars");setTimeout(next,50)};next()});report("insert text bridge installed")}
+-  function installPasteBridge(){
+-    if(!macPasteFallback){report("paste bridge skipped on non-macOS");return}
+-    window.addEventListener("message",function(event){
+-      var data=event.data;
+-      if(!data||data.source!=="opencode-clipboard-read-result")return;
+-      var request=pendingClipboardReads[data.id];
+-      delete pendingClipboardReads[data.id];
+-      if(data.error){report("clipboard read result failed: "+data.error);return}
+-      insertClipboardText(String(data.text||""),request&&request.target)
+-    });
+-    document.addEventListener("keydown",function(event){
+-      var key=String(event.key||"").toLowerCase();
+-      if(key!=="v"||(!event.metaKey&&!event.ctrlKey)||event.altKey){return}
+-      event.preventDefault();event.stopImmediatePropagation();
+-      runEditCommand("paste")
+-    },true);
+-    report("paste bridge installed")
+-  }
++  function installPasteBridge(){if(!macPasteFallback){report("paste bridge skipped on non-macOS");return}var pending={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-clipboard-read-result")return;delete pending[data.id];if(data.error){report("clipboard read result failed: "+data.error);return}insertClipboardText(String(data.text||""))});document.addEventListener("keydown",function(event){var key=String(event.key||"").toLowerCase();if(key!=="v"||(!event.metaKey&&!event.ctrlKey)||event.altKey){return}event.preventDefault();event.stopImmediatePropagation();pending[requestClipboardText()]=true},true);report("paste bridge installed")}
+   function bytesFromBase64(data){var binary=atob(String(data||""));var bytes=new Uint8Array(binary.length);for(var index=0;index<binary.length;index++)bytes[index]=binary.charCodeAt(index);return bytes}
+   function dispatchAttachmentDrop(target,files){try{var dataTransfer=new DataTransfer();files.forEach(function(file){dataTransfer.items.add(file)});var dropEvent=new DragEvent("drop",{bubbles:true,cancelable:true,dataTransfer:dataTransfer});target.dispatchEvent(dropEvent);report("redispatched synthetic attachment drop: "+files.map(function(file){return file.name}).join(","))}catch(error){report("attachment drop failed: "+(error&&error.message?error.message:String(error)))}}
+   function installAttachmentBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-attach-files"||!Array.isArray(data.files))return;var files=[];data.files.forEach(function(file){try{files.push(new File([bytesFromBase64(file.data)],String(file.name||"attachment"),{type:String(file.type||"application/octet-stream")}));report("prepared synthetic attachment: "+String(file.name||"attachment"))}catch(error){report("prepare attachment failed: "+(error&&error.message?error.message:String(error)))}});if(files.length)dispatchAttachmentDrop(document.activeElement||document.body,files)});report("attachment bridge installed")}
+@@ -699,8 +848,7 @@ export function activate(context: vscode.ExtensionContext) {
+   function installDropPathsBridge(){window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-paths"||!Array.isArray(data.paths))return;dispatchOpenCodeDrops(document.activeElement||document.body,data.paths,function(error){if(error){report("drop paths bridge failed: "+(error&&error.message?error.message:String(error)));return}report("drop paths bridge handled: "+data.paths.join(","))})});report("drop paths bridge installed")}
+   function installVsCodeDropNormalizer(){var redispatching=false;var fallbackTargets={};window.addEventListener("message",function(event){var data=event.data;if(!data||data.source!=="opencode-drop-fallback-result")return;var target=fallbackTargets[data.id]||document;delete fallbackTargets[data.id];var paths=Array.isArray(data.paths)?data.paths:[];if(!paths.length){report("drop fallback returned no paths");return}redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop fallback dispatch failed: "+(error&&error.message?error.message:String(error)));return}report("normalized fallback drop: "+paths.join(","))})});document.addEventListener("drop",function(event){if(redispatching)return;report("drop types: "+dataTransferTypes(event.dataTransfer).join(","));var values=dropPayloadValues(event.dataTransfer);var paths=workspaceDropPaths(values);var uris=unresolvedDropUris(values);if(!paths.length&&!uris.length)return;var plain=getData(event.dataTransfer,"text/plain");if(paths.length===1&&!uris.length&&plain==="file:"+paths[0])return;event.preventDefault();event.stopImmediatePropagation();var target=event.target||document;if(uris.length){fallbackTargets[requestDropFallback(uris)]=target}if(!paths.length)return;redispatching=true;dispatchOpenCodeDrops(target,paths,function(error){redispatching=false;if(error){report("drop normalize failed: "+(error&&error.message?error.message:String(error)));return}report("normalized VS Code drop: "+paths.join(","))})},true);report("drop normalizer installed")}
+   function installClipboardBridge(){try{var existing=navigator.clipboard||{};var bridged=Object.assign({},existing,{readText:function(){return fetch("/__opencode_extension_clipboard_read",{method:"GET",cache:"no-store"}).then(function(response){if(!response.ok)throw new Error("Clipboard read bridge failed: "+response.status);return response.text()}).then(function(text){report("clipboard read bridged "+String(text).length+" chars");return text})},writeText:function(text){return fetch("/__opencode_extension_clipboard",{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:String(text)}).then(function(response){if(!response.ok)throw new Error("Clipboard bridge failed: "+response.status);report("clipboard bridged "+String(text).length+" chars")})}});Object.defineProperty(navigator,"clipboard",{value:bridged,configurable:true});report("clipboard bridge installed")}catch(error){report("clipboard bridge failed: "+(error&&error.message?error.message:String(error)))}}
+-  installClipboardBridge();installPasteBridge();installEditCommandBridge();installTextInsertBridge();installAttachmentBridge();installDropPathsBridge();installVsCodeDropNormalizer();try{report("bootstrap executing for "+dir);var before=localStorage.getItem(key);var data=JSON.parse(before||"{}");var projects=data.projects&&typeof data.projects==="object"?data.projects:{};var local=Array.isArray(projects.local)?projects.local.filter(function(project){return project&&project.worktree!==dir}):[];projects.local=[{worktree:dir,expanded:true}].concat(local);data.list=Array.isArray(data.list)?data.list:[];data.projects=projects;data.lastProject=Object.assign({},data.lastProject,{local:dir});localStorage.setItem(key,JSON.stringify(data));report("seeded "+key+" local="+projects.local.map(function(project){return project.worktree}).join(","))}catch(error){report("seed failed: "+(error&&error.message?error.message:String(error)))}
+-  try{window.parent.postMessage({source:"opencode-bridge-ready",text:"macPasteFallback="+macPasteFallback},"*")}catch(error){report("bridge ready ping failed: "+(error&&error.message?error.message:String(error)))}
++  installClipboardBridge();installPasteBridge();installEditCommandBridge();installTextInsertBridge();installAttachmentBridge();installDropPathsBridge();installVsCodeDropNormalizer();${getOpenCodeWorkspaceStateScript(directory, generation, sanitizeOpenCodeWorkspaceState(context.workspaceState.get<OpenCodePersistedWorkspaceState>(OPENCODE_WORKSPACE_STATE_KEY)))}
+ })();`
+   }
+ 
+@@ -710,6 +858,7 @@ export function activate(context: vscode.ExtensionContext) {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
++        ...(sidebarServerPassword ? { Authorization: createOpenCodeBasicAuth(sidebarServerPassword) } : {}),
+       },
+       body: JSON.stringify({ text }),
+     })
+@@ -719,6 +868,10 @@ export function activate(context: vscode.ExtensionContext) {
+   }
+ 
+   async function appendWorkspaceContext(serverUrl: string) {
++    if (openCodeUiGeneration === "v2") {
++      return
++    }
++
+     if (workspaceContextServerUrl === serverUrl) {
+       return
+     }
+@@ -737,6 +890,10 @@ export function activate(context: vscode.ExtensionContext) {
+   }
+ 
+   async function appendUpdatedWorkspaceContext() {
++    if (openCodeUiGeneration === "v2") {
++      return
++    }
++
+     if (!sidebarServerUrl || !(await waitForServer(sidebarServerUrl))) {
+       return
+     }
+@@ -762,7 +919,6 @@ export function activate(context: vscode.ExtensionContext) {
+     }
+ 
+     log(`Workspace root changed from ${workspaceRoot ?? "<none>"} to ${nextWorkspaceRoot ?? "<none>"}`)
+-    sidebarPort = undefined
+     proxyPort = undefined
+     workspaceContextServerUrl = undefined
+     workspaceRoot = undefined
+@@ -819,9 +975,23 @@ export function activate(context: vscode.ExtensionContext) {
+     let tries = 25
+     do {
+       await new Promise((resolve) => setTimeout(resolve, 200))
++      const headers: Record<string, string> = sidebarServerPassword ? { Authorization: createOpenCodeBasicAuth(sidebarServerPassword) } : {}
+       try {
+-        const response = await fetch(`${serverUrl}/app`)
++        const response = await fetch(`${serverUrl}/global/health`, { headers, signal: AbortSignal.timeout(2000) })
+         if (response.ok) {
++          const info = await response.json() as { version?: unknown }
++          if (typeof info.version === "string") {
++            openCodeMajorVersion = parseOpenCodeMajorVersion(info.version) ?? openCodeMajorVersion
++          }
++        }
++      } catch {}
++
++      try {
++        const response = await fetch(`${serverUrl}/app`, { headers, signal: AbortSignal.timeout(2000) })
++        if (response.ok) {
++          const appHtml = await response.text()
++          openCodeUiGeneration = getOpenCodeUiGeneration(appHtml, openCodeMajorVersion)
++          log(`Detected OpenCode UI generation: ${openCodeUiGeneration} (CLI major ${openCodeMajorVersion ?? "unknown"})`)
+           return true
+         }
+       } catch {}
+@@ -836,8 +1006,8 @@ export function activate(context: vscode.ExtensionContext) {
+     return getStatusHtml(webview, "Starting opencode...")
+   }
+ 
+-  function getErrorHtml(webview: vscode.Webview) {
+-    return getStatusHtml(webview, "Could not load opencode. Check the opencode terminal output.")
++  function getErrorHtml(webview: vscode.Webview, message = "Could not load opencode. Check the opencode terminal output.") {
++    return getStatusHtml(webview, message)
+   }
+ 
+   function getStatusHtml(webview: vscode.Webview, message: string) {
+@@ -849,13 +1019,27 @@ export function activate(context: vscode.ExtensionContext) {
+       body { align-items: center; display: flex; font-family: var(--vscode-font-family); height: 100vh; justify-content: center; margin: 0; }
+     </style>
+   </head>
+-  <body>${message}</body>
++  <body>${escapeHtml(message)}</body>
+ </html>`
+   }
+ 
++  function escapeHtml(value: string) {
++    return value
++      .replaceAll("&", "&amp;")
++      .replaceAll("<", "&lt;")
++      .replaceAll(">", "&gt;")
++      .replaceAll("\"", "&quot;")
++      .replaceAll("'", "&#039;")
++  }
++
+   async function getWebviewHtml(webview: vscode.Webview, port: number) {
+     log(`Loading webview iframe: http://127.0.0.1:${port}/`)
+     const nonce = getNonce()
++    const iframeUrl = new URL(`http://127.0.0.1:${port}/`)
++    if (sidebarServerPassword) {
++      iframeUrl.searchParams.set("auth_token", createOpenCodeAuthToken(sidebarServerPassword))
++    }
++    log(`Loading authenticated OpenCode iframe: ${iframeUrl.origin}/`)
+     return `<!doctype html>
+ <html lang="en">
+   <head>
+@@ -866,151 +1050,22 @@ export function activate(context: vscode.ExtensionContext) {
+     </style>
+   </head>
+   <body>
+-    <iframe id="opencode-frame" src="http://127.0.0.1:${port}/" allow="clipboard-read; clipboard-write"></iframe>
++    <iframe id="opencode-frame" src="${iframeUrl.toString()}" allow="clipboard-read; clipboard-write"></iframe>
+     <script nonce="${nonce}">
+       const vscode = acquireVsCodeApi();
+       const frame = document.getElementById("opencode-frame");
+-      const wrapperDropIds = new Set();
+-      const macPasteFallback = ${JSON.stringify(process.platform === "darwin")};
+-      let lastParentEditCommand = { command: "", time: 0 };
+-
+-      function wrapperLog(message) {
+-        try { vscode.postMessage({ source: "opencode-log", text: String(message) }); } catch (error) {}
+-      }
+-
+-      // VS Code's Cmd+V/C/X/A/Z keybindings for this webview only fire while its
+-      // "webviewId" focus context is recognized; that context can go stale a few
+-      // seconds after focusing the iframe even though the cursor still looks active
+-      // (see microsoft/vscode#129178). Capture the same shortcuts here, at the parent
+-      // webview document level, as a redundant path straight into the iframe bridge.
+-      // installEditCommandBridge() in the iframe de-dupes so a shortcut that also
+-      // reaches VS Code's own keybinding does not run twice.
+-      document.addEventListener(
+-        "keydown",
+-        (event) => {
+-          if (!macPasteFallback || !event.metaKey || event.ctrlKey || event.altKey) {
+-            return;
+-          }
+-
+-          const key = String(event.key || "").toLowerCase();
+-          let command = "";
+-          if (key === "v" && !event.shiftKey) command = "paste";
+-          else if (key === "c" && !event.shiftKey) command = "copy";
+-          else if (key === "x" && !event.shiftKey) command = "cut";
+-          else if (key === "a" && !event.shiftKey) command = "selectAll";
+-          else if (key === "z" && !event.shiftKey) command = "undo";
+-          else if (key === "z" && event.shiftKey) command = "redo";
+-          if (!command) {
+-            return;
+-          }
+-
+-          const now = Date.now();
+-          if (lastParentEditCommand.command === command && now - lastParentEditCommand.time < 500) {
+-            return;
+-          }
+-          lastParentEditCommand = { command, time: now };
+-
+-          wrapperLog(\`parent keydown captured: \${command}\`);
+-          frame?.contentWindow?.postMessage({ source: "opencode-edit-command", command }, "*");
+-        },
+-        true,
+-      );
+-
+-      function toOpenCodeFile(file) {
+-        return new Promise((resolve) => {
+-          const reader = new FileReader();
+-          reader.onload = () => {
+-            const result = String(reader.result || "");
+-            const base64 = result.slice(result.indexOf(",") + 1);
+-            resolve({ name: file.name || "attachment", type: file.type || "application/octet-stream", data: base64 });
+-          };
+-          reader.onerror = () => resolve(undefined);
+-          reader.readAsDataURL(file);
+-        });
+-      }
+-
+-      // Native macOS drops can land on this parent document instead of being routed into the
+-      // cross-origin OpenCode iframe (see microsoft/vscode#193558). Capture them here so drag & drop
+-      // still works even when the iframe never receives the underlying browser drop event.
+-      document.addEventListener(
+-        "dragover",
+-        (event) => {
+-          event.preventDefault();
+-        },
+-        true,
+-      );
+-
+-      document.addEventListener(
+-        "drop",
+-        async (event) => {
+-          const dataTransfer = event.dataTransfer;
+-          if (!dataTransfer) {
+-            return;
+-          }
+-
+-          event.preventDefault();
+-
+-          const files = Array.from(dataTransfer.files || []);
+-          if (files.length) {
+-            const attachments = (await Promise.all(files.map(toOpenCodeFile))).filter(Boolean);
+-            if (attachments.length) {
+-              wrapperLog(\`parent drop resolved \${attachments.length} file(s)\`);
+-              frame?.contentWindow?.postMessage({ source: "opencode-attach-files", files: attachments }, "*");
+-            }
+-          }
+-
+-          const uris = [];
+-          ["text/uri-list", "application/vnd.code.uri-list", "resourceurls", "codefiles"].forEach((type) => {
+-            try {
+-              const raw = dataTransfer.getData(type);
+-              if (raw) {
+-                raw
+-                  .split(/\\r?\\n/)
+-                  .map((line) => line.trim())
+-                  .filter((line) => line && line.charAt(0) !== "#")
+-                  .forEach((line) => uris.push(line));
+-              }
+-            } catch (error) {}
+-          });
+-
+-          if (uris.length) {
+-            const id = \`parent-\${Date.now()}-\${Math.random().toString(36).slice(2)}\`;
+-            wrapperDropIds.add(id);
+-            wrapperLog(\`parent drop requesting fallback for \${uris.length} uri(s)\`);
+-            vscode.postMessage({ source: "opencode-drop-fallback", id, uris });
+-          }
+-        },
+-        true,
+-      );
+-
+       window.addEventListener("message", (event) => {
+         const message = event.data;
+         if (!message || typeof message !== "object") {
+           return;
+         }
+ 
+-        if (message.source === "opencode-drop-fallback" || message.source === "opencode-clipboard-read" || message.source === "opencode-clipboard-write" || message.source === "opencode-bridge-ready" || message.source === "opencode-log") {
++        if (message.source === "opencode-drop-fallback" || message.source === "opencode-clipboard-read" || message.source === "opencode-clipboard-write" || message.source === "opencode-workspace-state") {
+           vscode.postMessage(message);
+           return;
+         }
+ 
+-        if (message.source === "opencode-drop-fallback-result") {
+-          if (wrapperDropIds.has(message.id)) {
+-            wrapperDropIds.delete(message.id);
+-            const paths = Array.isArray(message.paths) ? message.paths : [];
+-            if (paths.length) {
+-              frame?.contentWindow?.postMessage({ source: "opencode-drop-paths", paths }, "*");
+-            } else {
+-              wrapperLog("parent drop fallback resolved no paths");
+-            }
+-            return;
+-          }
+-
+-          frame?.contentWindow?.postMessage(message, "*");
+-          return;
+-        }
+-
+-        if (message.source === "opencode-clipboard-read-result" || message.source === "opencode-clipboard-write-result" || message.source === "opencode-edit-command" || message.source === "opencode-insert-text" || message.source === "opencode-drop-paths" || message.source === "opencode-attach-files") {
++        if (message.source === "opencode-drop-fallback-result" || message.source === "opencode-clipboard-read-result" || message.source === "opencode-clipboard-write-result" || message.source === "opencode-edit-command" || message.source === "opencode-insert-text" || message.source === "opencode-drop-paths" || message.source === "opencode-attach-files") {
+           frame?.contentWindow?.postMessage(message, "*");
+         }
+       });

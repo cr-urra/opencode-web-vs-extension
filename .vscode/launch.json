@@ -6,8 +6,36 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ]
+    },
+    {
+      "name": "QA sin fallback directo",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--user-data-dir=/private/tmp/opencode-qa-sin-fallback-20261103/vscodium/user-data",
+        "--extensions-dir=/private/tmp/opencode-qa-sin-fallback-20261103/vscodium/extensions",
+        "--profile=QA-sin-fallback-directo",
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "${workspaceFolder}/docs/qa/20261103-sin-fallback-directo/fixtures/qa-sin-fallback.code-workspace"
+      ],
+      "env": {
+        "OPENCODE_SERVER_USERNAME": null,
+        "OPENCODE_SERVER_PASSWORD": null,
+        "XDG_CONFIG_HOME": "/private/tmp/opencode-qa-sin-fallback-20261103/opencode/config",
+        "XDG_DATA_HOME": "/private/tmp/opencode-qa-sin-fallback-20261103/opencode/data",
+        "XDG_CACHE_HOME": "/private/tmp/opencode-qa-sin-fallback-20261103/opencode/cache",
+        "XDG_STATE_HOME": "/private/tmp/opencode-qa-sin-fallback-20261103/opencode/state"
+      },
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ]
     }
   ]
 }

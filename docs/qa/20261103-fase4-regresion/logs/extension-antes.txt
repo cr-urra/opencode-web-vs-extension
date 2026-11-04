@@ -1,0 +1,117 @@
+[2026-11-03T04:12:38.801Z] Activating extension
+[2026-11-03T04:12:38.804Z] Resolving sidebar webview
+[2026-11-03T04:12:38.804Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:12:38.973Z] Detected OpenCode CLI major: 2
+[2026-11-03T04:12:38.973Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T04:12:38.975Z] Started opencode serve on port 27375 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:12:39.220Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:12:39.220Z] opencode server is ready on port 27375
+[2026-11-03T04:12:39.222Z] Started opencode proxy on port 51813
+[2026-11-03T04:12:39.222Z] Loading webview iframe: http://127.0.0.1:51813/
+[2026-11-03T04:12:39.222Z] Loading authenticated OpenCode iframe: http://127.0.0.1:51813/
+[2026-11-03T04:12:39.243Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:12:39.253Z] Serving injected workspace bootstrap script
+[2026-11-03T04:12:39.324Z] Opening sidebar container
+[2026-11-03T04:12:39.366Z] Saved OpenCode workspace state: 4 tabs
+[2026-11-03T04:12:40.097Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:12:40.097Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T04:12:40.182Z] Injected script: clipboard bridge installed
+[2026-11-03T04:12:40.183Z] Injected script: paste bridge installed
+[2026-11-03T04:12:40.183Z] Injected script: edit command bridge installed
+[2026-11-03T04:12:40.184Z] Injected script: insert text bridge installed
+[2026-11-03T04:12:40.185Z] Injected script: attachment bridge installed
+[2026-11-03T04:12:40.185Z] Injected script: drop paths bridge installed
+[2026-11-03T04:12:40.186Z] Injected script: drop normalizer installed
+[2026-11-03T04:12:40.186Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:12:40.187Z] Injected script: restored 4 workspace tabs
+[2026-11-03T04:12:40.187Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab draft:fe890298-bca0-477a-be35-adb64cf4030d
+[2026-11-03T04:12:40.188Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T04:12:40.188Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T04:12:40.190Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T04:12:40.190Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T04:12:40.191Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T04:12:41.294Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:14:33.306Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:14:33.308Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T04:14:33.333Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T04:14:33.339Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T04:14:33.339Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T04:14:33.349Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T04:14:33.351Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T04:15:18.815Z] Saved OpenCode workspace state: 5 tabs
+[2026-11-03T04:15:21.512Z] Injected script: requested clipboard text: 1793679321510-1
+[2026-11-03T04:15:21.514Z] Clipboard read requested 1793679321510-1: 16 chars
+[2026-11-03T04:15:21.520Z] Injected script: clipboard paste event handled: 16 chars
+[2026-11-03T04:15:37.134Z] Injected script: edit selectAll handled
+[2026-11-03T04:15:37.134Z] Injected script: requested clipboard write: 1793679337131-387646660266188 16 chars
+[2026-11-03T04:15:37.135Z] Injected script: edit cut handled: 16 chars
+[2026-11-03T04:15:37.138Z] Clipboard write requested 1793679337131-387646660266188: 16 chars
+[2026-11-03T04:15:37.140Z] Injected script: clipboard write result ok: 1793679337131-387646660266188
+[2026-11-03T04:15:37.663Z] Injected script: requested clipboard text: 1793679337661-2
+[2026-11-03T04:15:37.664Z] Clipboard read requested 1793679337661-2: 16 chars
+[2026-11-03T04:15:37.667Z] Injected script: clipboard paste event handled: 16 chars
+[2026-11-03T04:15:38.734Z] Injected script: edit undo handled
+[2026-11-03T04:15:39.796Z] Injected script: edit redo handled
+[2026-11-03T04:15:50.562Z] Saved OpenCode workspace state: 6 tabs
+[2026-11-03T04:16:32.369Z] Injected script: requested clipboard text: 1793679392367-3
+[2026-11-03T04:16:32.369Z] Clipboard read requested 1793679392367-3: 16 chars
+[2026-11-03T04:16:32.374Z] Injected script: clipboard paste event handled: 16 chars
+[2026-11-03T04:16:54.314Z] Saved OpenCode workspace state: 7 tabs
+[2026-11-03T04:16:56.985Z] Injected script: requested clipboard text: 1793679416984-4
+[2026-11-03T04:16:56.987Z] Clipboard read requested 1793679416984-4: 18 chars
+[2026-11-03T04:16:56.992Z] Injected script: clipboard paste event handled: 18 chars
+[2026-11-03T04:16:59.963Z] Injected script: requested clipboard text: 1793679419961-5
+[2026-11-03T04:16:59.965Z] Clipboard read requested 1793679419961-5: 16 chars
+[2026-11-03T04:16:59.969Z] Injected script: clipboard paste event handled: 16 chars
+[2026-11-03T04:17:09.061Z] Saved OpenCode workspace state: 8 tabs
+[2026-11-03T04:17:18.313Z] Saved OpenCode workspace state: 9 tabs
+[2026-11-03T04:17:43.753Z] Sending edit command to OpenCode: paste
+[2026-11-03T04:17:43.759Z] Injected script: requested clipboard text: 1793679463756-6
+[2026-11-03T04:17:43.760Z] Injected script: edit paste requested clipboard text
+[2026-11-03T04:17:43.762Z] Clipboard read requested 1793679463756-6: 16 chars
+[2026-11-03T04:17:43.770Z] Injected script: clipboard inserted with execCommand: 16 chars
+[2026-11-03T04:17:45.812Z] Saved OpenCode workspace state: 10 tabs
+[2026-11-03T04:17:48.224Z] Injected script: requested clipboard text: 1793679468223-7
+[2026-11-03T04:17:48.225Z] Clipboard read requested 1793679468223-7: 18 chars
+[2026-11-03T04:17:48.230Z] Injected script: clipboard paste event handled: 18 chars
+[2026-11-03T04:17:49.288Z] Injected script: requested clipboard text: 1793679469285-8
+[2026-11-03T04:17:49.289Z] Clipboard read requested 1793679469285-8: 18 chars
+[2026-11-03T04:17:49.297Z] Injected script: clipboard paste event handled: 18 chars
+[2026-11-03T04:18:10.063Z] Saved OpenCode workspace state: 11 tabs
+[2026-11-03T04:18:12.448Z] Injected script: requested clipboard text: 1793679492447-9
+[2026-11-03T04:18:12.449Z] Clipboard read requested 1793679492447-9: 18 chars
+[2026-11-03T04:18:12.455Z] Injected script: clipboard paste event handled: 18 chars
+[2026-11-03T04:18:12.476Z] Injected script: requested clipboard text: 1793679492475-10
+[2026-11-03T04:18:12.477Z] Clipboard read requested 1793679492475-10: 18 chars
+[2026-11-03T04:18:12.481Z] Injected script: clipboard paste event handled: 18 chars
+[2026-11-03T04:20:00.062Z] Saved OpenCode workspace state: 12 tabs
+[2026-11-03T04:20:00.311Z] Saved OpenCode workspace state: 12 tabs
+[2026-11-03T04:20:05.497Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:20:05.498Z] Dropping refs into OpenCode webview: @archivo con espacios ñ.txt @contexto.txt
+[2026-11-03T04:20:05.503Z] Injected script: redispatching synthetic drop: file:archivo con espacios ñ.txt
+[2026-11-03T04:20:05.504Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T04:20:05.505Z] Injected script: drop payload text/uri-list: file:archivo con espacios ñ.txt
+[2026-11-03T04:20:05.506Z] Injected script: drop payload text/plain: file:archivo con espacios ñ.txt
+[2026-11-03T04:20:05.511Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T04:20:05.512Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T04:20:05.514Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T04:20:05.514Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T04:20:05.515Z] Injected script: drop paths bridge handled: archivo con espacios ñ.txt,contexto.txt
+[2026-11-03T04:20:07.815Z] Saved OpenCode workspace state: 13 tabs
+[2026-11-03T04:20:09.978Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:20:09.978Z] Attaching files to OpenCode: imagen.png
+[2026-11-03T04:20:09.982Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-03T04:20:09.983Z] Injected script: drop types: Files
+[2026-11-03T04:20:09.983Z] Injected script: redispatched synthetic attachment drop: imagen.png
+[2026-11-03T04:20:11.562Z] Saved OpenCode workspace state: 14 tabs
+[2026-11-03T04:20:16.579Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:20:16.580Z] Attaching files to OpenCode: archivo con espacios ñ.txt, imagen.png
+[2026-11-03T04:20:16.586Z] Injected script: prepared synthetic attachment: archivo con espacios ñ.txt
+[2026-11-03T04:20:16.587Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-03T04:20:16.587Z] Injected script: drop types: Files
+[2026-11-03T04:20:16.587Z] Injected script: redispatched synthetic attachment drop: archivo con espacios ñ.txt,imagen.png
+[2026-11-03T04:21:00.562Z] Saved OpenCode workspace state: 14 tabs
+[2026-11-03T04:21:32.663Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:21:32.713Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:22:19.316Z] Saved OpenCode workspace state: 15 tabs
+[2026-11-03T04:23:07.064Z] Saved OpenCode workspace state: 16 tabs

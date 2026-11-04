@@ -1,0 +1,413 @@
+{
+  "status": "COMPLETADA: 18 casos aprobados en el alcance; evidencia mixta de confirmación del usuario y GUI/logs directos",
+  "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa",
+  "configuration": "QA sin fallback directo",
+  "cases": [
+    {
+      "id": "01-pegado-inmediato",
+      "expected": "Texto multilínea exacto una vez",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Respuesta al bloque: pegar copiar-fase4.txt en borrador vacío con Cmd+V, vaciar con Cmd+Z y reponer ambas líneas con Cmd+Shift+Z.",
+          "limits": "Confirmación del usuario; sin captura ni log nuevo ni inspección directa del hash cargado."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "02-deshacer",
+      "expected": "Prompt vacío tras Cmd+Z",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Respuesta al bloque: pegar copiar-fase4.txt en borrador vacío con Cmd+V, vaciar con Cmd+Z y reponer ambas líneas con Cmd+Shift+Z.",
+          "limits": "Confirmación del usuario; sin captura ni log nuevo ni inspección directa del hash cargado."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "03-rehacer",
+      "expected": "Texto completo repuesto tras Cmd+Shift+Z",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Respuesta al bloque: pegar copiar-fase4.txt en borrador vacío con Cmd+V, vaciar con Cmd+Z y reponer ambas líneas con Cmd+Shift+Z.",
+          "limits": "Confirmación del usuario; sin captura ni log nuevo ni inspección directa del hash cargado."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "04-pegado-demorado",
+      "expected": "Texto completo después de esperar 10 s antes de Cmd+V",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Respuesta al procedimiento de copiar copiar-fase4.txt, enfocar un borrador vacío, esperar 10 segundos antes de Cmd+V y comprobar ambas líneas completas una sola vez.",
+          "limits": "Confirmación textual; espera y resultado no inspeccionados directamente; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "05-reemplazar-seleccion",
+      "expected": "ANTES + texto multilínea + DESPUES",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "ok, respecto a la prueba que consultabas funciona, cuantas pruebas quedan?",
+          "context": "Confirma la prueba pendiente: seleccionar QUITAR en ANTESQUITARDESPUES y pegar copiar-fase4.txt; resultado esperado ANTESQA_FASE4, salto de línea, línea_ñDESPUES.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "06-insertar-en-cursor",
+      "expected": "Inserción en posición intermedia conservando el resto",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma pegar copiar-fase4.txt entre ANTES y DESPUES, sin seleccionar texto; resultado esperado ANTESQA_FASE4, salto de línea, línea_ñDESPUES.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "07-pegados-consecutivos",
+      "expected": "Dos inserciones completas",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma dos Cmd+V seguidos con copiar-fase4.txt en borrador vacío: ambas copias completas, sin omisiones ni copias adicionales.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo ni medición del intervalo entre pulsaciones."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "08-menu-pegar",
+      "expected": "Texto completo por Editar → Pegar",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma Editar → Pegar de VSCodium con el campo de un borrador vacío enfocado: ambas líneas de copiar-fase4.txt completas una sola vez.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "09-comando-pegar",
+      "expected": "Texto completo por Paste into OpenCode",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma ejecutar Paste into OpenCode desde Ver → Paleta de comandos de VSCodium, tras copiar copiar-fase4.txt y enfocar un borrador vacío: ambas líneas completas una sola vez.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "10-cortar-reponer",
+      "expected": "Corte y reposición correctos",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma seleccionar todo con Cmd+A y cortar con Cmd+X en el campo de OpenCode, dejándolo vacío, y reponer ambas líneas completas una sola vez con Cmd+V.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "11-ocultar-mostrar",
+      "expected": "Contenido conservado",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma ocultar y volver a mostrar la barra lateral secundaria mediante Ver → Apariencia → Barra lateral secundaria, conservando las dos líneas del borrador intactas y sin duplicados.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "12-mencion-individual",
+      "expected": "contexto.txt una sola vez",
+      "verdict": "PASS VERIFICADO EN GUI",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "si funcionaron bien, eligiendo uno o varios archivos del explorador de archivos de vscodium",
+          "context": "El usuario confirmó expresamente que se refiere al host QA recién abierto.",
+          "limits": "Sin captura ni log de esta ejecución; nombres, tipos de archivo y hash cargado no inspeccionados directamente."
+        },
+        {
+          "type": "native_gui",
+          "screenshot": "../20261103-restauracion-activa/05-mencion-individual.jpg",
+          "snapshot": "../20261103-restauracion-activa/logs/05-mencion-individual-ax.txt"
+        }
+      ],
+      "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+    },
+    {
+      "id": "13-menciones-multiples",
+      "expected": "Ambos TXT una sola vez",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma Add Files to OpenCode… con Cmd+Option+Shift+S, seleccionando contexto.txt y archivo con espacios ñ.txt del workspace: dos menciones, una por archivo, con espacios y ñ conservados.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "14-adjunto-individual",
+      "expected": "Imagen cargada una sola vez",
+      "verdict": "PASS VERIFICADO EN GUI",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "si funcionaron bien, eligiendo uno o varios archivos del explorador de archivos de vscodium",
+          "context": "El usuario confirmó expresamente que se refiere al host QA recién abierto.",
+          "limits": "Sin captura ni log de esta ejecución; nombres, tipos de archivo y hash cargado no inspeccionados directamente."
+        },
+        {
+          "type": "native_gui",
+          "screenshot": "../20261103-restauracion-activa/06-adjunto-individual.jpg",
+          "snapshot": "../20261103-restauracion-activa/logs/06-adjunto-individual-ax.txt"
+        }
+      ],
+      "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+    },
+    {
+      "id": "15-adjuntos-multiples",
+      "expected": "Imagen y TXT con ñ cargados una sola vez",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma Attach Files to OpenCode… con Cmd+Shift+A, seleccionando imagen.png y archivo con espacios ñ.txt: dos adjuntos, uno por archivo, nombres correctos y sin cargas pendientes.",
+          "limits": "Confirmación textual del usuario; sin captura ni log nuevo."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "16-primer-comando",
+      "expected": "Entrega tras arrancar sin repetir comando",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "funciona",
+          "context": "Confirma primer Add to OpenCode tras Desarrollador: Recargar ventana, con contexto.txt abierto y Cmd+Option+S una sola vez: una mención sin repetir el atajo.",
+          "limits": "Confirmación textual del usuario; sin captura, log nuevo ni medición directa de la llegada antes de montar el prompt."
+        },
+        {
+          "type": "extension_host_log",
+          "file": "logs/ejecucion-manual-host-actual.txt",
+          "source": "logs/fuente-host-actual.json",
+          "scope": "Log del host actual; no equivale a captura ni inspección directa del resultado gráfico."
+        }
+      ],
+      "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+    },
+    {
+      "id": "17-restaurar-sesiones",
+      "expected": "Pestañas y sesión activa conservadas",
+      "verdict": "PASS VERIFICADO EN GUI",
+      "evidence": [
+        {
+          "type": "gui_and_persisted_state",
+          "report": "../20261103-restauracion-activa/reporte.md",
+          "result": "../20261103-restauracion-activa/gui.json"
+        }
+      ],
+      "actual": {
+        "bothSessionsPresent": true,
+        "expectedActive": "B",
+        "actualActive": "B",
+        "sameThreeTabIDs": true
+      },
+      "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+      "attempts": [
+        {
+          "verdict": "FAIL REPORTADO POR USUARIO",
+          "actual": {
+            "bothSessionsPresent": true,
+            "expectedActive": "B",
+            "actualActive": "A"
+          },
+          "evidence": [
+            {
+              "type": "user_confirmation",
+              "date": "2026-11-03",
+              "quote": "aparece A y a y b siguen en el menu",
+              "context": "Después de cerrar con B activa y reabrir el host sin seleccionar sesión."
+            }
+          ],
+          "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa"
+        },
+        {
+          "verdict": "PASS VERIFICADO EN GUI",
+          "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+          "evidence": "../20261103-restauracion-activa/gui.json"
+        }
+      ]
+    },
+    {
+      "id": "18-cierre",
+      "expected": "Un servidor por arranque y sin puertos restantes",
+      "verdict": "PASS VERIFICADO POR LOG Y LSOF",
+      "evidence": [
+        {
+          "type": "local_checks",
+          "file": "logs/cierre-manual.json"
+        },
+        {
+          "type": "user_confirmation",
+          "quote": "listo, funciona",
+          "context": "Cierre del host tras dejar B activa"
+        },
+        {
+          "type": "local_checks",
+          "file": "../20261103-restauracion-activa/logs/cierre-final.json",
+          "result": "14 arranques con un servidor por arranque, 28 puertos sin listeners al finalizar"
+        }
+      ],
+      "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+    }
+  ],
+  "hostOpenedByUser": true,
+  "explorerCommandResults": [
+    {
+      "command": "Add to OpenCode",
+      "selection": "un archivo",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "si funcionaron bien, eligiendo uno o varios archivos del explorador de archivos de vscodium",
+          "context": "El usuario confirmó expresamente que se refiere al host QA recién abierto.",
+          "limits": "Sin captura ni log de esta ejecución; nombres, tipos de archivo y hash cargado no inspeccionados directamente."
+        }
+      ]
+    },
+    {
+      "command": "Add to OpenCode",
+      "selection": "varios archivos",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "si funcionaron bien, eligiendo uno o varios archivos del explorador de archivos de vscodium",
+          "context": "El usuario confirmó expresamente que se refiere al host QA recién abierto.",
+          "limits": "Sin captura ni log de esta ejecución; nombres, tipos de archivo y hash cargado no inspeccionados directamente."
+        }
+      ]
+    },
+    {
+      "command": "Attach to OpenCode",
+      "selection": "un archivo",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "si funcionaron bien, eligiendo uno o varios archivos del explorador de archivos de vscodium",
+          "context": "El usuario confirmó expresamente que se refiere al host QA recién abierto.",
+          "limits": "Sin captura ni log de esta ejecución; nombres, tipos de archivo y hash cargado no inspeccionados directamente."
+        }
+      ]
+    },
+    {
+      "command": "Attach to OpenCode",
+      "selection": "varios archivos",
+      "verdict": "PASS REPORTADO POR USUARIO",
+      "evidence": [
+        {
+          "type": "user_confirmation",
+          "date": "2026-11-03",
+          "quote": "si funcionaron bien, eligiendo uno o varios archivos del explorador de archivos de vscodium",
+          "context": "El usuario confirmó expresamente que se refiere al host QA recién abierto.",
+          "limits": "Sin captura ni log de esta ejecución; nombres, tipos de archivo y hash cargado no inspeccionados directamente."
+        }
+      ]
+    }
+  ],
+  "scope": "Exclusivamente comandos de la extensión. No arrastre físico. Add Files/Attach Files con selector nativo no quedan acreditados por la selección múltiple en el Explorador.",
+  "restorationPreparation": {
+    "sessionsFile": "sesiones-restauracion.json",
+    "sourceLog": "logs/fuente-host-actual.json",
+    "status": "Completada; B guardada y restaurada en el retest nativo",
+    "evidence": [
+      {
+        "type": "user_screenshot",
+        "source": "Captura adjunta en la conversación, sin ruta local disponible",
+        "observation": "Menú con borrador Sesión, QA sin fallback restauracion B y QA sin fallback restauracion A; encabezado muestra A activa."
+      },
+      {
+        "type": "user_confirmation",
+        "quote": "listo, funciona",
+        "context": "Respuesta al procedimiento de activar B, comprobar su título y cerrar la ventana del host, manteniendo abierta la principal.",
+        "limits": "Estado final B activa/cierre confirmado textualmente; restauración todavía no probada."
+      }
+    ]
+  },
+  "restorationRetest": {
+    "status": "PASS VERIFICADO EN GUI",
+    "buildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+    "report": "../20261103-restauracion-activa/reporte.md",
+    "evidence": "../20261103-restauracion-activa/gui.json"
+  },
+  "finalBuildSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+}

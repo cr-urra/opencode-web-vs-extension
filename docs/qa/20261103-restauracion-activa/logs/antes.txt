@@ -1,0 +1,193 @@
+
+> opencode-web-for-ide@1.14.43 test:unit
+> tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js
+
+✔ keeps the legacy project registry behavior (3.584542ms)
+✔ selects and opens the workspace draft in OpenCode v2 (0.882542ms)
+✖ restores the recent v2 session without creating a new draft (1.62925ms)
+✔ is idempotent for an existing v2 workspace draft (0.79325ms)
+✖ restores every persisted v2 tab and remaps the previous server origin (2.010333ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (1.2405ms)
+✖ selects B using the native v2 route key even when A is the last tab (1.021541ms)
+✖ remaps a persisted native v2 route key to the new proxy and preserves active B (3.090416ms)
+✖ captures the native active-tab key after switching to B and during pagehide (0.431291ms)
+✔ validates persisted workspace tab state (0.186833ms)
+✔ pastes into the original input and selection after focus and caret change (4.193292ms)
+✔ restores the original contenteditable range before the frontend handles plain text paste (0.992875ms)
+✔ keeps selected input text unchanged when paste and execCommand both reject insertion (0.376292ms)
+✔ keeps contenteditable text and range unchanged when both insertion paths reject (0.57325ms)
+✔ uses execCommand with the restored contenteditable selection if paste is not handled (0.271417ms)
+✔ can use execCommand after dispatching paste throws (1.649875ms)
+✔ does not directly change an input if both paste and execCommand throw (0.258375ms)
+✔ does not directly change contenteditable if execCommand throws after unhandled paste (0.233291ms)
+✔ does not apply an already consumed clipboard response twice (0.246125ms)
+✔ ignores unsolicited clipboard responses (0.254958ms)
+✔ keeps two rapid independent pastes without a time based suppression window (0.346542ms)
+✔ handles two rapid native paste shortcuts as independent requests (0.270042ms)
+✔ correlates out of order clipboard replies to their respective inputs (0.215583ms)
+✔ does not fall back after the frontend handles the paste event (0.206708ms)
+✔ does not manually insert twice when execCommand handles insertion (0.209916ms)
+✔ does not redirect a paste when the captured target has been detached (0.206209ms)
+✔ does not manually modify a read only input (0.201ms)
+✔ does not modify an input that became disabled while awaiting the clipboard (0.528833ms)
+✔ does not insert into a contenteditable target after editing has been disabled (0.23625ms)
+✔ keeps selected input text when the clipboard is empty (0.209917ms)
+✔ keeps selected contenteditable text when the clipboard is empty (0.189583ms)
+✔ lets the frontend paste into the focused original editable when no selection was captured (0.249958ms)
+✔ releases clipboard requests when the parent bridge cannot receive messages (0.206875ms)
+✔ releases expired clipboard requests and ignores late responses (0.199834ms)
+✔ cleans up failed clipboard requests without mutating the prompt (0.188ms)
+✔ keeps native keyboard handling on non macOS platforms (0.182ms)
+✔ does not use the legacy append endpoint as a paste fallback (0.200708ms)
+✔ parses current and legacy OpenCode versions (0.931417ms)
+✔ detects the v2 UI independently from the CLI major version (0.153417ms)
+✔ creates the credentials expected by OpenCode (0.167583ms)
+✔ uses the configured executable before PATH (0.676334ms)
+✔ reports an invalid configured executable without silently falling back (0.08175ms)
+✔ finds OpenCode on PATH (0.494333ms)
+✔ finds the default OpenCode installation outside PATH (0.118041ms)
+✔ honors OPENCODE_INSTALL_DIR and XDG_BIN_DIR (0.070208ms)
+✔ uses PATHEXT when resolving OpenCode on Windows (0.11075ms)
+✔ waits for a mounted prompt and delivers queued commands in order (2.717917ms)
+✔ defers even when the prompt already exists, allowing mount listeners to finish (0.894209ms)
+✔ expires commands instead of delivering them to a later unrelated editor (0.576375ms)
+✔ ignores detached and noneditable elements until a connected editor appears (0.272333ms)
+✔ a failed command does not block the next queued action (0.30425ms)
+✔ returns a Windows workspace path without duplicating the drive (0.387958ms)
+✔ returns a Windows common parent on the same drive (0.0745ms)
+✔ returns the Windows drive root when it is the only common parent (0.048542ms)
+✔ returns undefined for Windows paths on different drives (0.332916ms)
+✔ handles Windows UNC workspace paths (0.100709ms)
+✔ compares Windows paths case-insensitively (0.0585ms)
+✔ returns a POSIX common parent (0.058416ms)
+✔ keeps POSIX path comparison case-sensitive (0.050459ms)
+ℹ tests 59
+ℹ suites 0
+ℹ pass 54
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 168.579042
+
+✖ failing tests:
+
+test at out/opencodeBootstrap.test.js:103:22
+✖ restores the recent v2 session without creating a new draft (1.62925ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'http://127.0.0.1:4567\nses-123'
+  - 'http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-123'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:117:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'http://127.0.0.1:4567\nses-123',
+    expected: 'http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-123',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeBootstrap.test.js:132:22
+✖ restores every persisted v2 tab and remaps the previous server origin (2.010333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'http://127.0.0.1:4567\nses-active'
+  - 'http://127.0.0.1:4567\n' +
+  -   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-active'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:152:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'http://127.0.0.1:4567\nses-active',
+    expected: 'http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-active',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeBootstrap.test.js:171:22
+✖ selects B using the native v2 route key even when A is the last tab (1.021541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-A?auth_token=encoded'
+  -   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B?auth_token=encoded'
+    ]
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:181:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-A?auth_token=encoded' ],
+    expected: [ '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B?auth_token=encoded' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeBootstrap.test.js:184:22
+✖ remaps a persisted native v2 route key to the new proxy and preserves active B (3.090416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-A?auth_token=encoded'
+  -   '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B?auth_token=encoded'
+    ]
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:193:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-A?auth_token=encoded' ],
+    expected: [ '/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B?auth_token=encoded' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeBootstrap.test.js:196:22
+✖ captures the native active-tab key after switching to B and during pagehide (0.431291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js:209:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

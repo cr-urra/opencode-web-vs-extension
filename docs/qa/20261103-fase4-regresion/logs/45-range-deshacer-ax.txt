@@ -1,0 +1,70 @@
+Window: "QA fase4 fallback Range", App: Brave Browser.
+0 ventana estándar QA fase4 fallback Range - Brave, Secondary Actions: Raise, URL: file:///Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-fase4-regresion/fallback-range.html
+	1 container QA fase4 fallback Range - Brave, URL: file:///Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-fase4-regresion/fallback-range.html
+		2 container
+			3 barra de herramientas
+				4 botón Atrás
+				5 botón (disabled) Adelante
+				6 botón Volver a cargar
+				7 botón Agregar esta pestaña a favoritos
+				8 container
+					9 botón emergente Archivo
+					10 campo de texto (settable) Barra de direcciones y de búsqueda, Placeholder: Buscar en Google o escribir una URL, Value: /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-fase4-regresion/fallback-range.html
+					11 divisor Separador
+					12 botón emergente Brave Shields
+					13 botón emergente Recompensas de Brave
+				14 botón Mostrar la barra lateral
+				15 botón emergente Billetera de Brave
+				16 botón IA de Leo
+				17 botón emergente VPN
+				18 botón emergente Brave
+			19 container
+				20 área de desplazamiento
+					21 Contenido HTML QA fase4 fallback Range, URL: file:///Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-fase4-regresion/fallback-range.html
+						22 cabecera QA fase4: fallback Range, Value: 1
+							23 texto QA fase4: fallback Range
+						24 texto Fixture local con el módulo de producción. insertText forzado a false; sin listener paste.
+						25 área de entrada de texto (settable) Destino original, Value: ANTES
+<b>ñ</b>
+línea
+DESPUES
+							26 texto ANTES
+							27 texto <b>ñ</b>
+línea
+							28 texto DESPUES
+						29 campo de texto (settable) Otro campo, Value: OTRO
+						30 container
+							31 botón Reiniciar
+							32 botón Solicitar respuesta demorada
+						33 texto paste bridge installed
+requested clipboard text: 1793680749755-1
+input:insertFromPaste:"ANTES<b>ñ</b>\nlíneaDESPUES"
+clipboard inserted into contenteditable: 14 chars
+
+			34 botón emergente Búsqueda de pestañas
+			35 container
+				36 grupo de pestañas
+					37 tabulador (selected, settable, boolean) QA fase4 fallback Range: Uso de memoria: 33.7 MB, Value: on
+						38 botón Cerrar
+			39 botón Nueva pestaña
+			40 container
+				41 divisor
+	42 botón de cierre
+	43 botón para pantalla completa Help: este botón también tiene una acción para acercar/alejar la ventana, Secondary Actions: acercar/alejar ventana
+	44 botón de minimización
+45 menu bar
+	46 Brave
+	47 Archivo
+	48 Edición
+	49 Visualización
+	50 Historial
+	51 Favoritos
+	52 Perfiles
+	53 Pestaña
+	54 Ventana
+	55 Ayuda
+
+The focused UI element is 25 área de entrada de texto (settable) Destino original, Value: ANTES
+<b>ñ</b>
+línea
+DESPUES

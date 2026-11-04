@@ -71,6 +71,10 @@ VS Code and VSCodium webviews can be inconsistent on macOS when common editing s
 
 This bridge is intentionally limited to macOS so Linux and Windows keep their native webview behavior.
 
+The paste bridge preserves the original editable field and selection while reading the clipboard. It ignores repeated or expired responses and stops if the field is removed or becomes read-only. It first dispatches a plain-text paste event to the frontend, then tries `execCommand("insertText")` if the event is not handled. If both methods fail, it logs the failure without directly rewriting the field value or inserting DOM nodes. Selection/Range is still used to capture and restore the caret or selection.
+
+Clipboard editing and active-session restoration were tested with OpenCode 2.2.5 on macOS using VSCodium. Other OpenCode versions, the legacy UI, and Windows/Linux have not been graphically validated for these changes.
+
 ## File Transfer Strategy
 
 Natural drag/drop from VS Code into iframe-based webviews is inconsistent across platforms, especially on macOS. This extension uses reliable VS Code APIs and webview message bridges for file transfer:

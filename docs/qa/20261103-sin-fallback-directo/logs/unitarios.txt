@@ -1,0 +1,68 @@
+
+> opencode-web-for-ide@1.14.43 test:unit
+> tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js
+
+✔ keeps the legacy project registry behavior (1.263791ms)
+✔ selects and opens the workspace draft in OpenCode v2 (1.41275ms)
+✔ restores the recent v2 session without creating a new draft (1.07575ms)
+✔ is idempotent for an existing v2 workspace draft (1.656916ms)
+✔ restores every persisted v2 tab and remaps the previous server origin (1.801ms)
+✔ keeps live browser tabs instead of replacing them with stale persisted state (1.18675ms)
+✔ validates persisted workspace tab state (0.229959ms)
+✔ pastes into the original input and selection after focus and caret change (1.210709ms)
+✔ restores the original contenteditable range before the frontend handles plain text paste (0.374042ms)
+✔ keeps selected input text unchanged when paste and execCommand both reject insertion (0.273958ms)
+✔ keeps contenteditable text and range unchanged when both insertion paths reject (0.253583ms)
+✔ uses execCommand with the restored contenteditable selection if paste is not handled (0.258875ms)
+✔ can use execCommand after dispatching paste throws (0.655917ms)
+✔ does not directly change an input if both paste and execCommand throw (0.238833ms)
+✔ does not directly change contenteditable if execCommand throws after unhandled paste (0.228666ms)
+✔ does not apply an already consumed clipboard response twice (0.244292ms)
+✔ ignores unsolicited clipboard responses (0.236666ms)
+✔ keeps two rapid independent pastes without a time based suppression window (0.272083ms)
+✔ handles two rapid native paste shortcuts as independent requests (0.263875ms)
+✔ correlates out of order clipboard replies to their respective inputs (0.225209ms)
+✔ does not fall back after the frontend handles the paste event (0.218ms)
+✔ does not manually insert twice when execCommand handles insertion (0.218417ms)
+✔ does not redirect a paste when the captured target has been detached (0.202541ms)
+✔ does not manually modify a read only input (0.206709ms)
+✔ does not modify an input that became disabled while awaiting the clipboard (0.20975ms)
+✔ does not insert into a contenteditable target after editing has been disabled (0.212291ms)
+✔ keeps selected input text when the clipboard is empty (0.215083ms)
+✔ keeps selected contenteditable text when the clipboard is empty (0.202208ms)
+✔ lets the frontend paste into the focused original editable when no selection was captured (0.227125ms)
+✔ releases clipboard requests when the parent bridge cannot receive messages (0.21775ms)
+✔ releases expired clipboard requests and ignores late responses (0.229ms)
+✔ cleans up failed clipboard requests without mutating the prompt (1.465875ms)
+✔ keeps native keyboard handling on non macOS platforms (0.543583ms)
+✔ does not use the legacy append endpoint as a paste fallback (0.584458ms)
+✔ parses current and legacy OpenCode versions (0.468417ms)
+✔ detects the v2 UI independently from the CLI major version (0.078417ms)
+✔ creates the credentials expected by OpenCode (0.084542ms)
+✔ uses the configured executable before PATH (1.625083ms)
+✔ reports an invalid configured executable without silently falling back (0.196792ms)
+✔ finds OpenCode on PATH (1.139291ms)
+✔ finds the default OpenCode installation outside PATH (0.363291ms)
+✔ honors OPENCODE_INSTALL_DIR and XDG_BIN_DIR (0.381833ms)
+✔ uses PATHEXT when resolving OpenCode on Windows (0.297958ms)
+✔ waits for a mounted prompt and delivers queued commands in order (4.217833ms)
+✔ defers even when the prompt already exists, allowing mount listeners to finish (0.73575ms)
+✔ expires commands instead of delivering them to a later unrelated editor (0.513125ms)
+✔ ignores detached and noneditable elements until a connected editor appears (0.251917ms)
+✔ a failed command does not block the next queued action (0.561084ms)
+✔ returns a Windows workspace path without duplicating the drive (0.429084ms)
+✔ returns a Windows common parent on the same drive (0.087625ms)
+✔ returns the Windows drive root when it is the only common parent (0.066958ms)
+✔ returns undefined for Windows paths on different drives (0.398458ms)
+✔ handles Windows UNC workspace paths (0.088209ms)
+✔ compares Windows paths case-insensitively (0.059833ms)
+✔ returns a POSIX common parent (0.063875ms)
+✔ keeps POSIX path comparison case-sensitive (0.058125ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.265458

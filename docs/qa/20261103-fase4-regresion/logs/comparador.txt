@@ -1,0 +1,1 @@
+PASS: bootstrap actual comparado sin sobrescribir snapshots de fase 2. Salida temporal: /private/tmp/opencode-fase4-comparador-GutNyp

@@ -1,0 +1,19 @@
+{
+  "method": "POST /api/session; sin mensajes ni prompts",
+  "sessions": [
+    {
+      "id": "ses_e605b7ec0ffeRaxeolYNQZdnEA",
+      "title": "QA fase4 persistencia A",
+      "location": {
+        "directory": "/private/tmp/opencode-manual-qa-Rfgyvg/workspace"
+      }
+    },
+    {
+      "id": "ses_e605b7eb1ffeSKGbltOHRbiy9X",
+      "title": "QA fase4 persistencia B",
+      "location": {
+        "directory": "/private/tmp/opencode-manual-qa-Rfgyvg/workspace"
+      }
+    }
+  ]
+}

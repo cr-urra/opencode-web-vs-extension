@@ -1,0 +1,43 @@
+[2026-11-03T04:41:53.964Z] Activating extension
+[2026-11-03T04:41:53.987Z] Resolving sidebar webview
+[2026-11-03T04:41:53.987Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:41:54.008Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:41:54.361Z] Detected OpenCode CLI major: 2
+[2026-11-03T04:41:54.361Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T04:41:54.363Z] Started opencode serve on port 33994 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:41:54.363Z] Detected OpenCode CLI major: 2
+[2026-11-03T04:41:54.363Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T04:41:54.364Z] Started opencode serve on port 20556 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:41:54.467Z] Opening sidebar container
+[2026-11-03T04:41:54.912Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:41:54.912Z] opencode server is ready on port 33994
+[2026-11-03T04:41:54.913Z] Started opencode proxy on port 52804
+[2026-11-03T04:41:54.913Z] Loading webview iframe: http://127.0.0.1:52804/
+[2026-11-03T04:41:54.913Z] Loading authenticated OpenCode iframe: http://127.0.0.1:52804/
+[2026-11-03T04:41:54.914Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:41:54.914Z] opencode server is ready on port 20556
+[2026-11-03T04:41:54.915Z] Started opencode proxy on port 52805
+[2026-11-03T04:41:54.916Z] Loading webview iframe: http://127.0.0.1:52805/
+[2026-11-03T04:41:54.916Z] Loading authenticated OpenCode iframe: http://127.0.0.1:52805/
+[2026-11-03T04:41:54.963Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:41:55.002Z] Serving injected workspace bootstrap script
+[2026-11-03T04:41:55.040Z] Saved OpenCode workspace state: 26 tabs
+[2026-11-03T04:41:55.365Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:41:55.365Z] Dropping refs into OpenCode webview: @contexto.txt
+[2026-11-03T04:41:55.512Z] Injected script: clipboard bridge installed
+[2026-11-03T04:41:55.512Z] Injected script: paste bridge installed
+[2026-11-03T04:41:55.532Z] Injected script: edit command bridge installed
+[2026-11-03T04:41:55.532Z] Injected script: insert text bridge installed
+[2026-11-03T04:41:55.533Z] Injected script: attachment bridge installed
+[2026-11-03T04:41:55.533Z] Injected script: drop paths bridge installed
+[2026-11-03T04:41:55.534Z] Injected script: drop normalizer installed
+[2026-11-03T04:41:55.534Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:41:55.534Z] Injected script: restored 26 workspace tabs
+[2026-11-03T04:41:55.534Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab draft:8382e47f-b952-4220-8e38-85cbcd226b72
+[2026-11-03T04:41:56.242Z] Injected script: redispatching synthetic drop: file:contexto.txt
+[2026-11-03T04:41:56.244Z] Injected script: drop types: text/plain,text/uri-list
+[2026-11-03T04:41:56.245Z] Injected script: drop payload text/uri-list: file:contexto.txt
+[2026-11-03T04:41:56.245Z] Injected script: drop payload text/plain: file:contexto.txt
+[2026-11-03T04:41:56.249Z] Injected script: drop paths bridge handled: contexto.txt
+[2026-11-03T04:41:56.772Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:42:14.292Z] Saved OpenCode workspace state: 27 tabs

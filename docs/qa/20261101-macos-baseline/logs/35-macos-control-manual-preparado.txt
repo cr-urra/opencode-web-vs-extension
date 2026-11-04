@@ -1,0 +1,223 @@
+Window: "[Host de desarrollo de la extensión] imagen.png — workspace — QA-macos-20261101", App: VSCodium.
+0 ventana estándar [Host de desarrollo de la extensión] imagen.png — workspace — QA-macos-20261101, Secondary Actions: Raise, URL: file:///var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/imagen.png
+	1 container [Host de desarrollo de la extensión] imagen.png — workspace — QA-macos-20261101
+		2 container
+			3 Contenido HTML [Host de desarrollo de la extensión] imagen.png — workspace — QA-macos-20261101, URL: vscode-file://vscode-app/Applications/VSCodium.app/Contents/Resources/app/out/vs/code/electron-browser/workbench/workbench.html
+				4 container
+					5 container
+						6 container
+							7 barra de herramientas
+								8 botón (disabled) Volver (⌃-)
+									9 texto 
+								10 botón (disabled) Hacia delante (⌃⇧-)
+									11 texto 
+								12 botón [Host de desarrollo de la extensión] imagen.png — workspace — QA-macos-20261101
+							13 barra de herramientas Acciones de título
+								14 botón de activación Description: Alternar barra lateral principal (⌘B), Value: 1
+									15 texto 
+								16 botón Personalizar diseño...
+									17 texto 
+								18 botón de activación Description: Alternar panel (⌘J), Value: 0
+									19 texto 
+								20 botón de activación Description: Alternar barra lateral secundaria (⌥⌘B), Value: 1
+									21 texto 
+						22 container
+							23 container
+								24 grupo de pestañas Modificador de vista activa
+									25 tab (selected) Explorador (⇧⌘E), Value: 1
+										26 container Explorador (⇧⌘E)
+											27 texto 
+									28 tab (settable, integer) Buscar (⇧⌘F), Value: 0
+										29 container Buscar (⇧⌘F)
+											30 texto 
+									31 tab (settable, integer) Control de código fuente (⌃⇧G), Value: 0
+										32 container Control de código fuente (⌃⇧G)
+											33 texto 
+									34 tab (settable, integer) Ejecución y depuración (⇧⌘D), Value: 0
+										35 container Ejecución y depuración (⇧⌘D)
+											36 texto 
+									37 tab (settable, integer) Extensiones (⇧⌘X), Value: 0
+										38 container Extensiones (⇧⌘X)
+											39 texto 
+								40 barra de herramientas Administrar
+									41 botón emergente Cuentas
+										42 container Cuentas
+											43 texto 
+									44 botón emergente Administrar QA-macos-20261101 (perfil)
+										45 container Administrar QA-macos-20261101 (perfil)
+											46 texto 
+										47 texto QA
+							48 container
+								49 cabecera EXPLORADOR, Value: 2
+									50 texto EXPLORADOR
+								51 barra de herramientas acciones de Explorador
+									52 botón emergente Vistas y más acciones...
+								53 container
+									54 container
+										55 botón Sección del explorador: workspace
+											56 texto 
+											57 cabecera Description: Sección del explorador: workspace, Value: 3
+												58 texto WORKSPACE
+										59 contorno Explorador de archivos
+											60 container
+												61 row .vscode
+													62 container
+														63 texto 
+														64 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/.vscode
+															65 texto .vscode
+												66 row archivo con espacios ñ.txt
+													67 container
+														68 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/archivo con espacios ñ.txt
+															69 texto 
+															70 texto archivo con espacios ñ.txt
+												71 row contexto.txt
+													72 container
+														73 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/contexto.txt
+															74 texto 
+															75 texto contexto.txt
+												76 row (selected) imagen.png
+													77 container
+														78 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/imagen.png
+															79 texto 
+															80 texto imagen.png
+									81 botón Sección Esquema
+										82 texto 
+										83 cabecera ESQUEMA, Value: 3
+											84 texto ESQUEMA
+									85 botón Sección línea de tiempo
+										86 texto 
+										87 cabecera LÍNEA DE TIEMPO, Value: 3
+											88 texto LÍNEA DE TIEMPO
+							89 container
+								90 container
+								91 container
+									92 container
+										93 container
+											94 grupo de pestañas
+												95 tab (settable, integer) Description: imagen.png, Grupo de editores 1, Value: 0
+													96 container /private/var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/imagen.png
+														97 texto 
+														98 container
+															99 text imagen.png /private/…/workspace
+													100 barra de herramientas Acciones de pestaña
+														101 botón Cerrar (⌘W)
+															102 texto 
+												103 tab (selected) Description: imagen.png, vista previa, Grupo de editores 1, Value: 1
+													104 container imagen.png
+														105 texto 
+														106 container
+															107 text imagen.png ./
+													108 barra de herramientas Acciones de pestaña
+														109 botón Cerrar (⌘W)
+															110 texto 
+											111 barra de herramientas Acciones de editor
+												112 botón Dividir Editor Derecho (⌃⌥⌘') [⌥] Dividir Editor Abajo
+													113 texto 
+												114 botón emergente Más Acciones...
+													115 texto 
+										116 lista de contenidos
+											117 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/imagen.png
+												118 texto 
+												119 texto imagen.png
+										120 botón Vista previa de la imagen 
+											121 text Vista previa de la imagen 
+									122 container
+										123 container
+											124 grupo de pestañas
+												125 tab (settable, integer) Description: Bienvenido, vista previa, Value: 0
+													126 container Bienvenido
+														127 texto Bienvenido
+													128 barra de herramientas Acciones de pestaña
+														129 botón Cerrar (⌘W)
+															130 texto 
+												131 tab (selected) Description: contexto.txt, Value: 1
+													132 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/contexto.txt
+														133 texto 
+														134 texto contexto.txt
+													135 barra de herramientas Acciones de pestaña
+														136 botón Cerrar (⌘W)
+															137 texto 
+											138 barra de herramientas Acciones de editor
+												139 botón emergente Más Acciones...
+													140 texto 
+										141 lista de contenidos
+											142 container /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace/contexto.txt
+												143 texto 
+												144 texto contexto.txt
+										145 container contexto.txt, Grupo de editores 2
+											146 container
+												147 editor (settable) contexto.txt, Grupo de editores 2
+							148 container
+								149 grupo de pestañas Modificador de vista activa
+									150 tab (selected) Description: OpenCode, Value: 1
+										151 container OpenCode
+											152 texto OPENCODE
+								153 barra de herramientas acciones de OpenCode
+								154 barra de herramientas
+									155 botón de activación Description: Maximizar barra lateral secundaria, Value: 0
+										156 texto 
+									157 botón Ocultar barra lateral secundaria (⌥⌘B)
+										158 texto 
+								159 container
+						160 container
+							161 container remote
+								162 botón remote
+							163 container No hay problemas
+								164 botón No hay problemas
+									165 texto 
+									166 texto  0 
+									167 texto 
+									168 texto  0
+							169 container Notificaciones
+								170 botón Notificaciones
+							171 container 2.92 KB
+								172 botón 2.92 KB
+							173 container Lector de pantalla optimizado
+								174 botón Lector de pantalla optimizado
+							175 container 600x600
+								176 botón 600x600
+							177 container Imagen completa
+								178 botón Imagen completa
+					179 Contenido HTML vscode-webview://0195hvsvcbbim5lk6mals2nqbgef06eb860iug39dos32sl6llah/index.html?id=9051df5c-fa33-45b5-bb51-220ffffd2d59&parentId=8&origin=21688097-792b-4ac9-ae12-b228fc67d3cd&swVersion=6&extensionId=UWEsmith.opencode-web-for-ide&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=d54325a5-819b-4b74-8388-0a4374193c8d&purpose=webviewView
+						180 container OpenCode
+							181 Contenido HTML vscode-webview://0195hvsvcbbim5lk6mals2nqbgef06eb860iug39dos32sl6llah/index.html?id=9051df5c-fa33-45b5-bb51-220ffffd2d59&parentId=8&origin=21688097-792b-4ac9-ae12-b228fc67d3cd&swVersion=6&extensionId=UWEsmith.opencode-web-for-ide&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=d54325a5-819b-4b74-8388-0a4374193c8d&purpose=webviewView
+								182 Contenido HTML OpenCode, URL: 127.0.0.1:51641/new-session?draftId=69e9736c-6eb4-46e5-9612-488616ccd6ba
+									183 container
+										184 botón emergente Pestañas
+											185 texto Sesión
+											186 texto 1
+										187 container
+											188 container
+												189 área de entrada de texto (settable) Description: Prompt, Value: ​
+												190 texto Pregunta lo que quieras, / para comandos, @ para contexto…
+												191 botón emergente Añadir imágenes y archivos
+												192 botón emergente Big Pickle
+													193 texto Big Pickle
+												194 botón (disabled) Enviar
+											195 botón emergente W workspace
+												196 texto W
+												197 texto workspace
+											198 container
+												199 botón Conéctate a más de 75 proveedores para usar otros modelos, como Claude, GPT, Gemini y muchos más
+												200 botón Descartar
+									201 container Notifications alt+T
+					202 Contenido HTML vscode-webview://0002nvf4ocfgdpl0u78i744gl682u798e5ild2h22q7e1ld9t1vk/index.html?id=dda0be1c-cc3b-496d-a4de-b6c39b03f5dd&parentId=8&origin=1cc10f9d-9bc5-437b-8ff2-7b17403a61b2&swVersion=6&extensionId=vscode.media-preview&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=e28a09c6-5655-4a74-97b2-7dc99dc5dd72
+						203 container imagen.png
+							204 Contenido HTML Image Preview, URL: vscode-webview://0002nvf4ocfgdpl0u78i744gl682u798e5ild2h22q7e1ld9t1vk/index.html?id=dda0be1c-cc3b-496d-a4de-b6c39b03f5dd&parentId=8&origin=1cc10f9d-9bc5-437b-8ff2-7b17403a61b2&swVersion=6&extensionId=vscode.media-preview&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=e28a09c6-5655-4a74-97b2-7dc99dc5dd72
+								205 imagen /imagen.png?version%3D1793507355123
+	206 botón de cierre
+	207 botón para pantalla completa Help: este botón también tiene una acción para acercar/alejar la ventana, Secondary Actions: acercar/alejar ventana
+	208 botón de minimización
+209 menu bar
+	210 VSCodium
+	211 Archivo
+	212 Editar
+	213 Selección
+	214 Ver
+	215 Ir
+	216 Ejecutar
+	217 Terminal
+	218 Ventana
+	219 Ayuda
+
+The focused UI element is 184 botón emergente Pestañas

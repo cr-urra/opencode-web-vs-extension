@@ -1,0 +1,107 @@
+{
+  "date": "2026-11-03",
+  "status": "VSIX generado e inspeccionado; observación de licencia preexistente",
+  "artifact": "/Users/cristobal/Documents/opencode-web-vs-extension/dist/opencode-web-for-ide-1.14.43-fase5.vsix",
+  "version": "1.14.43",
+  "publisher": "UWEsmith",
+  "bytes": 33879,
+  "sha256": "8d9e2b3022b2d07c25aec15acb854ffc7ae3557a38e5950d691d655e2d6cf557",
+  "validatedBundleSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+  "packagedBundleSha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25",
+  "bundleMatchesPhase4": true,
+  "zipIntegrity": "PASS",
+  "exactFileList": "PASS",
+  "manifestMatchesSource": true,
+  "universalPackage": true,
+  "fileCount": 8,
+  "files": [
+    {
+      "path": "extension.vsixmanifest",
+      "bytes": 2967,
+      "compressedBytes": 899,
+      "sha256": "9cedad6745349d1f4c54e2f574d04d2a1fe0954d6db9ca35235fa22933276999"
+    },
+    {
+      "path": "[Content_Types].xml",
+      "bytes": 517,
+      "compressedBytes": 220,
+      "sha256": "d5db7b640ed10be3c4e1b415ee39b6e6db263afcd7b8554d9627249890bc6703"
+    },
+    {
+      "path": "extension/LICENSE.txt",
+      "bytes": 35149,
+      "compressedBytes": 12112,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "extension/readme.md",
+      "bytes": 5607,
+      "compressedBytes": 2210,
+      "sha256": "b04e504bc646662df9ef03f1249973da591abe2b1c91d5861c8f6b9881186a71"
+    },
+    {
+      "path": "extension/package.json",
+      "bytes": 7597,
+      "compressedBytes": 1696,
+      "sha256": "1e7899a77cb8dd5b08b5d99c186c67c432d1a6d927b0fe9722dc43f9169a78a2"
+    },
+    {
+      "path": "extension/dist/extension.js",
+      "bytes": 51577,
+      "compressedBytes": 14991,
+      "sha256": "7ac05abfc7ae4a638bd18fe6822ad34e133f253b24aec178e1e4ec613cc11f25"
+    },
+    {
+      "path": "extension/images/icon.png",
+      "bytes": 2989,
+      "compressedBytes": 386,
+      "sha256": "fbe53e211b8e42b071e0c680f84544c1e4e4d47edbf99cdacbdeb95372f67a99"
+    },
+    {
+      "path": "extension/images/icon.svg",
+      "bytes": 519,
+      "compressedBytes": 295,
+      "sha256": "3c675f421d32b4ea07e9173d1073ede18d6a8910e8807fa9aa037610e0c984ef"
+    }
+  ],
+  "readmeLinksRewrittenByVsce": false,
+  "tooling": {
+    "vsce": "4.1.0",
+    "invocation": "npm exec --offline --yes --package=@vscode/vsce@4.1.0 --cache /private/tmp/opencode-vsix-npm-cache -- vsce package --no-dependencies --skip-license -o dist/opencode-web-for-ide-1.14.43-fase5.vsix"
+  },
+  "checks": {
+    "unitTests": {
+      "pass": 59,
+      "fail": 0,
+      "log": "logs/unitarios.txt"
+    },
+    "types": "PASS",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 754
+    },
+    "productionBuild": "PASS",
+    "prepublishHook": "PASS con npm; bundle idéntico al validado"
+  },
+  "packagingChanges": [
+    "Lista de inclusión explícita de seis archivos en .vscodeignore",
+    "vscode:prepublish y package usan npm en lugar de Bun, no disponible en este entorno",
+    "README conserva el alcance de compatibilidad probado y omite enlaces a informes internos que no se distribuyen"
+  ],
+  "observations": [
+    {
+      "id": "LICENSE-MISMATCH",
+      "manifestLicense": "MIT",
+      "licenseFileHeader": "GNU GENERAL PUBLIC LICENSE                        Version 3, 29 June 2007",
+      "existingBeforePackaging": true,
+      "action": "Se conservaron el campo license y el archivo LICENSE originales; no se eligió otra licencia."
+    }
+  ],
+  "notPerformed": [
+    "Publicación",
+    "Instalación del VSIX",
+    "Nueva prueba gráfica sobre instalación VSIX"
+  ],
+  "scope": "Generación y revisión local del artefacto. La evidencia de fase 4 corresponde al bundle idéntico ejecutado en Extension Development Host.",
+  "allSixProductFilesMatchSource": true
+}

@@ -1,0 +1,33 @@
+HOST SIMULADO: estos logs no provienen de una ventana real de VSCodium.
+[2026-11-01T03:49:33.434Z] Activating extension
+[2026-11-01T03:49:33.940Z] Opening sidebar container
+[2026-11-01T03:49:33.940Z] Resolving sidebar webview
+[2026-11-01T03:49:33.941Z] Resolved workspace root: /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T03:49:34.029Z] Detected OpenCode CLI major: 2
+[2026-11-01T03:49:34.029Z] Using OpenCode executable from configuration: /opt/homebrew/bin/opencode
+[2026-11-01T03:49:34.030Z] Started opencode serve on port 46481 with cwd /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T03:49:34.285Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-01T03:49:34.285Z] opencode server is ready on port 46481
+[2026-11-01T03:49:34.288Z] Started opencode proxy on port 50339
+[2026-11-01T03:49:34.288Z] Loading webview iframe: http://127.0.0.1:50339/
+[2026-11-01T03:49:34.288Z] Loading authenticated OpenCode iframe: http://127.0.0.1:50339/
+[2026-11-01T03:49:34.292Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T03:49:34.294Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T03:49:34.295Z] Serving injected workspace bootstrap script
+{
+  "mode": "bundle real + VS Code API simulada; OpenCode y proxy reales",
+  "passed": true,
+  "appStatus": 200,
+  "healthStatus": 200,
+  "healthContentType": "text/html",
+  "healthReturnsJson": false,
+  "serverVersion": "opencode v2.2.5",
+  "bootstrapStatus": 200,
+  "bootstrapInjected": true,
+  "bootstrapSyntaxValid": true,
+  "iframeCarriesAuthToken": true,
+  "parentKeyCapturePresent": false,
+  "parentDropCapturePresent": false,
+  "contenteditableRangeFallbackPresent": false
+}
+[2026-11-01T03:49:34.310Z] opencode serve exited on port 46481 with code 1 signal <none>

@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-03",
+  "stage": "Fase 3",
+  "baselineRegression": {
+    "tests": 14,
+    "pass": 6,
+    "fail": 8
+  },
+  "finalUnitTests": {
+    "tests": 45,
+    "pass": 45,
+    "fail": 0
+  },
+  "newClipboardTests": 21,
+  "typeCheck": "PASS",
+  "lint": {
+    "errors": 0,
+    "warnings": 754,
+    "newFiles": [
+      {
+        "file": "opencodeClipboard.test.ts",
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "file": "opencodeClipboard.ts",
+        "errors": 0,
+        "warnings": 0
+      }
+    ]
+  },
+  "productionBuild": "PASS",
+  "integration": {
+    "baselineRevision": "060062d743b40300568bcbd65b8b7b501a668f69",
+    "unchangedFunctions": [
+      "addToOpenCodeDisposable",
+      "addFilesToOpenCodeDisposable",
+      "attachToOpenCodeDisposable",
+      "attachFilesToOpenCodeDisposable",
+      "addRefsToOpenCode",
+      "attachUrisToOpenCode",
+      "attachFilesToOpenCode",
+      "getWorkspaceUriRefs",
+      "readAttachmentFiles",
+      "loadSidebar",
+      "getWebviewHtml",
+      "sendTerminalToOpenCode"
+    ],
+    "manifestContributesUnchanged": true,
+    "activationEventsUnchanged": true,
+    "generatedBootstrapCases": [
+      {
+        "platform": "darwin",
+        "generation": "legacy",
+        "syntax": "PASS",
+        "unchangedFileBridges": "PASS"
+      },
+      {
+        "platform": "darwin",
+        "generation": "v2",
+        "syntax": "PASS",
+        "unchangedFileBridges": "PASS"
+      },
+      {
+        "platform": "linux",
+        "generation": "legacy",
+        "syntax": "PASS",
+        "unchangedFileBridges": "PASS"
+      },
+      {
+        "platform": "linux",
+        "generation": "v2",
+        "syntax": "PASS",
+        "unchangedFileBridges": "PASS"
+      },
+      {
+        "platform": "win32",
+        "generation": "legacy",
+        "syntax": "PASS",
+        "unchangedFileBridges": "PASS"
+      },
+      {
+        "platform": "win32",
+        "generation": "v2",
+        "syntax": "PASS",
+        "unchangedFileBridges": "PASS"
+      }
+    ],
+    "scope": "Comprobaciones de código y sintaxis, no equivalen a ejecución en esos sistemas ni a pruebas gráficas"
+  },
+  "newGuiVerification": false,
+  "vsixGenerated": false,
+  "macReferenceUnchanged": true,
+  "existingRootSourcesUnchanged": true,
+  "bundleSha256": "c0583b5e48b80d1013051f6d892c037b2c8b9e6e13e06b23ce9178ac06bde387",
+  "phase3Status": "Implementación y verificación automática completas",
+  "phase4Status": "Pendiente de regresión gráfica del nuevo build",
+  "linkChecks": [
+    {
+      "file": "docs/qa/20261103-fase3-pegado/reporte.md",
+      "checked": 17,
+      "missing": []
+    },
+    {
+      "file": "docs/analisis/20261103-fase2/reporte.md",
+      "checked": 19,
+      "missing": []
+    },
+    {
+      "file": "docs/qa/20261102-arrastre-manual/reporte.md",
+      "checked": 22,
+      "missing": []
+    }
+  ]
+}

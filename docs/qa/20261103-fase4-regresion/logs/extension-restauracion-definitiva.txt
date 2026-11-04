@@ -1,0 +1,26 @@
+[2026-11-03T04:45:55.404Z] Activating extension
+[2026-11-03T04:45:55.406Z] Resolving sidebar webview
+[2026-11-03T04:45:55.406Z] Resolved workspace root: /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:45:55.576Z] Detected OpenCode CLI major: 2
+[2026-11-03T04:45:55.576Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T04:45:55.577Z] Started opencode serve on port 23868 with cwd /private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:45:55.813Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T04:45:55.813Z] opencode server is ready on port 23868
+[2026-11-03T04:45:55.814Z] Started opencode proxy on port 53049
+[2026-11-03T04:45:55.814Z] Loading webview iframe: http://127.0.0.1:53049/
+[2026-11-03T04:45:55.814Z] Loading authenticated OpenCode iframe: http://127.0.0.1:53049/
+[2026-11-03T04:45:55.829Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T04:45:55.872Z] Serving injected workspace bootstrap script
+[2026-11-03T04:45:55.908Z] Opening sidebar container
+[2026-11-03T04:45:55.908Z] Saved OpenCode workspace state: 32 tabs
+[2026-11-03T04:45:56.118Z] Injected script: clipboard bridge installed
+[2026-11-03T04:45:56.118Z] Injected script: paste bridge installed
+[2026-11-03T04:45:56.121Z] Injected script: edit command bridge installed
+[2026-11-03T04:45:56.121Z] Injected script: insert text bridge installed
+[2026-11-03T04:45:56.122Z] Injected script: attachment bridge installed
+[2026-11-03T04:45:56.122Z] Injected script: drop paths bridge installed
+[2026-11-03T04:45:56.123Z] Injected script: drop normalizer installed
+[2026-11-03T04:45:56.123Z] Injected script: seeded opencode.global.dat:server local=/private/tmp/opencode-manual-qa-Rfgyvg/workspace
+[2026-11-03T04:45:56.123Z] Injected script: restored 32 workspace tabs
+[2026-11-03T04:45:56.125Z] Injected script: selected workspace /private/tmp/opencode-manual-qa-Rfgyvg/workspace and tab draft:44ffae4b-83f1-4977-848b-d06ecb1536e6
+[2026-11-03T04:45:56.986Z] Proxy injected workspace bootstrap into HTML

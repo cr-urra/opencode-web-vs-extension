@@ -1,0 +1,11 @@
+{
+  "linksChecked": 214,
+  "missing": [],
+  "buildSha256": "b626e211e708e4a9f7e05ef7849235fcca0cdf7d5534ff79d52f1c821aaabbaa",
+  "preservedFiles": [
+    "src/extension.ts",
+    "src/opencodeBootstrap.ts",
+    "src/opencodePromptQueue.ts",
+    "package.json"
+  ]
+}

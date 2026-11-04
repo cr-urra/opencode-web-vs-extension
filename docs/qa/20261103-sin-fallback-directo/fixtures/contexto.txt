@@ -1,0 +1,3 @@
+Fixture local de QA.
+Primera línea.
+Segunda línea.

@@ -8,12 +8,15 @@ function runBootstrap(generation: "legacy" | "v2", initial: Record<string, strin
   const storage = new Map(Object.entries(initial))
   const historyCalls: string[] = []
   const messages: unknown[] = []
+  const intervals: Array<() => void> = [];
+  const lifecycle: Record<string, () => void> = {};
   const context = {
     URL,
     TextEncoder,
     btoa: (value: string) => Buffer.from(value, "binary").toString("base64"),
     Date,
     Math,
+    setInterval: (callback: () => void) => { intervals.push(callback); return intervals.length; },
     globalThis: { crypto: { randomUUID: () => "draft-123" } },
     history: {
       state: null,
@@ -30,13 +33,13 @@ function runBootstrap(generation: "legacy" | "v2", initial: Record<string, strin
     },
     window: {
       parent: { postMessage: (message: unknown) => messages.push(message) },
-      addEventListener: () => undefined,
+      addEventListener: (name: string, callback: () => void) => { lifecycle[name] = callback; },
     },
   }
 
   const script = getOpenCodeWorkspaceStateScript("/workspace/root", generation, persistedState)
   runInNewContext(script, context)
-  return { storage, historyCalls, messages, script }
+  return { storage, historyCalls, messages, script, flushState: () => intervals.forEach(callback => callback()), lifecycle }
 }
 
 test("keeps the legacy project registry behavior", () => {
@@ -84,8 +87,8 @@ test("restores the recent v2 session without creating a new draft", () => {
   const recent = JSON.parse(result.storage.get("opencode.window.browser.dat:tabs.recent") ?? "{}")
 
   assert.deepEqual(tabs, [sessionTab])
-  assert.equal(recent.key, server + "\n" + sessionTab.sessionId)
-  assert.deepEqual(result.historyCalls, ["/L3dvcmtzcGFjZS9yb290/session/ses-123?auth_token=encoded"])
+  assert.equal(recent.key, server + "\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-123")
+  assert.deepEqual(result.historyCalls, ["/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-123?auth_token=encoded"])
 })
 
 test("is idempotent for an existing v2 workspace draft", () => {
@@ -124,8 +127,8 @@ test("restores every persisted v2 tab and remaps the previous server origin", ()
     "http://127.0.0.1:4567",
   ])
   assert.equal(tabs[0].directory, "/workspace/root")
-  assert.equal(recent.key, "http://127.0.0.1:4567\nses-active")
-  assert.deepEqual(result.historyCalls, ["/L3dvcmtzcGFjZS9yb290/session/ses-active?auth_token=encoded"])
+  assert.equal(recent.key, "http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-active")
+  assert.deepEqual(result.historyCalls, ["/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-active?auth_token=encoded"])
   assert.deepEqual(JSON.parse(JSON.stringify(result.messages.at(-1))), {
     source: "opencode-workspace-state",
     state: { tabs, recent },
@@ -145,6 +148,53 @@ test("keeps live browser tabs instead of replacing them with stale persisted sta
 
   assert.deepEqual(tabs, [liveTab])
 })
+
+test("selects B using the native v2 route key even when A is the last tab", () => {
+  const server = "http://127.0.0.1:4567";
+  const key = server + "\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B";
+  const result = runBootstrap("v2", {
+    "opencode.window.browser.dat:tabs": JSON.stringify([
+      { type: "session", server, sessionId: "ses-B" },
+      { type: "session", server, sessionId: "ses-A" },
+    ]),
+    "opencode.window.browser.dat:tabs.recent": JSON.stringify({ key }),
+  });
+  assert.deepEqual(result.historyCalls, ["/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B?auth_token=encoded"]);
+  assert.deepEqual(JSON.parse(JSON.stringify(result.messages.at(-1))).state.recent, { key });
+});
+
+test("remaps a persisted native v2 route key to the new proxy and preserves active B", () => {
+  const oldServer = "http://127.0.0.1:3001";
+  const result = runBootstrap("v2", {}, {
+    tabs: [
+      { type: "session", server: oldServer, sessionId: "ses-B" },
+      { type: "session", server: oldServer, sessionId: "ses-A" },
+    ],
+    recent: { key: oldServer + "\n/server/aHR0cDovLzEyNy4wLjAuMTozMDAx/session/ses-B" },
+  });
+  assert.deepEqual(result.historyCalls, ["/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B?auth_token=encoded"]);
+  assert.equal(JSON.parse(result.storage.get("opencode.window.browser.dat:tabs.recent")!).key,
+    "http://127.0.0.1:4567\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B");
+});
+
+test("captures the native active-tab key after switching to B and during pagehide", () => {
+  const server = "http://127.0.0.1:4567";
+  const keyA = server + "\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-A";
+  const keyB = server + "\n/server/aHR0cDovLzEyNy4wLjAuMTo0NTY3/session/ses-B";
+  const result = runBootstrap("v2", {
+    "opencode.window.browser.dat:tabs": JSON.stringify([
+      { type: "session", server, sessionId: "ses-B" },
+      { type: "session", server, sessionId: "ses-A" },
+    ]),
+    "opencode.window.browser.dat:tabs.recent": JSON.stringify({ key: keyA }),
+  });
+  result.storage.set("opencode.window.browser.dat:tabs.recent", JSON.stringify({ key: keyB }));
+  result.flushState();
+  assert.equal(JSON.parse(JSON.stringify(result.messages.at(-1))).state.recent.key, keyB);
+  result.storage.set("opencode.window.browser.dat:tabs.recent", JSON.stringify({ key: keyA }));
+  result.lifecycle.pagehide();
+  assert.equal(JSON.parse(JSON.stringify(result.messages.at(-1))).state.recent.key, keyA);
+});
 
 test("validates persisted workspace tab state", () => {
   assert.deepEqual(sanitizeOpenCodeWorkspaceState({

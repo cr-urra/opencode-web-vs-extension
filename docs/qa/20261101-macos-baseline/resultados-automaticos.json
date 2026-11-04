@@ -1,0 +1,107 @@
+{
+  "raiz": {
+    "checks": [
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/node_modules/typescript/bin/tsc",
+          "-p",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/tsconfig.json",
+          "--outDir",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/out",
+          "--typeRoots",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/node_modules/@types"
+        ],
+        "exitCode": 0,
+        "log": "logs/raiz-tipos.txt"
+      },
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "--test",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeBootstrap.test.js",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeCompatibility.test.js",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeExecutable.test.js",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/out/pathUtils.test.js"
+        ],
+        "exitCode": 0,
+        "log": "logs/raiz-unitarias.txt"
+      },
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/node_modules/eslint/bin/eslint.js",
+          "src",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "log": "logs/raiz-lint.txt",
+        "errors": 0,
+        "warnings": 754
+      },
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/esbuild.js",
+          "--production"
+        ],
+        "exitCode": 0,
+        "log": "logs/raiz-build.txt"
+      }
+    ],
+    "allPassed": true,
+    "bundleSha256": "17a308e4bf2f504342a8a3a27c93279a75eccea22635f3c3b6e45bf05132005e"
+  },
+  "macos": {
+    "checks": [
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/node_modules/typescript/bin/tsc",
+          "-p",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac/tsconfig.json",
+          "--outDir",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac/out",
+          "--typeRoots",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/node_modules/@types"
+        ],
+        "exitCode": 0,
+        "log": "logs/macos-tipos.txt"
+      },
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "--test",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac/out/pathUtils.test.js"
+        ],
+        "exitCode": 0,
+        "log": "logs/macos-unitarias.txt"
+      },
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/node_modules/eslint/bin/eslint.js",
+          "src",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "log": "logs/macos-lint.txt",
+        "errors": 0,
+        "warnings": 430
+      },
+      {
+        "command": [
+          "/opt/homebrew/Cellar/node/26.13.0_2/bin/node",
+          "/Users/cristobal/Documents/opencode-web-vs-extension/mac-version/opencode-web-vs-extension-feature-clipboard-mac/esbuild.js",
+          "--production"
+        ],
+        "exitCode": 0,
+        "log": "logs/macos-build.txt"
+      }
+    ],
+    "allPassed": true,
+    "bundleSha256": "9fc179cc81f041f6402d3e24c424e9741b0a1cbb281e93a99f06bd5ca5833518"
+  }
+}

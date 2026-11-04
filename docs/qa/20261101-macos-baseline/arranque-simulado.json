@@ -1,0 +1,34 @@
+{
+  "raiz": {
+    "mode": "bundle real + VS Code API simulada; OpenCode y proxy reales",
+    "passed": true,
+    "appStatus": 200,
+    "healthStatus": 200,
+    "healthContentType": "text/html",
+    "healthReturnsJson": false,
+    "serverVersion": "opencode v2.2.5",
+    "bootstrapStatus": 200,
+    "bootstrapInjected": true,
+    "bootstrapSyntaxValid": true,
+    "iframeCarriesAuthToken": true,
+    "parentKeyCapturePresent": false,
+    "parentDropCapturePresent": false,
+    "contenteditableRangeFallbackPresent": false
+  },
+  "macos": {
+    "mode": "bundle real + VS Code API simulada; OpenCode y proxy reales",
+    "passed": true,
+    "appStatus": 200,
+    "healthStatus": 200,
+    "healthContentType": "text/html",
+    "healthReturnsJson": false,
+    "serverVersion": "opencode v2.2.5",
+    "bootstrapStatus": 200,
+    "bootstrapInjected": true,
+    "bootstrapSyntaxValid": true,
+    "iframeCarriesAuthToken": false,
+    "parentKeyCapturePresent": true,
+    "parentDropCapturePresent": true,
+    "contenteditableRangeFallbackPresent": true
+  }
+}

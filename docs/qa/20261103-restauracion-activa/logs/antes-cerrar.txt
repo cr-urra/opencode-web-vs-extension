@@ -1,0 +1,28 @@
+[2026-11-03T22:45:12.809Z] Activating extension
+[2026-11-03T22:45:12.813Z] Resolving sidebar webview
+[2026-11-03T22:45:12.813Z] Resolved workspace root: /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+[2026-11-03T22:45:13.105Z] Detected OpenCode CLI major: 2
+[2026-11-03T22:45:13.105Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-03T22:45:13.106Z] Started opencode serve on port 27944 with cwd /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+[2026-11-03T22:45:13.315Z] Opening sidebar container
+[2026-11-03T22:45:13.343Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-03T22:45:13.343Z] opencode server is ready on port 27944
+[2026-11-03T22:45:13.344Z] Started opencode proxy on port 50598
+[2026-11-03T22:45:13.344Z] Loading webview iframe: http://127.0.0.1:50598/
+[2026-11-03T22:45:13.344Z] Loading authenticated OpenCode iframe: http://127.0.0.1:50598/
+[2026-11-03T22:45:13.357Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T22:45:13.403Z] Serving injected workspace bootstrap script
+[2026-11-03T22:45:13.440Z] Saved OpenCode workspace state: 1 tabs
+[2026-11-03T22:45:13.595Z] Injected script: clipboard bridge installed
+[2026-11-03T22:45:13.597Z] Injected script: paste bridge installed
+[2026-11-03T22:45:13.598Z] Injected script: edit command bridge installed
+[2026-11-03T22:45:13.598Z] Injected script: insert text bridge installed
+[2026-11-03T22:45:13.601Z] Injected script: attachment bridge installed
+[2026-11-03T22:45:13.601Z] Injected script: drop paths bridge installed
+[2026-11-03T22:45:13.601Z] Injected script: drop normalizer installed
+[2026-11-03T22:45:13.601Z] Injected script: seeded opencode.global.dat:server local=/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+[2026-11-03T22:45:13.603Z] Injected script: restored 1 workspace tabs
+[2026-11-03T22:45:13.603Z] Injected script: selected workspace /Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures and tab draft:aa96be33-1e5e-4f4a-a862-722b9423908a
+[2026-11-03T22:45:14.663Z] Proxy injected workspace bootstrap into HTML
+[2026-11-03T22:46:05.941Z] Saved OpenCode workspace state: 2 tabs
+[2026-11-03T22:46:26.941Z] Saved OpenCode workspace state: 3 tabs

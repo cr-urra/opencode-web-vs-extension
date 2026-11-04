@@ -1,0 +1,16 @@
+✔ returns a Windows workspace path without duplicating the drive (0.399208ms)
+✔ returns a Windows common parent on the same drive (0.078333ms)
+✔ returns the Windows drive root when it is the only common parent (0.049625ms)
+✔ returns undefined for Windows paths on different drives (0.357583ms)
+✔ handles Windows UNC workspace paths (0.0875ms)
+✔ compares Windows paths case-insensitively (0.05475ms)
+✔ returns a POSIX common parent (0.0585ms)
+✔ keeps POSIX path comparison case-sensitive (0.048333ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55.863417

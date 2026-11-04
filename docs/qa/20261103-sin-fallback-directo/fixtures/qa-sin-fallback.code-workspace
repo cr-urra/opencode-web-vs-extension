@@ -1,0 +1,10 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "opencodeWeb.executablePath": "/opt/homebrew/bin/opencode"
+  }
+}

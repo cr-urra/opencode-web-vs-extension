@@ -1,0 +1,46 @@
+[2026-11-01T04:25:43.883Z] Activating extension
+[2026-11-01T04:25:43.887Z] Resolving sidebar webview
+[2026-11-01T04:25:43.888Z] Resolved workspace root: /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:25:44.250Z] Detected OpenCode CLI major: 2
+[2026-11-01T04:25:44.251Z] Using OpenCode executable from path: /opt/homebrew/bin/opencode
+[2026-11-01T04:25:44.253Z] Started opencode serve on port 31457 with cwd /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:25:44.388Z] Opening sidebar container
+[2026-11-01T04:25:44.975Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-01T04:25:44.975Z] opencode server is ready on port 31457
+[2026-11-01T04:25:44.977Z] Started opencode proxy on port 51508
+[2026-11-01T04:25:44.977Z] Loading webview iframe: http://127.0.0.1:51508/
+[2026-11-01T04:25:44.977Z] Loading authenticated OpenCode iframe: http://127.0.0.1:51508/
+[2026-11-01T04:25:45.000Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T04:25:45.066Z] Serving injected workspace bootstrap script
+[2026-11-01T04:25:45.091Z] Saved OpenCode workspace state: 1 tabs
+[2026-11-01T04:25:45.294Z] Injected script: clipboard bridge installed
+[2026-11-01T04:25:45.294Z] Injected script: paste bridge installed
+[2026-11-01T04:25:45.294Z] Injected script: edit command bridge installed
+[2026-11-01T04:25:45.297Z] Injected script: insert text bridge installed
+[2026-11-01T04:25:45.298Z] Injected script: attachment bridge installed
+[2026-11-01T04:25:45.298Z] Injected script: drop paths bridge installed
+[2026-11-01T04:25:45.303Z] Injected script: drop normalizer installed
+[2026-11-01T04:25:45.304Z] Injected script: seeded opencode.global.dat:server local=/var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace
+[2026-11-01T04:25:45.304Z] Injected script: restored 1 workspace tabs
+[2026-11-01T04:25:45.304Z] Injected script: selected workspace /var/folders/ww/7vkzw1l912xd92y411ljcnk40000gp/T/opencode-macos-baseline-TdfRYg/workspace and tab draft:57306616-96d2-4d17-bcf5-d14790577b4f
+[2026-11-01T04:25:46.280Z] Proxy injected workspace bootstrap into HTML
+[2026-11-01T04:26:08.276Z] Injected script: edit selectAll handled
+[2026-11-01T04:26:08.278Z] Injected script: requested clipboard write: 1793507168271-5418528224996396 14 chars
+[2026-11-01T04:26:08.280Z] Injected script: edit copy handled: 14 chars
+[2026-11-01T04:26:08.286Z] Clipboard write requested 1793507168271-5418528224996396: 14 chars
+[2026-11-01T04:26:08.291Z] Injected script: clipboard write result ok: 1793507168271-5418528224996396
+[2026-11-01T04:26:13.618Z] Injected script: requested clipboard text: 1793507173616-3178995042595264
+[2026-11-01T04:26:13.619Z] Clipboard read requested 1793507173616-3178995042595264: 14 chars
+[2026-11-01T04:26:13.623Z] Injected script: clipboard paste event handled: 14 chars
+[2026-11-01T04:26:14.338Z] Injected script: edit selectAll handled
+[2026-11-01T04:26:20.736Z] Injected script: edit selectAll handled
+[2026-11-01T04:26:29.402Z] Sending edit command to OpenCode: paste
+[2026-11-01T04:26:29.407Z] Injected script: requested clipboard text: 1793507189404-5727201739519107
+[2026-11-01T04:26:29.407Z] Clipboard read requested 1793507189404-5727201739519107: 14 chars
+[2026-11-01T04:26:29.407Z] Injected script: edit paste requested clipboard text
+[2026-11-01T04:26:29.410Z] Injected script: clipboard inserted with execCommand: 14 chars
+[2026-11-01T04:26:51.241Z] Detected OpenCode UI generation: v2 (CLI major 2)
+[2026-11-01T04:26:51.241Z] Attaching files to OpenCode: imagen.png
+[2026-11-01T04:26:51.245Z] Injected script: prepared synthetic attachment: imagen.png
+[2026-11-01T04:26:51.245Z] Injected script: drop types: Files
+[2026-11-01T04:26:51.246Z] Injected script: redispatched synthetic attachment drop: imagen.png

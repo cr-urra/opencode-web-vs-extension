@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-03",
+  "workspace": "/Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures",
+  "proxyAtCreation": "http://127.0.0.1:50239",
+  "sessions": [
+    {
+      "label": "A",
+      "id": "ses_e5cfdcb9dffeEox4hc1EH4vOmO",
+      "title": "QA sin fallback restauracion A"
+    },
+    {
+      "label": "B",
+      "id": "ses_e5cfdcb91ffeXqDcfudAsPrzjN",
+      "title": "QA sin fallback restauracion B"
+    }
+  ],
+  "method": "API local; sesiones vacías; sin prompts ni llamadas a modelos",
+  "status": "Abiertas y restauradas; retest nativo PASS con B activa",
+  "evidence": "../20261103-restauracion-activa/gui.json"
+}

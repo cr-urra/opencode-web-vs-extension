@@ -1,0 +1,260 @@
+[
+  {
+    "id": "01-webapp-pegado-inmediato",
+    "status": "pass",
+    "observation": "Prompt = ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "screenshot": "01-webapp-pegado-inmediato.png"
+  },
+  {
+    "id": "02-webapp-pegado-demorado",
+    "status": "pass",
+    "elapsedMs": 15671,
+    "observation": "Prompt = ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "screenshot": "02-webapp-pegado-demorado.png"
+  },
+  {
+    "id": "03-webapp-cortar",
+    "status": "pass",
+    "notes": "Cmd+A y Cmd+X dejan el prompt vacío.",
+    "screenshot": "03-webapp-cortar.png",
+    "log": "logs/03-webapp-cortar.txt"
+  },
+  {
+    "id": "04-webapp-restaurar-corte",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+V restaura el texto cortado.",
+    "screenshot": "04-webapp-restaurar-corte.png",
+    "log": "logs/04-webapp-restaurar-corte.txt"
+  },
+  {
+    "id": "05-webapp-deshacer",
+    "status": "pass",
+    "expected": "",
+    "actual": "",
+    "notes": "Cmd+Z deshace el pegado.",
+    "screenshot": "05-webapp-deshacer.png",
+    "log": "logs/05-webapp-deshacer.txt"
+  },
+  {
+    "id": "06-webapp-rehacer",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+Shift+Z rehace el pegado.",
+    "screenshot": "06-webapp-rehacer.png",
+    "log": "logs/06-webapp-rehacer.txt"
+  },
+  {
+    "id": "10-raiz-pegado-inmediato",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Portapapeles copiado previamente en Brave; Cmd+V en el prompt de la raíz.",
+    "screenshot": "10-raiz-pegado-inmediato.png",
+    "log": "logs/10-raiz-pegado-inmediato.txt"
+  },
+  {
+    "id": "11-raiz-pegado-demorado",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+V después de más de diez segundos sin cambiar el foco.",
+    "screenshot": "11-raiz-pegado-demorado.png",
+    "log": "logs/11-raiz-pegado-demorado.txt"
+  },
+  {
+    "id": "12-raiz-cortar",
+    "status": "pass",
+    "expected": "",
+    "actual": "",
+    "notes": "Cmd+A y Cmd+X en la raíz.",
+    "screenshot": "12-raiz-cortar.png",
+    "log": "logs/12-raiz-cortar.txt"
+  },
+  {
+    "id": "13-raiz-restaurar-corte",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+V restaura el corte en la raíz.",
+    "screenshot": "13-raiz-restaurar-corte.png",
+    "log": "logs/13-raiz-restaurar-corte.txt"
+  },
+  {
+    "id": "14-raiz-deshacer",
+    "status": "pass",
+    "expected": "",
+    "actual": "",
+    "notes": "Cmd+Z deshace la inserción en la raíz.",
+    "screenshot": "14-raiz-deshacer.png",
+    "log": "logs/14-raiz-deshacer.txt"
+  },
+  {
+    "id": "15-raiz-rehacer",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+Shift+Z rehace la inserción en la raíz.",
+    "screenshot": "15-raiz-rehacer.png",
+    "log": "logs/15-raiz-rehacer.txt"
+  },
+  {
+    "id": "16-raiz-arrastre-explorer",
+    "status": "observed",
+    "notes": "Arrastre real de contexto.txt desde Explorer hacia el prompt.",
+    "screenshot": "16-raiz-arrastre-explorer.png",
+    "log": "logs/16-raiz-arrastre-explorer.txt"
+  },
+  {
+    "id": "17-raiz-arrastre-finder",
+    "status": "observed",
+    "notes": "Arrastre real de imagen.png desde Finder, situado a la izquierda, hacia el prompt de OpenCode a la derecha.",
+    "screenshot": "17-raiz-arrastre-finder.png",
+    "log": "logs/17-raiz-arrastre-finder.txt"
+  },
+  {
+    "id": "18-raiz-pegado-en-cursor",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_CONTROLDESPUES",
+    "actual": "ANTESQA_MAC_CONTROLDESPUES",
+    "notes": "Cmd+V inserta el marcador entre ANTES y DESPUES, igual que en Mac.",
+    "screenshot": "18-raiz-pegado-en-cursor.png",
+    "log": "logs/18-raiz-pegado-en-cursor.txt"
+  },
+  {
+    "id": "19-raiz-menu-pegar",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_CONTROLDESPUES",
+    "actual": "ANTESQA_MAC_CONTROLDESPUES",
+    "notes": "Menú nativo Editar > Pegar con el cursor entre ANTES y DESPUES.",
+    "screenshot": "19-raiz-menu-pegar.png",
+    "log": "logs/19-raiz-menu-pegar.txt"
+  },
+  {
+    "id": "20-macos-pegado-inmediato",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Mismo portapapeles y mismo OpenCode que la raíz; perfil Mac separado.",
+    "screenshot": "20-macos-pegado-inmediato.png",
+    "log": "logs/20-macos-pegado-inmediato.txt"
+  },
+  {
+    "id": "21-macos-pegado-demorado",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+V después de más de diez segundos con el prompt enfocado.",
+    "screenshot": "21-macos-pegado-demorado.png",
+    "log": "logs/21-macos-pegado-demorado.txt"
+  },
+  {
+    "id": "22-macos-cortar",
+    "status": "pass",
+    "expected": "",
+    "actual": "",
+    "notes": "Cmd+A y Cmd+X en la variante Mac.",
+    "screenshot": "22-macos-cortar.png",
+    "log": "logs/22-macos-cortar.txt"
+  },
+  {
+    "id": "23-macos-restaurar-corte",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+V restaura el texto cortado.",
+    "screenshot": "23-macos-restaurar-corte.png",
+    "log": "logs/23-macos-restaurar-corte.txt"
+  },
+  {
+    "id": "24-macos-deshacer",
+    "status": "pass",
+    "expected": "",
+    "actual": "",
+    "notes": "Cmd+Z deshace el pegado.",
+    "screenshot": "24-macos-deshacer.png",
+    "log": "logs/24-macos-deshacer.txt"
+  },
+  {
+    "id": "25-macos-rehacer",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "actual": "ANTESQA_MAC_PASTE\nlínea_2DESPUES",
+    "notes": "Cmd+Shift+Z rehace el pegado.",
+    "screenshot": "25-macos-rehacer.png",
+    "log": "logs/25-macos-rehacer.txt"
+  },
+  {
+    "id": "26-macos-arrastre-explorer",
+    "status": "observed",
+    "notes": "Mismo gesto y coordenadas que en la raíz: contexto.txt desde Explorer al prompt.",
+    "screenshot": "26-macos-arrastre-explorer.png",
+    "log": "logs/26-macos-arrastre-explorer.txt"
+  },
+  {
+    "id": "27-macos-arrastre-finder",
+    "status": "observed",
+    "notes": "Mismo arrastre de imagen.png desde Finder que en la raíz.",
+    "screenshot": "27-macos-arrastre-finder.png",
+    "log": "logs/27-macos-arrastre-finder.txt"
+  },
+  {
+    "id": "28-macos-pegado-en-cursor",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_CONTROLDESPUES",
+    "actual": "ANTESQA_MAC_CONTROLDESPUES",
+    "notes": "Cmd+V inserta el marcador entre ANTES y DESPUES.",
+    "screenshot": "28-macos-pegado-en-cursor.png",
+    "log": "logs/28-macos-pegado-en-cursor.txt"
+  },
+  {
+    "id": "29-macos-menu-pegar",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_CONTROLDESPUES",
+    "actual": "ANTESQA_MAC_CONTROLDESPUES",
+    "notes": "Menú nativo Editar > Pegar con el cursor en medio del texto.",
+    "screenshot": "29-macos-menu-pegar.png",
+    "log": "logs/29-macos-menu-pegar.txt"
+  },
+  {
+    "id": "30-macos-paleta-pegar",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_CONTROLDESPUES",
+    "actual": "ANTESQA_MAC_CONTROLDESPUES",
+    "notes": "Comando Paste into OpenCode ejecutado desde la paleta nativa de VSCodium.",
+    "screenshot": "30-macos-paleta-pegar.png",
+    "log": "logs/30-macos-paleta-pegar.txt"
+  },
+  {
+    "id": "31-macos-adjunto-selector",
+    "status": "pass",
+    "notes": "La imagen termina de cargar y OpenCode muestra imagen.png con el botón Eliminar adjunto.",
+    "screenshot": "31-macos-adjunto-selector.png",
+    "log": "logs/31-macos-adjunto-selector.txt"
+  },
+  {
+    "id": "32-raiz-paleta-pegar",
+    "status": "pass",
+    "expected": "ANTESQA_MAC_CONTROLDESPUES",
+    "actual": "ANTESQA_MAC_CONTROLDESPUES",
+    "notes": "Comando Paste into OpenCode desde la paleta de VSCodium; mismo recorrido que en Mac.",
+    "screenshot": "32-raiz-paleta-pegar.png",
+    "log": "logs/32-raiz-paleta-pegar.txt"
+  },
+  {
+    "id": "33-raiz-adjunto-selector",
+    "status": "pass",
+    "notes": "La imagen termina de cargar y OpenCode muestra imagen.png con Eliminar adjunto, igual que en Mac.",
+    "screenshot": "33-raiz-adjunto-selector.png",
+    "log": "logs/33-raiz-adjunto-selector.txt"
+  },
+  {
+    "id": "34-raiz-arrastre-icono",
+    "status": "observed",
+    "notes": "Reintento de control: imagen.png preseleccionada, gesto iniciado en su icono dentro de Explorer.",
+    "screenshot": "34-raiz-arrastre-icono.png",
+    "log": "logs/34-raiz-arrastre-icono.txt"
+  }
+]

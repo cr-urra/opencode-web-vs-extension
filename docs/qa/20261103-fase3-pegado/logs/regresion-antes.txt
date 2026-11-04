@@ -1,0 +1,205 @@
+✖ pastes into the original input and selection after focus and caret change (2.98725ms)
+✖ inserts plain text into contenteditable with Selection/Range when paste and execCommand do not handle it (0.339459ms)
+✖ does not apply an already consumed clipboard response twice (0.273167ms)
+✖ ignores unsolicited clipboard responses (0.265834ms)
+✔ keeps two rapid independent pastes without a time based suppression window (0.27975ms)
+✖ correlates out of order clipboard replies to their respective inputs (0.25675ms)
+✔ does not fall back after the frontend handles the paste event (0.235ms)
+✔ does not manually insert twice when execCommand handles insertion (0.465375ms)
+✖ does not redirect a paste when the captured target has been detached (0.250834ms)
+✖ does not manually modify a read only input (0.263708ms)
+✖ releases expired clipboard requests and ignores late responses (0.248208ms)
+✔ cleans up failed clipboard requests without mutating the prompt (0.191125ms)
+✔ keeps native keyboard handling on non macOS platforms (0.190667ms)
+✔ does not use the legacy append endpoint as a paste fallback (0.192417ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 6
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.193333
+
+✖ failing tests:
+
+test at out/opencodeClipboard.test.js:228:22
+✖ pastes into the original input and selection after focus and caret change (2.98725ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANTESQUITARDESPUES'
+  - 'ANTESñ\nlíneaDESPUES'
+          ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:238:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANTESQUITARDESPUES',
+    expected: 'ANTESñ\nlíneaDESPUES',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:242:22
+✖ inserts plain text into contenteditable with Selection/Range when paste and execCommand do not handle it (0.339459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANTESQUITARDESPUES'
+  - 'ANTES<b>ñ</b>\nlíneaDESPUES'
+          ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:248:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANTESQUITARDESPUES',
+    expected: 'ANTES<b>ñ</b>\nlíneaDESPUES',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:255:22
+✖ does not apply an already consumed clipboard response twice (0.273167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'una vezuna vez'
+  - 'una vez'
+            ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:262:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'una vezuna vez',
+    expected: 'una vez',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:264:22
+✖ ignores unsolicited clipboard responses (0.265834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'originalno'
+  - 'original'
+             ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:269:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'originalno',
+    expected: 'original',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:282:22
+✖ correlates out of order clipboard replies to their respective inputs (0.25675ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'A' !== 'A1'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:292:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'A',
+    expected: 'A1',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:314:22
+✖ does not redirect a paste when the captured target has been detached (0.250834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'otrono' !== 'otro'
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:324:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'otrono',
+    expected: 'otro',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:326:22
+✖ does not manually modify a read only input (0.263708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'originalno'
+  - 'original'
+             ^
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:333:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'originalno',
+    expected: 'original',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at out/opencodeClipboard.test.js:335:22
+✖ releases expired clipboard requests and ignores late responses (0.248208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'tarde' !== ''
+  
+      at TestContext.<anonymous> (/Users/cristobal/Documents/opencode-web-vs-extension/out/opencodeClipboard.test.js:342:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'tarde',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

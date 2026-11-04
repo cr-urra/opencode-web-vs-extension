@@ -1,0 +1,270 @@
+{
+  "date": "2026-11-02",
+  "variant": "macos",
+  "profile": "QA-macos-manual",
+  "draftId": "5f510387-4d3e-47ae-a772-94047b5498fd",
+  "proxy": "http://127.0.0.1:49611",
+  "fixture": "imagen.png",
+  "source": "Archivo seleccionado en el Explorador de VSCodium",
+  "gesture": "No hubo arrastre. El usuario precisó que utilizó Attach to OpenCode del complemento.",
+  "attachmentResult": "PASS para el comando Attach to OpenCode: miniatura cargada, nombre imagen.png y botón Eliminar adjunto confirmados por accesibilidad",
+  "gestureRouteVerdict": "Fuera del alcance actual: arrastre no probado y no exigido",
+  "prompt": "Vacío; botón Enviar habilitado; no se envió ningún mensaje durante la inspección",
+  "evidence": "01-macos-adjunto-usuario.png",
+  "root": "PASS de los cuatro comandos con los fixtures probados",
+  "standaloneWeb": "No aplica a los comandos de la extensión",
+  "finder": "Fuera del alcance actual",
+  "log": "logs/macos-extension-host.txt",
+  "observations": [
+    "El usuario cambió OpenCode a la barra lateral secundaria y abrió imagen.png en el editor.",
+    "El log registra Dropping refs into OpenCode webview a las 23:51:37 y prepared synthetic attachment a las 23:51:45 (America/Santiago). No se atribuye una ruta nativa parent drop no observada."
+  ],
+  "explorerDrop": "Fuera del alcance actual",
+  "correction": "Se sustituye la atribución inicial a un arrastre por la acción exacta aclarada por el usuario: comando Attach to OpenCode.",
+  "scope": "Menciones y adjuntos solo mediante los comandos de la extensión, por instrucción explícita del usuario",
+  "nextScenario": null,
+  "lastUpdatedUserDate": "2026-11-03",
+  "scenarios": [
+    {
+      "id": "macos-add-to-opencode-contexto",
+      "date": "2026-11-03",
+      "command": "opencode.addToOpenCode",
+      "commandTitle": "Add to OpenCode",
+      "profile": "QA-macos-manual",
+      "fixture": "contexto.txt",
+      "verdict": "PASS",
+      "observedPrompt": "@contexto.txt ",
+      "referenceCount": 1,
+      "evidence": "02-macos-mencion-contexto-usuario.png",
+      "verification": "Captura aportada por el usuario tras ejecutar el comando preparado; inspección posterior de accesibilidad confirma una sola referencia en el prompt. La sesión ya tiene URL de sesión; no se envió ningún mensaje durante la inspección."
+    },
+    {
+      "id": "macos-add-files-multiple-unicode",
+      "date": "2026-11-03",
+      "command": "opencode.addFilesToOpenCode",
+      "profile": "QA-macos-manual",
+      "fixtures": [
+        "archivo con espacios ñ.txt",
+        "contexto.txt"
+      ],
+      "verdict": "PASS según confirmación del usuario: aparecen ambas referencias",
+      "verification": "Confirmación del usuario tras pulsar Abrir en el selector preparado con dos archivos; logs del host conservados. Sin captura nueva del resultado ni comprobación visual independiente del texto completo.",
+      "evidence": "logs/macos-extension-host.txt",
+      "userReconfirmation": "Entiendo, funciona",
+      "followupInspection": {
+        "observedPrompt": "@archivo con espacios ñ.txt @contexto.txt @contexto.txt ",
+        "note": "Inspección posterior a otras invocaciones del usuario. Confirma nombres completos con ñ; hay dos referencias a contexto.txt en este estado tardío. No se puede atribuir la repetición a una sola ejecución del comando múltiple."
+      }
+    },
+    {
+      "id": "macos-attach-files-multiple",
+      "date": "2026-11-03",
+      "command": "opencode.attachFilesToOpenCode",
+      "profile": "QA-macos-manual",
+      "fixtures": [
+        "archivo con espacios ñ.txt",
+        "imagen.png"
+      ],
+      "draftId": "9e0af5b2-3a23-45d9-9041-d0de66113f00",
+      "verdict": "PASS",
+      "verification": "Captura del usuario y accesibilidad del host confirman imagen.png y archivo con espacios ñ.txt TXT, cada uno con su botón Eliminar adjunto. Prompt vacío y sin indicadores de carga pendientes.",
+      "attachmentCount": 2,
+      "evidence": "03-macos-adjuntos-multiples-usuario.png"
+    },
+    {
+      "id": "raiz-add-to-opencode-contexto",
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.addToOpenCode",
+      "fixture": "contexto.txt",
+      "verdict": "PASS",
+      "referenceCount": 1,
+      "observedPrompt": "@contexto.txt ",
+      "verification": "Usuario confirma que se referenció solo contexto.txt; accesibilidad confirma una sola referencia en el borrador raíz",
+      "evidence": "04-raiz-mencion-contexto.jpg",
+      "accessibility": "logs/04-raiz-mencion-contexto-ax.txt"
+    },
+    {
+      "id": "raiz-add-files-multiple-unicode",
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.addFilesToOpenCode",
+      "fixtures": [
+        "archivo con espacios ñ.txt",
+        "contexto.txt"
+      ],
+      "verdict": "PASS",
+      "referenceCount": 2,
+      "observedPrompt": "@archivo con espacios ñ.txt @contexto.txt ",
+      "verification": "Confirmación del usuario y accesibilidad: cada referencia aparece una sola vez; nombre con espacios y ñ conservado",
+      "evidence": "06-raiz-menciones-multiples.jpg",
+      "accessibility": "logs/06-raiz-menciones-multiples-ax.txt"
+    },
+    {
+      "id": "raiz-attach-to-opencode-imagen",
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.attachToOpenCode",
+      "fixture": "imagen.png",
+      "verdict": "PASS",
+      "attachmentCount": 1,
+      "verification": "Confirmación del usuario y accesibilidad: una imagen cargada con un botón Eliminar adjunto; prompt vacío",
+      "evidence": "07-raiz-adjunto-individual.jpg",
+      "accessibility": "logs/07-raiz-adjunto-individual-ax.txt"
+    },
+    {
+      "id": "raiz-attach-files-multiple",
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.attachFilesToOpenCode",
+      "fixtures": [
+        "imagen.png",
+        "archivo con espacios ñ.txt"
+      ],
+      "verdict": "PASS",
+      "attachmentCount": 2,
+      "verification": "Usuario confirma ambos adjuntos correctos; accesibilidad muestra cada archivo con su botón Eliminar adjunto, sin duplicados ni carga pendiente y con prompt vacío",
+      "evidence": "09-raiz-adjuntos-multiples.jpg",
+      "accessibility": "logs/09-raiz-adjuntos-multiples-ax.txt"
+    }
+  ],
+  "nextPreparation": {
+    "date": "2026-11-03",
+    "variant": "raiz",
+    "profile": "QA-raiz-manual",
+    "command": "opencode.attachFilesToOpenCode",
+    "shortcut": "Cmd+Shift+A",
+    "draftId": "fe890298-bca0-477a-be35-adb64cf4030d",
+    "initialPrompt": "Vacío",
+    "selectedFiles": [
+      "archivo con espacios ñ.txt",
+      "imagen.png"
+    ],
+    "uiVerified": "Dos archivos seleccionados; Abrir habilitado",
+    "evidence": "08-raiz-adjuntos-multiples-preparados.jpg",
+    "status": "Ejecutado; ambos adjuntos correctos y cargados"
+  },
+  "preparations": [
+    {
+      "date": "2026-11-03",
+      "profile": "QA-macos-manual",
+      "command": "opencode.addFilesToOpenCode",
+      "shortcut": "Cmd+Alt+Shift+S",
+      "draftId": "2ac61d6e-bf35-4682-bcd0-79e3d561a6ed",
+      "initialPrompt": "Vacío",
+      "selectedFiles": [
+        "archivo con espacios ñ.txt",
+        "contexto.txt"
+      ],
+      "uiVerified": "Selector nativo en workspace; ambos archivos marcados como selected, 2 elementos, botón Abrir habilitado",
+      "status": "Ejecutado; usuario confirma que aparecen ambas referencias"
+    },
+    {
+      "date": "2026-11-03",
+      "profile": "QA-macos-manual",
+      "command": "opencode.attachFilesToOpenCode",
+      "shortcut": "Cmd+Shift+A",
+      "draftId": "9e0af5b2-3a23-45d9-9041-d0de66113f00",
+      "initialPrompt": "Vacío",
+      "selectedFiles": [
+        "archivo con espacios ñ.txt",
+        "imagen.png"
+      ],
+      "uiVerified": "Selector nativo; ambos archivos selected, 2 elementos, Abrir habilitado",
+      "status": "Ejecutado; dos adjuntos cargados, confirmados por captura del usuario y accesibilidad"
+    },
+    {
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.addToOpenCode",
+      "fixture": "contexto.txt",
+      "workspace": "/private/tmp/opencode-manual-qa-Rfgyvg/workspace",
+      "proxy": "http://127.0.0.1:50947",
+      "draftId": "3cfbd269-a354-4c70-b4c5-964004d4c78b",
+      "bundle": "dist/extension.js",
+      "bundleSha256": "17a308e4bf2f504342a8a3a27c93279a75eccea22635f3c3b6e45bf05132005e",
+      "uiVerified": "Perfil QA-raiz-manual, prompt vacío, Explorador a la izquierda, OpenCode en barra lateral secundaria, contexto.txt seleccionado, menú contextual Add to OpenCode visible",
+      "status": "Ejecutado; mención individual confirmada"
+    },
+    {
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.addFilesToOpenCode",
+      "shortcut": "Cmd+Option+Shift+S",
+      "draftId": "7279a347-abfb-4986-bb2a-b35acc44d437",
+      "initialPrompt": "Vacío",
+      "selectedFiles": [
+        "archivo con espacios ñ.txt",
+        "contexto.txt"
+      ],
+      "uiVerified": "Ambos archivos selected; 2 elementos; Abrir habilitado",
+      "evidence": "05-raiz-menciones-multiples-preparadas.jpg",
+      "status": "Ejecutado; dos referencias correctas sin duplicados"
+    },
+    {
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.attachToOpenCode",
+      "fixture": "imagen.png",
+      "draftId": "af709ff9-38a9-448d-b486-922666e2cb23",
+      "initialPrompt": "Vacío",
+      "uiVerified": "imagen.png seleccionado en el Explorador; menú contextual Attach to OpenCode visible",
+      "status": "Ejecutado; una imagen cargada"
+    },
+    {
+      "date": "2026-11-03",
+      "variant": "raiz",
+      "profile": "QA-raiz-manual",
+      "command": "opencode.attachFilesToOpenCode",
+      "shortcut": "Cmd+Shift+A",
+      "draftId": "fe890298-bca0-477a-be35-adb64cf4030d",
+      "initialPrompt": "Vacío",
+      "selectedFiles": [
+        "archivo con espacios ñ.txt",
+        "imagen.png"
+      ],
+      "uiVerified": "Dos archivos seleccionados; Abrir habilitado",
+      "evidence": "08-raiz-adjuntos-multiples-preparados.jpg",
+      "status": "Ejecutado; ambos adjuntos correctos y cargados"
+    }
+  ],
+  "preparationNotes": [
+    "Se cerró el host de referencia Mac después de conservar la captura y los logs.",
+    "Al abrir workspace.code-workspace VSCodium recuperó la asociación de perfil Mac; se seleccionó explícitamente QA-raiz-manual antes de preparar cualquier comprobación de la raíz."
+  ],
+  "step1": {
+    "status": "Cerrado para el alcance acordado",
+    "date": "2026-11-03",
+    "scope": "Menciones y adjuntos solo mediante los comandos de la extensión, por instrucción explícita del usuario",
+    "dragAndDrop": "Fuera de alcance; no bloquea el cierre",
+    "limitations": [
+      "Menciones múltiples de Mac confirmadas por el usuario y logs; sin captura del resultado inicial aislado para certificar ausencia de duplicados en una sola invocación",
+      "No acredita otras versiones, equipos, archivos grandes o secuencias rápidas"
+    ],
+    "implementationChanges": false
+  },
+  "cleanup": {
+    "status": "Hosts de QA cerrados",
+    "portsVerifiedWithoutListeners": [
+      49611,
+      42494,
+      50947,
+      18175,
+      50850,
+      61452,
+      50885,
+      27495,
+      50911,
+      18922
+    ],
+    "method": "lsof -nP con filtros de puertos y estado LISTEN: sin resultados y sin errores",
+    "fixturesPreserved": true
+  }
+}

@@ -231,18 +231,18 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "bun run package",
+    "vscode:prepublish": "npm run package",
     "compile": "bun run check-types && bun run lint && node esbuild.js",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "bun run check-types && bun run lint && node esbuild.js --production",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "bun run compile-tests && bun run compile && bun run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test",
-    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js"
+    "test:unit": "tsc -p . --outDir out && node --test out/pathUtils.test.js out/opencodeExecutable.test.js out/opencodeCompatibility.test.js out/opencodeBootstrap.test.js out/opencodeClipboard.test.js out/opencodePromptQueue.test.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.94.0",

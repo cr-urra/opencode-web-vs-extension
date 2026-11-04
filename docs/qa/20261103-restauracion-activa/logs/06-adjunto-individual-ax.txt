@@ -1,0 +1,254 @@
+Window: "[Host de desarrollo de la extensión] contexto.txt — qa-sin-fallback (área de trabajo) — QA-sin-fallback-directo", App: VSCodium.
+0 ventana estándar Secondary Actions: Raise, [Host de desarrollo de la extensión] contexto.txt — qa-sin-fallback (área de trabajo) — QA-sin-fallback-directo, URL: file:///Users/cristobal/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/contexto.txt
+	1 container [Host de desarrollo de la extensión] contexto.txt — qa-sin-fallback (área de trabajo) — QA-sin-fallback-directo
+		2 container
+			3 Contenido HTML [Host de desarrollo de la extensión] contexto.txt — qa-sin-fallback (área de trabajo) — QA-sin-fallback-directo, URL: vscode-file://vscode-app/Applications/VSCodium.app/Contents/Resources/app/out/vs/code/electron-browser/workbench/workbench.html
+				4 container
+					5 container
+						6 container
+							7 barra de herramientas
+								8 botón (disabled) Volver (⌃-)
+									9 texto 
+								10 botón (disabled) Hacia delante (⌃⇧-)
+									11 texto 
+								12 botón [Host de desarrollo de la extensión] contexto.txt — qa-sin-fallback (área de trabajo) — QA-sin-fallback-directo
+							13 barra de herramientas Acciones de título
+								14 botón de activación Description: Alternar barra lateral principal (⌘B), Value: 1
+									15 texto 
+								16 botón Personalizar diseño...
+									17 texto 
+								18 botón de activación Description: Alternar panel (⌘J), Value: 0
+									19 texto 
+								20 botón de activación Description: Alternar barra lateral secundaria (⌥⌘B), Value: 1
+									21 texto 
+						22 container
+							23 container
+								24 grupo de pestañas Modificador de vista activa
+									25 tab (selected) Explorador (⇧⌘E), Value: 1
+										26 container Explorador (⇧⌘E)
+											27 texto 
+									28 tab (settable, integer) Buscar (⇧⌘F), Value: 0
+										29 container Buscar (⇧⌘F)
+											30 texto 
+									31 tab (settable, integer) Control de código fuente (⌃⇧G), Value: 0
+										32 container Control de código fuente (⌃⇧G)
+											33 texto 
+									34 tab (settable, integer) Ejecución y depuración (⇧⌘D), Value: 0
+										35 container Ejecución y depuración (⇧⌘D)
+											36 texto 
+									37 tab (settable, integer) Extensiones (⇧⌘X), Value: 0
+										38 container Extensiones (⇧⌘X)
+											39 texto 
+								40 barra de herramientas Administrar
+									41 botón emergente Cuentas
+										42 container Cuentas
+											43 texto 
+									44 botón emergente Administrar QA-sin-fallback-directo (perfil)
+										45 container Administrar QA-sin-fallback-directo (perfil)
+											46 texto 
+										47 texto QA
+							48 container
+								49 cabecera EXPLORADOR, Value: 2
+									50 texto EXPLORADOR
+								51 barra de herramientas acciones de Explorador
+									52 botón emergente Vistas y más acciones...
+								53 container
+									54 container
+										55 botón Sección del explorador: qa-sin-fallback (área de trabajo)
+											56 texto 
+											57 cabecera Description: Sección del explorador: qa-sin-fallback (área de trabajo), Value: 3
+												58 texto QA-SIN-FALLBACK (ÁREA DE TRABAJO)
+											59 barra de herramientas acciones de qa-sin-fallback (área de trabajo)
+												60 botón Nuevo archivo...
+													61 texto 
+												62 botón Nueva carpeta...
+													63 texto 
+												64 botón Actualizar Explorador
+													65 texto 
+												66 botón Contraer carpetas en el Explorador
+													67 texto 
+										68 contorno Explorador de archivos
+											69 container
+												70 row fixtures
+													71 container
+														72 texto 
+														73 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures
+															74 texto fixtures
+												75 row archivo con espacios ñ.txt
+													76 container
+														77 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/archivo con espacios ñ.txt
+															78 texto 
+															79 texto archivo con espacios ñ.txt
+												80 row contexto.txt
+													81 container
+														82 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/contexto.txt
+															83 texto 
+															84 texto contexto.txt
+												85 row copiar-fase4.txt
+													86 container
+														87 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/copiar-fase4.txt
+															88 texto 
+															89 texto copiar-fase4.txt
+												90 row (selected) imagen.png
+													91 container
+														92 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/imagen.png
+															93 texto 
+															94 texto imagen.png
+												95 row posicion-fase4.txt
+													96 container
+														97 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/posicion-fase4.txt
+															98 texto 
+															99 texto posicion-fase4.txt
+												100 row qa-sin-fallback.code-workspace
+													101 container
+														102 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/qa-sin-fallback.code-workspace
+															103 texto 
+															104 texto qa-sin-fallback.code-workspace
+									105 botón Sección Esquema
+										106 texto 
+										107 cabecera ESQUEMA, Value: 3
+											108 texto ESQUEMA
+									109 botón Sección línea de tiempo
+										110 texto 
+										111 cabecera LÍNEA DE TIEMPO, Value: 3
+											112 texto LÍNEA DE TIEMPO
+							113 container
+								114 container
+								115 container
+									116 container
+										117 container
+											118 grupo de pestañas
+												119 tab (selected) Description: copiar-fase4.txt, Value: 1
+													120 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/copiar-fase4.txt
+														121 texto 
+														122 texto copiar-fase4.txt
+													123 barra de herramientas Acciones de pestaña
+														124 botón Cerrar (⌘W)
+															125 texto 
+											126 barra de herramientas Acciones de editor
+												127 botón emergente Más Acciones...
+													128 texto 
+										129 lista de contenidos
+											130 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/copiar-fase4.txt
+												131 texto 
+												132 texto copiar-fase4.txt
+										133 container copiar-fase4.txt, Grupo de editores 1
+											134 container
+												135 editor (settable) copiar-fase4.txt, Grupo de editores 1
+									136 container
+										137 container
+											138 grupo de pestañas
+												139 tab (settable, integer) Description: copiar-fase4.txt, Value: 0
+													140 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/copiar-fase4.txt
+														141 texto 
+														142 texto copiar-fase4.txt
+													143 barra de herramientas Acciones de pestaña
+														144 botón Cerrar (⌘W)
+															145 texto 
+												146 tab (selected) Description: contexto.txt, vista previa, Value: 1
+													147 container contexto.txt
+														148 texto 
+														149 texto contexto.txt
+													150 barra de herramientas Acciones de pestaña
+														151 botón Cerrar (⌘W)
+															152 texto 
+											153 barra de herramientas Acciones de editor
+												154 botón Dividir Editor Derecho (⌃⌥⌘') [⌥] Dividir Editor Abajo
+													155 texto 
+												156 botón emergente Más Acciones...
+													157 texto 
+										158 lista de contenidos
+											159 container ~/Documents/opencode-web-vs-extension/docs/qa/20261103-sin-fallback-directo/fixtures/contexto.txt
+												160 texto 
+												161 texto contexto.txt
+										162 container contexto.txt, vista previa, Grupo de editores 2
+											163 container
+												164 editor (settable) Description: contexto.txt, vista previa, Grupo de editores 2, Value: Fixture local de QA.
+Primera línea.
+Segunda línea.
+
+													165 texto Fixture local de QA.
+Primera línea.
+Segunda línea.
+
+							166 container
+								167 grupo de pestañas Modificador de vista activa
+									168 tab (selected) Description: OpenCode, Value: 1
+										169 container OpenCode
+											170 texto OPENCODE
+								171 barra de herramientas acciones de OpenCode
+								172 barra de herramientas
+									173 botón de activación Description: Maximizar barra lateral secundaria, Value: 0
+										174 texto 
+									175 botón Ocultar barra lateral secundaria (⌥⌘B)
+										176 texto 
+								177 container
+						178 container
+							179 container remote
+								180 botón remote
+							181 container No hay problemas
+								182 botón No hay problemas
+									183 texto 
+									184 texto  0 
+									185 texto 
+									186 texto  0
+							187 container Notificaciones
+								188 botón Notificaciones
+							189 container Texto sin formato
+								190 botón Texto sin formato
+							191 container LF
+								192 botón LF
+							193 container UTF-8
+								194 botón UTF-8
+							195 container Espacios: 4
+								196 botón Espacios: 4
+							197 container Lín. 1, col. 1
+								198 botón Lín. 1, col. 1
+							199 container Lector de pantalla optimizado
+								200 botón Lector de pantalla optimizado
+					201 texto Información: Se encontró un repositorio Git en las carpetas primarias del área de trabajo o en los archivos abiertos. ¿Desea abrir el repositorio?
+					202 Contenido HTML vscode-webview://0195hvsvcbbim5lk6mals2nqbgef06eb860iug39dos32sl6llah/index.html?id=15764980-6218-4d6c-86bf-4cbb7fbf0802&parentId=12&origin=21688097-792b-4ac9-ae12-b228fc67d3cd&swVersion=6&extensionId=UWEsmith.opencode-web-for-ide&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=7cc0bb4b-6e7e-42bc-8c32-abab4f456a9d&purpose=webviewView
+						203 container OpenCode
+							204 Contenido HTML vscode-webview://0195hvsvcbbim5lk6mals2nqbgef06eb860iug39dos32sl6llah/index.html?id=15764980-6218-4d6c-86bf-4cbb7fbf0802&parentId=12&origin=21688097-792b-4ac9-ae12-b228fc67d3cd&swVersion=6&extensionId=UWEsmith.opencode-web-for-ide&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&mountId=7cc0bb4b-6e7e-42bc-8c32-abab4f456a9d&purpose=webviewView
+								205 Contenido HTML OpenCode, URL: 127.0.0.1:51674/new-session?draftId=5556caff-38fa-4366-9cbb-258e35b97717
+									206 container
+										207 botón emergente Pestañas
+											208 texto Sesión
+											209 texto 5
+										210 container
+											211 container
+												212 container
+													213 Imagen sin etiquetar imagen.png. Para obtener las descripciones de imágenes faltantes, abre el menú contextual.
+													214 botón Eliminar adjunto
+												215 área de entrada de texto (settable) Description: Prompt, Value: ​
+												216 texto Pregunta lo que quieras, / para comandos, @ para contexto…
+												217 botón emergente Añadir imágenes y archivos
+												218 botón emergente Big Pickle
+													219 texto Big Pickle
+												220 botón Enviar
+											221 container
+												222 botón emergente O opencode-web-vs-extension
+													223 texto O
+													224 texto opencode-web-vs-extension
+												225 botón emergente Local
+												226 texto main
+											227 container
+												228 botón Conéctate a más de 75 proveedores para usar otros modelos, como Claude, GPT, Gemini y muchos más
+												229 botón Descartar
+									230 container Notifications alt+T
+	231 botón de cierre
+	232 botón para pantalla completa Help: este botón también tiene una acción para acercar/alejar la ventana, Secondary Actions: acercar/alejar ventana
+	233 botón de minimización
+234 menu bar
+	235 VSCodium
+	236 Archivo
+	237 Editar
+	238 Selección
+	239 Ver
+	240 Ir
+	241 Ejecutar
+	242 Terminal
+	243 Ventana
+	244 Ayuda
+
+The focused UI element is 90 row (selected) imagen.png
