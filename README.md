@@ -21,36 +21,41 @@ The extension embeds the OpenCode web interface inside a VS Code/VSCodium sideba
 
 ## Commands And Shortcuts
 
+Windows and Linux file shortcuts use two-step chords to avoid `Ctrl+Alt` / AltGr conflicts on international keyboard layouts. For example, `Ctrl+K`, then `Shift+S` means press `Ctrl+K`, release both keys, and press `Shift+S`. These shortcuts are intended for the IDE editor and Explorer. macOS shortcuts are unchanged.
+
 ### File References
 
 - `OpenCode: Send to OpenCode`
-  - Linux/Windows: `Ctrl+Alt+S`
+  - Linux/Windows: `Ctrl+K`, then `Shift+S`
   - macOS: `Cmd+Alt+S`
   - Sends the active file or Explorer selection to OpenCode as file references.
 
 - `OpenCode: Send Files to OpenCode`
-  - Linux/Windows: `Ctrl+Alt+Shift+S`
+  - Linux/Windows: `Ctrl+K`, then `Shift+M`
   - macOS: `Cmd+Alt+Shift+S`
   - Opens a native file picker and sends multiple selected files to OpenCode as references.
 
 ### Visual Attachments
 
 - `OpenCode: Attach to OpenCode`
-  - Linux/Windows: `Ctrl+Alt+A`
+  - Linux/Windows: `Ctrl+K`, then `Shift+A`
   - macOS: `Cmd+Alt+A`
   - Attaches the active file or Explorer selection to OpenCode.
 
 - `OpenCode: Attach Files to OpenCode`
-  - Linux/Windows: `Ctrl+Shift+A`
+  - Windows: `Ctrl+Shift+A`
+  - Linux: `Ctrl+K`, then `Shift+F` (avoids the editor's `Ctrl+Shift+A` block-comment shortcut)
   - macOS: `Cmd+Shift+A`
   - Opens a native file picker and attaches multiple selected files to OpenCode.
 
 ### Active File Mention
 
 - `Add Filepath to Terminal`
-  - Linux/Windows: `Ctrl+Alt+K`
+  - Linux/Windows: `Ctrl+K`, then `Shift+K`
   - macOS: `Cmd+Alt+K`
   - Inserts the active file path, including selected line ranges when available.
+
+After updating the extension, reload the IDE window to load the new bindings. Custom user keybindings take precedence; use **Keyboard Shortcuts** and **Show Same Keybindings** to check conflicts. **Developer: Toggle Keyboard Shortcuts Troubleshooting** shows which keys the IDE receives and which command it invokes.
 
 ### Terminal Context
 
